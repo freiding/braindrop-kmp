@@ -1,0 +1,26 @@
+CREATE TABLE StudyProgress (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    category TEXT NOT NULL,   -- e.g. "irregular_verbs", "tenses", "phrasal_verbs"
+    item_id TEXT NOT NULL,    -- identifier of the specific item within the category
+    times_correct INTEGER NOT NULL DEFAULT 0,
+    times_incorrect INTEGER NOT NULL DEFAULT 0,
+    last_studied_at INTEGER NOT NULL  -- unix timestamp millis
+);
+
+CREATE UNIQUE INDEX studyprogress_category_item ON StudyProgress(category, item_id);
+
+getAll:
+SELECT * FROM StudyProgress;
+
+getByCategory:
+SELECT * FROM StudyProgress WHERE category = ?;
+
+getItem:
+SELECT * FROM StudyProgress WHERE category = ? AND item_id = ?;
+
+countByCategory:
+SELECT COUNT(*) FROM StudyProgress WHERE category = ?;
+
+upsertProgress:
+INSERT OR REPLACE INTO StudyProgress(category, item_id, times_correct, times_incorrect, last_studied_at)
+VALUES (?, ?, ?, ?, ?);

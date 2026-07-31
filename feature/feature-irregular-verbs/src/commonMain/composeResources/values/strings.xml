@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+    <string name="nav_back">← Назад</string>
+    <string name="error_loading">Ошибка загрузки</string>
+    <string name="error_generic">Ошибка</string>
+
+    <!-- VerbListScreen -->
+    <string name="verb_list_studied_count">%1$d/%2$d изучено</string>
+    <string name="verb_list_filter_unlearned">Неизученные</string>
+    <string name="verb_list_filter_groups">Группы</string>
+    <string name="verb_list_quiz_button">Квиз ▸</string>
+    <string name="verb_list_quiz_en_ru">EN → RU (перевод)</string>
+    <string name="verb_list_quiz_ru_en">RU → EN (перевод)</string>
+    <string name="verb_list_quiz_forms">Формы глагола</string>
+    <string name="swipe_mark_learned">✓ Изучено</string>
+    <string name="swipe_unmark_learned">↩ Снять отметку</string>
+
+    <!-- VerbDetailScreen -->
+    <string name="verb_detail_mark_learned">Отметить как изученный ✓</string>
+    <string name="verb_detail_unmark_learned">Отметить как не изученный</string>
+    <string name="verb_detail_examples">Примеры</string>
+
+    <!-- QuizScreen -->
+    <string name="quiz_title">Квиз</string>
+    <string name="quiz_next">Дальше →</string>
+    <string name="quiz_finished_title">Квиз завершён!</string>
+    <string name="quiz_correct_answers">Правильных ответов: %1$d / %2$d</string>
+    <string name="quiz_retry">Ещё раз</string>
+    <string name="quiz_to_list">К списку</string>
+    <string name="quiz_back">Назад</string>
+
+    <!-- VerbGroup titles -->
+    <string name="verb_group_aaa_title">Без изменений</string>
+    <string name="verb_group_aaa_hint">все три формы одинаковы: cut / cut / cut</string>
+    <string name="verb_group_aba_title">Как основа</string>
+    <string name="verb_group_aba_hint">причастие = основа: run / ran / run</string>
+    <string name="verb_group_abb_ought_title">-ought / -aught</string>
+    <string name="verb_group_abb_ought_hint">bring→brought, think→thought, catch→caught</string>
+    <string name="verb_group_abb_ound_title">-ound</string>
+    <string name="verb_group_abb_ound_hint">find→found, bind→bound, wind→wound</string>
+    <string name="verb_group_abb_ung_title">-ung / -uck</string>
+    <string name="verb_group_abb_ung_hint">cling→clung, stick→stuck, spin→spun</string>
+    <string name="verb_group_abb_t_title">-t окончание</string>
+    <string name="verb_group_abb_t_hint">keep→kept, feel→felt, send→sent, burn→burnt</string>
+    <string name="verb_group_abb_aid_title">-aid</string>
+    <string name="verb_group_abb_aid_hint">say→said, pay→paid, lay→laid</string>
+    <string name="verb_group_abb_other_title">А=Б, прочие</string>
+    <string name="verb_group_abb_other_hint">past simple = past participle</string>
+    <string name="verb_group_abc_ian_title">i → a → u</string>
+    <string name="verb_group_abc_ian_hint">sing/sang/sung, drink/drank/drunk, swim/swam/swum</string>
+    <string name="verb_group_abc_ewn_title">-ew / -own</string>
+    <string name="verb_group_abc_ewn_hint">blow/blew/blown, grow/grew/grown, know/knew/known</string>
+    <string name="verb_group_abc_o_title">О-форма прошедшего</string>
+    <string name="verb_group_abc_o_hint">speak/spoke/spoken, take/took/taken, write/wrote/written</string>
+    <string name="verb_group_abc_other_title">А-Б-В, прочие</string>
+    <string name="verb_group_abc_other_hint">все три формы разные</string>
+</resources>
