@@ -1,0 +1,71 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ast-index *)",
+      "Bash(ya tool ast-index *)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git show:*)",
+      "Bash(git fetch:*)",
+      "Bash(git branch:*)",
+      "Bash(git worktree:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)",
+      "Bash(git switch:*)",
+      "Bash(git merge --ff-only:*)",
+      "Bash(git rebase:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr checks:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr comment:*)",
+      "Bash(gh pr edit:*)",
+      "Bash(gh pr ready:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(gh issue view:*)",
+      "Bash(gh issue list:*)",
+      "Bash(gh issue comment:*)",
+      "Bash(gh issue edit:*)",
+      "Bash(gh issue close:*)",
+      "Bash(gh issue create:*)",
+      "Bash(gh api:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(gh repo view:*)",
+      "Bash(gh search:*)",
+      "Bash(./gradlew:*)"
+    ]
+  },
+  "enabledPlugins": {
+    "firebase@claude-plugins-official": true,
+    "kotlin-agent-skills@Kotlin": true,
+    "ast-index@ast-index": true,
+    "claude-in-mobile@claude-in-mobile": true
+  },
+  "extraKnownMarketplaces": {
+    "ast-index": {
+      "source": {
+        "source": "github",
+        "repo": "defendend/Claude-ast-index-search"
+      }
+    },
+    "Kotlin": {
+      "source": {
+        "source": "github",
+        "repo": "Kotlin/kotlin-agent-skills"
+      }
+    },
+    "claude-in-mobile": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/AlexGladkov/claude-in-mobile.git"
+      }
+    }
+  }
+}
