@@ -14,5 +14,6 @@ sealed class VerbDetailUiEffect {
 
 sealed class VerbDetailUiEvent {
     data object ToggleLearned : VerbDetailUiEvent()
+
     data object NavigateBack : VerbDetailUiEvent()
 }

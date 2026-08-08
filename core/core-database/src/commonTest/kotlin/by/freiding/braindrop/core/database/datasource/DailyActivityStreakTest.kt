@@ -7,7 +7,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class DailyActivityStreakTest {
-
     private val today = LocalDate(2026, 8, 8)
 
     @Test

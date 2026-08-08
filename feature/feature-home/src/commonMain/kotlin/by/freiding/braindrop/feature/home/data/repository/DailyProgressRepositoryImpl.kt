@@ -12,7 +12,6 @@ class DailyProgressRepositoryImpl(
     private val dataSource: DailyActivityDataSource,
     private val dispatchers: AppDispatchers,
 ) : DailyProgressRepository {
-
     override suspend fun getDailyProgress(): Result<DailyProgress> =
         withContext(dispatchers.io) {
             try {

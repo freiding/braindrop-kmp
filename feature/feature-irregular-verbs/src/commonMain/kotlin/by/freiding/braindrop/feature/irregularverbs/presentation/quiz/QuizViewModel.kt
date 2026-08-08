@@ -24,7 +24,6 @@ class QuizViewModel(
     private val submitAnswer: SubmitQuizAnswerUseCase,
     private val getStreakDays: GetStreakDaysUseCase,
 ) : ViewModel() {
-
     private val _state = MutableStateFlow(QuizUiState())
     val state: StateFlow<QuizUiState> = _state.asStateFlow()
 

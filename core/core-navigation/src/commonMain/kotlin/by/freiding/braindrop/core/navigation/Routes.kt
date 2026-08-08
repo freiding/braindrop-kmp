@@ -16,8 +16,12 @@ sealed interface Routes {
     data object IrregularVerbsList : Routes
 
     @Serializable
-    data class IrregularVerbDetail(val verbId: String) : Routes
+    data class IrregularVerbDetail(
+        val verbId: String,
+    ) : Routes
 
     @Serializable
-    data class IrregularVerbsQuiz(val mode: String = "EN_TO_RU") : Routes
+    data class IrregularVerbsQuiz(
+        val mode: String = "EN_TO_RU",
+    ) : Routes
 }

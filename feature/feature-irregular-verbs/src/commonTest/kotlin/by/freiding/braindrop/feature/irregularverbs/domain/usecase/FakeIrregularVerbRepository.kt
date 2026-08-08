@@ -16,7 +16,6 @@ class FakeIrregularVerbRepository(
     private var unlearnedVerbs: Result<List<IrregularVerb>> = Result.Success(emptyList()),
     private var streakDays: Result<Int> = Result.Success(0),
 ) : IrregularVerbRepository {
-
     val recordedAnswers = mutableListOf<Pair<String, Boolean>>()
     val toggledVerbIds = mutableListOf<String>()
 
@@ -48,7 +47,10 @@ class FakeIrregularVerbRepository(
         return Result.Success(Unit)
     }
 
-    override suspend fun recordAnswer(verbId: String, isCorrect: Boolean): Result<Unit> {
+    override suspend fun recordAnswer(
+        verbId: String,
+        isCorrect: Boolean,
+    ): Result<Unit> {
         recordedAnswers += verbId to isCorrect
         return Result.Success(Unit)
     }
@@ -64,19 +66,21 @@ fun verbFixture(
     pastSimple: String = "${id}_past",
     pastParticiple: String = "${id}_participle",
     translation: String = "${id}_ru",
-): IrregularVerb = IrregularVerb(
-    id = id,
-    baseForm = baseForm,
-    pastSimple = pastSimple,
-    pastParticiple = pastParticiple,
-    translation = translation,
-    examples = emptyList(),
-)
+): IrregularVerb =
+    IrregularVerb(
+        id = id,
+        baseForm = baseForm,
+        pastSimple = pastSimple,
+        pastParticiple = pastParticiple,
+        translation = translation,
+        examples = emptyList(),
+    )
 
 fun verbWithProgressFixture(
     verb: IrregularVerb,
     isLearned: Boolean = false,
-): VerbWithProgress = VerbWithProgress(
-    verb = verb,
-    progress = VerbProgress(verbId = verb.id, isLearned = isLearned),
-)
+): VerbWithProgress =
+    VerbWithProgress(
+        verb = verb,
+        progress = VerbProgress(verbId = verb.id, isLearned = isLearned),
+    )

@@ -93,8 +93,16 @@ private fun ActiveCategoryCard(
                 Text(text = category.icon, fontSize = 22.sp)
             }
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = title, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
-                Text(text = description, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+                Text(
+                    text = description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
             }
             Column(horizontalAlignment = Alignment.End) {
                 Text(
@@ -124,7 +132,10 @@ private fun ActiveCategoryCard(
 }
 
 @Composable
-private fun SoonCategoryCard(category: StudyCategory, modifier: Modifier = Modifier) {
+private fun SoonCategoryCard(
+    category: StudyCategory,
+    modifier: Modifier = Modifier,
+) {
     val title = categoryTitle(category.id)
     val description = categoryDescription(category)
     val semantics = BrainDropTheme.semantics
@@ -148,7 +159,12 @@ private fun SoonCategoryCard(category: StudyCategory, modifier: Modifier = Modif
             Text(text = category.icon, fontSize = 20.sp)
         }
         Column(modifier = Modifier.weight(1f)) {
-            Text(text = title, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold, color = semantics.soonInk)
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold,
+                color = semantics.soonInk,
+            )
             Text(text = description, style = MaterialTheme.typography.bodySmall, color = semantics.ink400)
         }
         Box(
@@ -166,26 +182,38 @@ private fun SoonCategoryCard(category: StudyCategory, modifier: Modifier = Modif
 }
 
 @Composable
-private fun categoryTitle(id: String): String = when (id) {
-    "irregular_verbs" -> stringResource(Res.string.category_irregular_verbs_title)
-    "tenses" -> stringResource(Res.string.category_tenses_title)
-    "phrasal_verbs" -> stringResource(Res.string.category_phrasal_verbs_title)
-    else -> id
-}
+private fun categoryTitle(id: String): String =
+    when (id) {
+        "irregular_verbs" -> stringResource(Res.string.category_irregular_verbs_title)
+        "tenses" -> stringResource(Res.string.category_tenses_title)
+        "phrasal_verbs" -> stringResource(Res.string.category_phrasal_verbs_title)
+        else -> id
+    }
 
 @Composable
-private fun categoryDescription(category: StudyCategory): String = when (category.id) {
-    "irregular_verbs" -> {
-        val verbs = pluralStringResource(Res.plurals.category_verbs_count, category.totalItems, category.totalItems)
-        val groups = category.secondaryCount?.let { pluralStringResource(Res.plurals.category_groups_count, it, it) }
-        if (groups != null) "$verbs · $groups" else verbs
+private fun categoryDescription(category: StudyCategory): String =
+    when (category.id) {
+        "irregular_verbs" -> {
+            val verbs = pluralStringResource(Res.plurals.category_verbs_count, category.totalItems, category.totalItems)
+            val groups = category.secondaryCount?.let {
+                pluralStringResource(
+                    Res.plurals.category_groups_count,
+                    it,
+                    it,
+                )
+            }
+            if (groups != null) "$verbs · $groups" else verbs
+        }
+        "tenses" -> stringResource(Res.string.category_tenses_description)
+        "phrasal_verbs" -> stringResource(Res.string.category_phrasal_verbs_description)
+        else -> ""
     }
-    "tenses" -> stringResource(Res.string.category_tenses_description)
-    "phrasal_verbs" -> stringResource(Res.string.category_phrasal_verbs_description)
-    else -> ""
-}
 
-private fun Modifier.dashedBorder(color: Color, width: Dp, cornerRadius: Dp): Modifier =
+private fun Modifier.dashedBorder(
+    color: Color,
+    width: Dp,
+    cornerRadius: Dp,
+): Modifier =
     drawBehind {
         val strokeWidthPx = width.toPx()
         val stroke = Stroke(
@@ -206,18 +234,19 @@ private fun Modifier.dashedBorder(color: Color, width: Dp, cornerRadius: Dp): Mo
  * `drawWithContent`, whose lambda runs on every draw pass — allocating there would mean a new
  * matrix and paint every frame for a tile that's static outside of theme/alpha changes.
  */
-private fun Modifier.grayscaleAndDim(alpha: Float): Modifier = composed {
-    val paint = remember(alpha) {
-        Paint().apply {
-            colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) })
-            this.alpha = alpha
+private fun Modifier.grayscaleAndDim(alpha: Float): Modifier =
+    composed {
+        val paint = remember(alpha) {
+            Paint().apply {
+                colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) })
+                this.alpha = alpha
+            }
+        }
+        drawWithContent {
+            drawIntoCanvas { canvas ->
+                canvas.saveLayer(Rect(Offset.Zero, size), paint)
+                drawContent()
+                canvas.restore()
+            }
         }
     }
-    drawWithContent {
-        drawIntoCanvas { canvas ->
-            canvas.saveLayer(Rect(Offset.Zero, size), paint)
-            drawContent()
-            canvas.restore()
-        }
-    }
-}

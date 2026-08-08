@@ -1,8 +1,13 @@
 package by.freiding.braindrop.core.common
 
 sealed class Result<out T> {
-    data class Success<T>(val data: T) : Result<T>()
-    data class Error(val exception: AppException) : Result<Nothing>()
+    data class Success<T>(
+        val data: T,
+    ) : Result<T>()
+
+    data class Error(
+        val exception: AppException,
+    ) : Result<Nothing>()
 }
 
 inline fun <T> Result<T>.onSuccess(action: (T) -> Unit): Result<T> {
@@ -15,7 +20,8 @@ inline fun <T> Result<T>.onError(action: (AppException) -> Unit): Result<T> {
     return this
 }
 
-inline fun <T, R> Result<T>.map(transform: (T) -> R): Result<R> = when (this) {
-    is Result.Success -> Result.Success(transform(data))
-    is Result.Error -> this
-}
+inline fun <T, R> Result<T>.map(transform: (T) -> R): Result<R> =
+    when (this) {
+        is Result.Success -> Result.Success(transform(data))
+        is Result.Error -> this
+    }

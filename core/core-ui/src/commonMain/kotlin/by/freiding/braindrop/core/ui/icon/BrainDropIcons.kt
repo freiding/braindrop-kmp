@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
  * (2.2–2.4dp), and the icon size itself doesn't include inner padding.
  */
 object BrainDropIcons {
-
     @Composable
     fun ChevronLeft(
         modifier: Modifier = Modifier,
@@ -30,7 +29,9 @@ object BrainDropIcons {
         iconSize: Dp = 24.dp,
         strokeWidth: Dp = 2.4.dp,
     ) = strokeIcon(modifier, tint, iconSize, strokeWidth) { scale ->
-        moveTo(15f * scale, 4f * scale); lineTo(9f * scale, 12f * scale); lineTo(15f * scale, 20f * scale)
+        moveTo(15f * scale, 4f * scale)
+        lineTo(9f * scale, 12f * scale)
+        lineTo(15f * scale, 20f * scale)
     }
 
     @Composable
@@ -40,7 +41,9 @@ object BrainDropIcons {
         iconSize: Dp = 24.dp,
         strokeWidth: Dp = 2.4.dp,
     ) = strokeIcon(modifier, tint, iconSize, strokeWidth) { scale ->
-        moveTo(9f * scale, 4f * scale); lineTo(15f * scale, 12f * scale); lineTo(9f * scale, 20f * scale)
+        moveTo(9f * scale, 4f * scale)
+        lineTo(15f * scale, 12f * scale)
+        lineTo(9f * scale, 20f * scale)
     }
 
     @Composable
@@ -50,7 +53,9 @@ object BrainDropIcons {
         iconSize: Dp = 24.dp,
         strokeWidth: Dp = 2.6.dp,
     ) = strokeIcon(modifier, tint, iconSize, strokeWidth) { scale ->
-        moveTo(4f * scale, 12.5f * scale); lineTo(9.5f * scale, 18f * scale); lineTo(20f * scale, 5.5f * scale)
+        moveTo(4f * scale, 12.5f * scale)
+        lineTo(9.5f * scale, 18f * scale)
+        lineTo(20f * scale, 5.5f * scale)
     }
 
     @Composable
@@ -118,15 +123,19 @@ object BrainDropIcons {
         drawRoundRect(
             color = tint.copy(alpha = 0.55f),
             topLeft = Offset(6.5f * scale, 3f * scale),
-            size = androidx.compose.ui.geometry.Size(14f * scale, 14f * scale),
-            cornerRadius = androidx.compose.ui.geometry.CornerRadius(3f * scale),
+            size = androidx.compose.ui.geometry
+                .Size(14f * scale, 14f * scale),
+            cornerRadius = androidx.compose.ui.geometry
+                .CornerRadius(3f * scale),
             style = stroke,
         )
         drawRoundRect(
             color = tint,
             topLeft = Offset(3.5f * scale, 7f * scale),
-            size = androidx.compose.ui.geometry.Size(14f * scale, 14f * scale),
-            cornerRadius = androidx.compose.ui.geometry.CornerRadius(3f * scale),
+            size = androidx.compose.ui.geometry
+                .Size(14f * scale, 14f * scale),
+            cornerRadius = androidx.compose.ui.geometry
+                .CornerRadius(3f * scale),
             style = stroke,
         )
     }
@@ -236,7 +245,9 @@ object BrainDropIcons {
         }
         drawPath(arc, tint, style = Stroke(width = stroke, cap = StrokeCap.Round))
         val arrow = Path().apply {
-            moveTo(9f * scale, 7f * scale); lineTo(5f * scale, 11.3f * scale); lineTo(9.6f * scale, 14.3f * scale)
+            moveTo(9f * scale, 7f * scale)
+            lineTo(5f * scale, 11.3f * scale)
+            lineTo(9.6f * scale, 14.3f * scale)
         }
         drawPath(arrow, tint, style = Stroke(width = stroke, cap = StrokeCap.Round, join = StrokeJoin.Round))
     }

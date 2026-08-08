@@ -19,7 +19,6 @@ class VerbDetailViewModel(
     private val getVerbDetail: GetVerbDetailUseCase,
     private val toggleVerbLearned: ToggleVerbLearnedUseCase,
 ) : ViewModel() {
-
     private val _state = MutableStateFlow(VerbDetailUiState())
     val state: StateFlow<VerbDetailUiState> = _state.asStateFlow()
 

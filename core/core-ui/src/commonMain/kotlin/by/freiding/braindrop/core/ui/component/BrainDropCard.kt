@@ -15,8 +15,16 @@ import androidx.compose.ui.unit.dp
  * examples cards: a 3dp shadow at 6% black plus a surface-colored background, both clipped
  * to [shape].
  */
-fun Modifier.brainDropCard(shape: Shape, elevation: Dp = 3.dp): Modifier = composed {
-    this
-        .shadow(elevation = elevation, shape = shape, ambientColor = Color.Black.copy(alpha = 0.06f), spotColor = Color.Black.copy(alpha = 0.06f))
-        .background(MaterialTheme.colorScheme.surface, shape)
-}
+fun Modifier.brainDropCard(
+    shape: Shape,
+    elevation: Dp = 3.dp,
+): Modifier =
+    composed {
+        this
+            .shadow(
+                elevation = elevation,
+                shape = shape,
+                ambientColor = Color.Black.copy(alpha = 0.06f),
+                spotColor = Color.Black.copy(alpha = 0.06f),
+            ).background(MaterialTheme.colorScheme.surface, shape)
+    }

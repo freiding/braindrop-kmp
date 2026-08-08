@@ -154,7 +154,14 @@ private fun HomeHeader(streakDays: Int) {
 @Composable
 private fun HomeHeadline(state: HomeUiState) {
     val remaining = (state.dailyGoal - state.dailyDone).coerceAtLeast(0)
-    Column(modifier = Modifier.fillMaxWidth().padding(top = 18.dp, start = 20.dp, end = 20.dp, bottom = BrainDropTheme.spacing.md)) {
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(
+            top = 18.dp,
+            start = 20.dp,
+            end = 20.dp,
+            bottom = BrainDropTheme.spacing.md,
+        ),
+    ) {
         Text(
             text = if (remaining > 0) {
                 pluralStringResource(Res.plurals.home_headline_progress, remaining, remaining)
@@ -174,7 +181,10 @@ private fun HomeHeadline(state: HomeUiState) {
 }
 
 @Composable
-private fun DailyGoalCard(state: HomeUiState, onContinueQuiz: () -> Unit) {
+private fun DailyGoalCard(
+    state: HomeUiState,
+    onContinueQuiz: () -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()

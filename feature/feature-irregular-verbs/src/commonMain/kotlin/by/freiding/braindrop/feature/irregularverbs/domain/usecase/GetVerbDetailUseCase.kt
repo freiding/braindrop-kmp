@@ -4,7 +4,8 @@ import by.freiding.braindrop.core.common.Result
 import by.freiding.braindrop.feature.irregularverbs.domain.model.VerbWithProgress
 import by.freiding.braindrop.feature.irregularverbs.domain.repository.IrregularVerbRepository
 
-class GetVerbDetailUseCase(private val repository: IrregularVerbRepository) {
-    suspend operator fun invoke(verbId: String): Result<VerbWithProgress> =
-        repository.getVerbDetail(verbId)
+class GetVerbDetailUseCase(
+    private val repository: IrregularVerbRepository,
+) {
+    suspend operator fun invoke(verbId: String): Result<VerbWithProgress> = repository.getVerbDetail(verbId)
 }

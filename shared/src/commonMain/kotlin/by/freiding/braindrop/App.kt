@@ -78,7 +78,10 @@ fun App() {
     }
 }
 
-private fun navigateToTab(navController: NavController, tab: BrainDropNavTab) {
+private fun navigateToTab(
+    navController: NavController,
+    tab: BrainDropNavTab,
+) {
     val route = when (tab) {
         BrainDropNavTab.LEARN -> Routes.Home
         BrainDropNavTab.PROGRESS -> Routes.Progress

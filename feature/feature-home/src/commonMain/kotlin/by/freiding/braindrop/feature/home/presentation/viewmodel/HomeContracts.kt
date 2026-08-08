@@ -12,11 +12,17 @@ data class HomeUiState(
 )
 
 sealed class HomeUiEffect {
-    data class NavigateToCategory(val categoryId: String) : HomeUiEffect()
+    data class NavigateToCategory(
+        val categoryId: String,
+    ) : HomeUiEffect()
+
     data object ContinueQuiz : HomeUiEffect()
 }
 
 sealed class HomeUiEvent {
-    data class CategoryClicked(val categoryId: String) : HomeUiEvent()
+    data class CategoryClicked(
+        val categoryId: String,
+    ) : HomeUiEvent()
+
     data object ContinueQuizClicked : HomeUiEvent()
 }

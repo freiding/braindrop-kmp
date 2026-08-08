@@ -14,7 +14,6 @@ class StudyCategoryRepositoryImpl(
     private val progressDataSource: LocalStudyProgressDataSource,
     private val dispatchers: AppDispatchers,
 ) : StudyCategoryRepository {
-
     override suspend fun getCategories(): Result<List<StudyCategory>> =
         withContext(dispatchers.io) {
             try {

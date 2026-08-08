@@ -1,13 +1,13 @@
 package by.freiding.braindrop.feature.irregularverbs.presentation.quiz
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -184,7 +184,10 @@ private fun QuizQuestionContent(
 
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = BrainDropTheme.spacing.sm, vertical = BrainDropTheme.spacing.xxs),
+            modifier = Modifier.fillMaxWidth().padding(
+                horizontal = BrainDropTheme.spacing.sm,
+                vertical = BrainDropTheme.spacing.xxs,
+            ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.sm),
         ) {
@@ -254,7 +257,10 @@ private fun QuizQuestionContent(
 }
 
 @Composable
-private fun QuestionCard(question: QuizQuestion, isAnswered: Boolean) {
+private fun QuestionCard(
+    question: QuizQuestion,
+    isAnswered: Boolean,
+) {
     val promptRes = when (question.type) {
         QuizType.EN_TO_RU -> Res.string.quiz_prompt_en_ru
         QuizType.RU_TO_EN -> Res.string.quiz_prompt_ru_en
@@ -319,9 +325,22 @@ private fun MistakeBreakdownCard(verb: IrregularVerb) {
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.Bottom,
         ) {
-            Text(text = verb.baseForm, style = MaterialTheme.typography.titleSmall.copy(fontSize = 18.sp), fontWeight = FontWeight.ExtraBold, color = Color.White)
-            Text(text = forms, style = BrainDropTheme.type.verbForms.copy(fontSize = 14.sp), color = semantics.mistakeCardAccent)
-            Text(text = verb.translation, style = MaterialTheme.typography.bodyMedium.copy(fontSize = 13.5.sp), color = semantics.mistakeCardMuted)
+            Text(
+                text = verb.baseForm,
+                style = MaterialTheme.typography.titleSmall.copy(fontSize = 18.sp),
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.White,
+            )
+            Text(
+                text = forms,
+                style = BrainDropTheme.type.verbForms.copy(fontSize = 14.sp),
+                color = semantics.mistakeCardAccent,
+            )
+            Text(
+                text = verb.translation,
+                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 13.5.sp),
+                color = semantics.mistakeCardMuted,
+            )
         }
         if (example != null) {
             Spacer(Modifier.height(BrainDropTheme.spacing.xs))
@@ -336,30 +355,51 @@ private fun MistakeBreakdownCard(verb: IrregularVerb) {
 
 private enum class AnswerOptionState { IDLE, CORRECT, WRONG_SELECTED, MUTED }
 
+/** Background/border/text colors for one [AnswerOptionState] — computed together so AnswerButton doesn't switch on `state` three separate times. */
+private data class AnswerButtonPalette(
+    val background: Color,
+    val border: Color,
+    val text: Color,
+)
+
 @Composable
-private fun AnswerButton(text: String, state: AnswerOptionState, onClick: () -> Unit) {
+private fun answerButtonPalette(state: AnswerOptionState): AnswerButtonPalette {
     val semantics = BrainDropTheme.semantics
-    val targetBg = when (state) {
-        AnswerOptionState.IDLE -> MaterialTheme.colorScheme.surface
-        AnswerOptionState.CORRECT -> semantics.correctTint
-        AnswerOptionState.WRONG_SELECTED -> semantics.incorrectTint
-        AnswerOptionState.MUTED -> semantics.answerMutedSurface
+    return when (state) {
+        AnswerOptionState.IDLE -> AnswerButtonPalette(
+            background = MaterialTheme.colorScheme.surface,
+            border = MaterialTheme.colorScheme.outline,
+            text = MaterialTheme.colorScheme.onSurface,
+        )
+        AnswerOptionState.CORRECT -> AnswerButtonPalette(
+            background = semantics.correctTint,
+            border = semantics.correct,
+            text = semantics.correctInk,
+        )
+        AnswerOptionState.WRONG_SELECTED -> AnswerButtonPalette(
+            background = semantics.incorrectTint,
+            border = semantics.incorrect,
+            text = semantics.incorrectInk,
+        )
+        AnswerOptionState.MUTED -> AnswerButtonPalette(
+            background = semantics.answerMutedSurface,
+            border = semantics.answerMutedOutline,
+            text = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
-    val targetBorder = when (state) {
-        AnswerOptionState.IDLE -> MaterialTheme.colorScheme.outline
-        AnswerOptionState.CORRECT -> semantics.correct
-        AnswerOptionState.WRONG_SELECTED -> semantics.incorrect
-        AnswerOptionState.MUTED -> semantics.answerMutedOutline
-    }
-    val targetText = when (state) {
-        AnswerOptionState.IDLE -> MaterialTheme.colorScheme.onSurface
-        AnswerOptionState.CORRECT -> semantics.correctInk
-        AnswerOptionState.WRONG_SELECTED -> semantics.incorrectInk
-        AnswerOptionState.MUTED -> MaterialTheme.colorScheme.onSurfaceVariant
-    }
-    val bg by animateColorAsState(targetBg, tween(300))
-    val border by animateColorAsState(targetBorder, tween(300))
-    val textColor by animateColorAsState(targetText, tween(300))
+}
+
+@Composable
+private fun AnswerButton(
+    text: String,
+    state: AnswerOptionState,
+    onClick: () -> Unit,
+) {
+    val semantics = BrainDropTheme.semantics
+    val target = answerButtonPalette(state)
+    val bg by animateColorAsState(target.background, tween(300))
+    val border by animateColorAsState(target.border, tween(300))
+    val textColor by animateColorAsState(target.text, tween(300))
     val textAlpha = if (state == AnswerOptionState.MUTED) 0.55f else 1f
 
     Row(
@@ -395,7 +435,16 @@ private fun AnswerButton(text: String, state: AnswerOptionState, onClick: () -> 
         }
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 16.sp, fontWeight = if (state == AnswerOptionState.IDLE) FontWeight.SemiBold else FontWeight.ExtraBold),
+            style = MaterialTheme.typography.bodyLarge.copy(
+                fontSize = 16.sp,
+                fontWeight = if (state ==
+                    AnswerOptionState.IDLE
+                ) {
+                    FontWeight.SemiBold
+                } else {
+                    FontWeight.ExtraBold
+                },
+            ),
             color = textColor.copy(alpha = textAlpha),
             modifier = Modifier.weight(1f),
         )
@@ -410,7 +459,10 @@ private fun AnswerButton(text: String, state: AnswerOptionState, onClick: () -> 
 }
 
 @Composable
-private fun QuizFooter(isAnswered: Boolean, onNext: () -> Unit) {
+private fun QuizFooter(
+    isAnswered: Boolean,
+    onNext: () -> Unit,
+) {
     Box(
         modifier = Modifier.fillMaxWidth().height(BrainDropTheme.spacing.quizFooterHeight).padding(horizontal = 20.dp),
         contentAlignment = Alignment.Center,
@@ -479,8 +531,16 @@ private fun QuizResultContent(
             ScoreRing(ratio = ratio, ringColor = ringColor, trackColor = MaterialTheme.colorScheme.surfaceVariant) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Row(verticalAlignment = Alignment.Bottom) {
-                        Text(text = "${state.score}", style = BrainDropTheme.type.display.copy(fontSize = 40.sp), color = MaterialTheme.colorScheme.onSurface)
-                        Text(text = "/$total", style = BrainDropTheme.type.display.copy(fontSize = 24.sp), color = semantics.ink400)
+                        Text(
+                            text = "${state.score}",
+                            style = BrainDropTheme.type.display.copy(fontSize = 40.sp),
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+                        Text(
+                            text = "/$total",
+                            style = BrainDropTheme.type.display.copy(fontSize = 24.sp),
+                            color = semantics.ink400,
+                        )
                     }
                     Text(
                         text = stringResource(Res.string.quiz_result_percent_correct, percent),
@@ -490,7 +550,12 @@ private fun QuizResultContent(
                 }
             }
             Spacer(Modifier.height(18.dp))
-            Text(text = title, style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center)
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center,
+            )
             Spacer(Modifier.height(6.dp))
             Text(
                 text = subtitle,
@@ -499,7 +564,10 @@ private fun QuizResultContent(
                 textAlign = TextAlign.Center,
             )
             Spacer(Modifier.height(20.dp))
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.xs)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.xs),
+            ) {
                 ResultTile(
                     value = "${state.streakDays}",
                     caption = pluralStringResource(Res.plurals.quiz_tile_streak_caption, state.streakDays),
@@ -534,7 +602,10 @@ private fun QuizResultContent(
                 state.mistakes.forEachIndexed { index, mistake ->
                     MistakeRow(mistake = mistake, onClick = { onMistakeClick(mistake.verb.id) })
                     if (index != state.mistakes.lastIndex) {
-                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, modifier = Modifier.padding(start = BrainDropTheme.spacing.md))
+                        HorizontalDivider(
+                            color = MaterialTheme.colorScheme.outlineVariant,
+                            modifier = Modifier.padding(start = BrainDropTheme.spacing.md),
+                        )
                     }
                 }
             }
@@ -573,7 +644,12 @@ private fun QuizResultContent(
 }
 
 @Composable
-private fun ResultTile(value: String, caption: String, modifier: Modifier = Modifier, valueColor: Color = Color.Unspecified) {
+private fun ResultTile(
+    value: String,
+    caption: String,
+    modifier: Modifier = Modifier,
+    valueColor: Color = Color.Unspecified,
+) {
     Column(
         modifier = modifier
             .background(MaterialTheme.colorScheme.background, BrainDropTheme.shapes.md)
@@ -594,7 +670,10 @@ private fun ResultTile(value: String, caption: String, modifier: Modifier = Modi
 }
 
 @Composable
-private fun MistakeRow(mistake: QuizMistake, onClick: () -> Unit) {
+private fun MistakeRow(
+    mistake: QuizMistake,
+    onClick: () -> Unit,
+) {
     val semantics = BrainDropTheme.semantics
     Row(
         modifier = Modifier
@@ -609,8 +688,15 @@ private fun MistakeRow(mistake: QuizMistake, onClick: () -> Unit) {
             contentAlignment = Alignment.Center,
         ) { BrainDropIcons.Close(iconSize = 11.dp, tint = semantics.incorrect, strokeWidth = 2.dp) }
         Column(modifier = Modifier.weight(1f)) {
-            Row(horizontalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.xs), verticalAlignment = Alignment.Bottom) {
-                Text(text = mistake.verb.baseForm, style = BrainDropTheme.type.verbBase.copy(fontSize = 15.sp), color = MaterialTheme.colorScheme.onSurface)
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.xs),
+                verticalAlignment = Alignment.Bottom,
+            ) {
+                Text(
+                    text = mistake.verb.baseForm,
+                    style = BrainDropTheme.type.verbBase.copy(fontSize = 15.sp),
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
                 Text(
                     text = verbFormsLine(mistake.verb),
                     style = BrainDropTheme.type.verbForms.copy(fontSize = 13.sp),
@@ -618,7 +704,11 @@ private fun MistakeRow(mistake: QuizMistake, onClick: () -> Unit) {
                 )
             }
             Text(
-                text = stringResource(Res.string.quiz_mistake_row_format, mistake.verb.translation, mistake.userAnswerText),
+                text = stringResource(
+                    Res.string.quiz_mistake_row_format,
+                    mistake.verb.translation,
+                    mistake.userAnswerText,
+                ),
                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.5.sp),
                 color = semantics.ink500,
             )
@@ -648,7 +738,15 @@ private fun ScoreRing(
             val arcSize = Size(size.width - strokePx, size.height - strokePx)
             val topLeft = Offset(inset, inset)
             val stroke = Stroke(width = strokePx, cap = StrokeCap.Round)
-            drawArc(color = trackColor, startAngle = -90f, sweepAngle = 360f, useCenter = false, topLeft = topLeft, size = arcSize, style = stroke)
+            drawArc(
+                color = trackColor,
+                startAngle = -90f,
+                sweepAngle = 360f,
+                useCenter = false,
+                topLeft = topLeft,
+                size = arcSize,
+                style = stroke,
+            )
             drawArc(
                 color = ringColor,
                 startAngle = -90f,

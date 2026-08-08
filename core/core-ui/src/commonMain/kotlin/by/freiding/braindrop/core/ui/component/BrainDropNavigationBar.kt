@@ -27,10 +27,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import by.freiding.braindrop.core.ui.BrainDropTheme
 import by.freiding.braindrop.core.ui.generated.resources.Res
-import by.freiding.braindrop.core.ui.icon.BrainDropIcons
 import by.freiding.braindrop.core.ui.generated.resources.nav_tab_learn
 import by.freiding.braindrop.core.ui.generated.resources.nav_tab_profile
 import by.freiding.braindrop.core.ui.generated.resources.nav_tab_progress
+import by.freiding.braindrop.core.ui.icon.BrainDropIcons
 import org.jetbrains.compose.resources.stringResource
 
 /** The three top-level tabs — the only screens with the tab bar visible underneath. */
@@ -87,8 +87,7 @@ private fun RowScope.NavTabItem(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
                 onClick = onClick,
-            )
-            .padding(vertical = 8.dp),
+            ).padding(vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
     ) {

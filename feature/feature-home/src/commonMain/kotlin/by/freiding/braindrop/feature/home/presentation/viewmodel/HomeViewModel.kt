@@ -18,7 +18,6 @@ class HomeViewModel(
     private val getStudyCategories: GetStudyCategoriesUseCase,
     private val getDailyProgress: GetDailyProgressUseCase,
 ) : ViewModel() {
-
     private val _state = MutableStateFlow(HomeUiState())
     val state: StateFlow<HomeUiState> = _state.asStateFlow()
 

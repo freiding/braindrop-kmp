@@ -14,7 +14,6 @@ import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -78,14 +77,16 @@ import by.freiding.braindrop.core.ui.icon.BrainDropIcons
 import by.freiding.braindrop.feature.irregularverbs.Res
 import by.freiding.braindrop.feature.irregularverbs.cd_back
 import by.freiding.braindrop.feature.irregularverbs.cd_search
-import by.freiding.braindrop.feature.irregularverbs.error_retry
 import by.freiding.braindrop.feature.irregularverbs.domain.model.QuizType
 import by.freiding.braindrop.feature.irregularverbs.domain.model.VerbGroup
 import by.freiding.braindrop.feature.irregularverbs.domain.model.VerbWithProgress
+import by.freiding.braindrop.feature.irregularverbs.error_retry
 import by.freiding.braindrop.feature.irregularverbs.presentation.common.familyDescription
 import by.freiding.braindrop.feature.irregularverbs.presentation.common.groupHint
 import by.freiding.braindrop.feature.irregularverbs.presentation.common.groupTitle
 import by.freiding.braindrop.feature.irregularverbs.presentation.common.verbFormsLine
+import by.freiding.braindrop.feature.irregularverbs.swipe_mark_learned
+import by.freiding.braindrop.feature.irregularverbs.swipe_unmark_learned
 import by.freiding.braindrop.feature.irregularverbs.verb_list_empty_action
 import by.freiding.braindrop.feature.irregularverbs.verb_list_empty_body
 import by.freiding.braindrop.feature.irregularverbs.verb_list_empty_title
@@ -102,13 +103,11 @@ import by.freiding.braindrop.feature.irregularverbs.verb_list_search_empty_body
 import by.freiding.braindrop.feature.irregularverbs.verb_list_search_empty_title
 import by.freiding.braindrop.feature.irregularverbs.verb_list_search_placeholder
 import by.freiding.braindrop.feature.irregularverbs.verb_list_title
-import by.freiding.braindrop.feature.irregularverbs.swipe_mark_learned
-import by.freiding.braindrop.feature.irregularverbs.swipe_unmark_learned
-import kotlin.math.abs
-import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -173,7 +172,10 @@ fun VerbListScreen(
 
                 state.isLoading -> VerbListSkeleton()
 
-                state.displayedVerbs.isEmpty() -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                state.displayedVerbs.isEmpty() -> Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
                     if (state.searchQuery.isNotBlank()) {
                         StatusCard(
                             icon = { BrainDropIcons.Search(iconSize = 26.dp, tint = BrainDropTheme.semantics.ink400) },
@@ -231,7 +233,10 @@ private fun VerbListHeader(
             .background(MaterialTheme.colorScheme.surface),
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = BrainDropTheme.spacing.xs, vertical = BrainDropTheme.spacing.xxs),
+            modifier = Modifier.fillMaxWidth().padding(
+                horizontal = BrainDropTheme.spacing.xs,
+                vertical = BrainDropTheme.spacing.xxs,
+            ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             BrainDropIconButton(onClick = onBack, contentDescription = stringResource(Res.string.cd_back)) {
@@ -243,7 +248,10 @@ private fun VerbListHeader(
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.weight(1f).padding(start = BrainDropTheme.spacing.xxs),
             )
-            BrainDropIconButton(onClick = onSearchIconClick, contentDescription = stringResource(Res.string.cd_search)) {
+            BrainDropIconButton(
+                onClick = onSearchIconClick,
+                contentDescription = stringResource(Res.string.cd_search),
+            ) {
                 BrainDropIcons.Search(iconSize = 20.dp, tint = MaterialTheme.colorScheme.onSurface)
             }
         }
@@ -321,16 +329,40 @@ private fun VerbListHeader(
                         containerColor = MaterialTheme.colorScheme.surface,
                     ) {
                         DropdownMenuItem(
-                            text = { Text(stringResource(Res.string.verb_list_quiz_en_ru), style = MaterialTheme.typography.bodyLarge) },
-                            onClick = { quizMenuExpanded = false; onStartQuiz(QuizType.EN_TO_RU.name) },
+                            text = {
+                                Text(
+                                    stringResource(Res.string.verb_list_quiz_en_ru),
+                                    style = MaterialTheme.typography.bodyLarge,
+                                )
+                            },
+                            onClick = {
+                                quizMenuExpanded = false
+                                onStartQuiz(QuizType.EN_TO_RU.name)
+                            },
                         )
                         DropdownMenuItem(
-                            text = { Text(stringResource(Res.string.verb_list_quiz_ru_en), style = MaterialTheme.typography.bodyLarge) },
-                            onClick = { quizMenuExpanded = false; onStartQuiz(QuizType.RU_TO_EN.name) },
+                            text = {
+                                Text(
+                                    stringResource(Res.string.verb_list_quiz_ru_en),
+                                    style = MaterialTheme.typography.bodyLarge,
+                                )
+                            },
+                            onClick = {
+                                quizMenuExpanded = false
+                                onStartQuiz(QuizType.RU_TO_EN.name)
+                            },
                         )
                         DropdownMenuItem(
-                            text = { Text(stringResource(Res.string.verb_list_quiz_forms), style = MaterialTheme.typography.bodyLarge) },
-                            onClick = { quizMenuExpanded = false; onStartQuiz(QuizType.VERB_FORMS.name) },
+                            text = {
+                                Text(
+                                    stringResource(Res.string.verb_list_quiz_forms),
+                                    style = MaterialTheme.typography.bodyLarge,
+                                )
+                            },
+                            onClick = {
+                                quizMenuExpanded = false
+                                onStartQuiz(QuizType.VERB_FORMS.name)
+                            },
                         )
                     }
                 }
@@ -370,7 +402,8 @@ private fun SearchField(
                 onValueChange = onValueChange,
                 singleLine = true,
                 textStyle = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
-                cursorBrush = androidx.compose.ui.graphics.SolidColor(MaterialTheme.colorScheme.primary),
+                cursorBrush = androidx.compose.ui.graphics
+                    .SolidColor(MaterialTheme.colorScheme.primary),
                 modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
             )
         }
@@ -409,7 +442,11 @@ private fun FilterPill(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
-        Text(text = label, style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold), color = content)
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
+            color = content,
+        )
         icon?.invoke(content)
     }
 }
@@ -450,7 +487,11 @@ private fun VerbListContent(
 }
 
 @Composable
-private fun GroupHeader(group: VerbGroup, total: Int, learned: Int) {
+private fun GroupHeader(
+    group: VerbGroup,
+    total: Int,
+    learned: Int,
+) {
     val semantics = BrainDropTheme.semantics
     val title = groupTitle(group)
     val hint = groupHint(group)
@@ -462,8 +503,15 @@ private fun GroupHeader(group: VerbGroup, total: Int, learned: Int) {
             .background(semantics.groupSurface(group.name))
             .padding(start = BrainDropTheme.spacing.md, end = BrainDropTheme.spacing.md, top = 11.dp, bottom = 11.dp),
     ) {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.xs)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.xs),
+            ) {
                 Text(
                     text = semantics.familyLabel(group.name),
                     style = BrainDropTheme.type.family,
@@ -472,7 +520,11 @@ private fun GroupHeader(group: VerbGroup, total: Int, learned: Int) {
                 )
                 Text(text = title, style = MaterialTheme.typography.titleSmall, color = semantics.groupInk(group.name))
             }
-            Text(text = "$learned/$total", style = BrainDropTheme.type.counter, color = semantics.familyColor(group.name))
+            Text(
+                text = "$learned/$total",
+                style = BrainDropTheme.type.counter,
+                color = semantics.familyColor(group.name),
+            )
         }
         Spacer(Modifier.height(2.dp))
         Text(text = hint, style = MaterialTheme.typography.bodySmall, color = semantics.groupHintInk(group.name))
@@ -512,7 +564,13 @@ private fun SwipeableVerbRow(
                             // matching state, otherwise the row doesn't move. isLearnedState is read via
                             // rememberUpdatedState since this gesture block isn't restarted when learned
                             // status changes (only verb.verb.id is a pointerInput key).
-                            val allowedDelta = if ((delta > 0 && !isLearnedState.value) || (delta < 0 && isLearnedState.value)) delta else 0f
+                            val allowedDelta = if ((delta > 0 && !isLearnedState.value) ||
+                                (delta < 0 && isLearnedState.value)
+                            ) {
+                                delta
+                            } else {
+                                0f
+                            }
                             dragOffsetPx = (dragOffsetPx + allowedDelta).coerceIn(-400f, 400f)
                             val exceeded = abs(dragOffsetPx) > thresholdPx
                             if (exceeded && !didExceedThreshold) {
@@ -526,20 +584,53 @@ private fun SwipeableVerbRow(
         ) {
             if (abs(animatedOffset) > 1f) {
                 val bgColor = if (isLearned) semantics.incorrect else semantics.correct
-                val label = if (isLearned) stringResource(Res.string.swipe_unmark_learned) else stringResource(Res.string.swipe_mark_learned)
+                val label = if (isLearned) {
+                    stringResource(
+                        Res.string.swipe_unmark_learned,
+                    )
+                } else {
+                    stringResource(Res.string.swipe_mark_learned)
+                }
                 val icon: @Composable () -> Unit = {
-                    if (isLearned) BrainDropIcons.Undo(iconSize = 19.dp, tint = Color.White) else BrainDropIcons.Check(iconSize = 19.dp, tint = Color.White)
+                    if (isLearned) {
+                        BrainDropIcons.Undo(
+                            iconSize = 19.dp,
+                            tint = Color.White,
+                        )
+                    } else {
+                        BrainDropIcons.Check(iconSize = 19.dp, tint = Color.White)
+                    }
                 }
                 Row(
-                    modifier = Modifier.fillMaxSize().background(bgColor).padding(horizontal = BrainDropTheme.spacing.lg, vertical = BrainDropTheme.spacing.lg),
-                    horizontalArrangement = if (animatedOffset > 0f) Arrangement.spacedBy(BrainDropTheme.spacing.xs) else Arrangement.End,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            bgColor,
+                        ).padding(horizontal = BrainDropTheme.spacing.lg, vertical = BrainDropTheme.spacing.lg),
+                    horizontalArrangement = if (animatedOffset >
+                        0f
+                    ) {
+                        Arrangement.spacedBy(BrainDropTheme.spacing.xs)
+                    } else {
+                        Arrangement.End
+                    },
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     if (animatedOffset > 0f) {
                         icon()
-                        Text(text = label, color = Color.White, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.bodyMedium)
+                        Text(
+                            text = label,
+                            color = Color.White,
+                            fontWeight = FontWeight.ExtraBold,
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
                     } else {
-                        Text(text = label, color = Color.White, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.bodyMedium)
+                        Text(
+                            text = label,
+                            color = Color.White,
+                            fontWeight = FontWeight.ExtraBold,
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
                         Spacer(Modifier.width(BrainDropTheme.spacing.xs))
                         icon()
                     }
@@ -553,19 +644,28 @@ private fun SwipeableVerbRow(
                 VerbRow(verb = verb, translationAccent = translationAccent, onClick = onClick)
             }
         }
-        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, thickness = 1.dp, modifier = Modifier.padding(start = BrainDropTheme.spacing.sm))
+        HorizontalDivider(
+            color = MaterialTheme.colorScheme.outlineVariant,
+            thickness = 1.dp,
+            modifier = Modifier.padding(start = BrainDropTheme.spacing.sm),
+        )
     }
 }
 
-private fun Modifier.shadowSwipe(): Modifier = this.shadow(
-    elevation = 6.dp,
-    shape = RectangleShape,
-    ambientColor = Color.Black.copy(alpha = 0.1f),
-    spotColor = Color.Black.copy(alpha = 0.1f),
-)
+private fun Modifier.shadowSwipe(): Modifier =
+    this.shadow(
+        elevation = 6.dp,
+        shape = RectangleShape,
+        ambientColor = Color.Black.copy(alpha = 0.1f),
+        spotColor = Color.Black.copy(alpha = 0.1f),
+    )
 
 @Composable
-private fun VerbRow(verb: VerbWithProgress, translationAccent: Color, onClick: () -> Unit) {
+private fun VerbRow(
+    verb: VerbWithProgress,
+    translationAccent: Color,
+    onClick: () -> Unit,
+) {
     val semantics = BrainDropTheme.semantics
     Row(
         modifier = Modifier
@@ -583,7 +683,11 @@ private fun VerbRow(verb: VerbWithProgress, translationAccent: Color, onClick: (
         )
         Column(modifier = Modifier.weight(1f)) {
             Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(9.dp)) {
-                Text(text = verb.verb.baseForm, style = BrainDropTheme.type.verbBase, color = MaterialTheme.colorScheme.onSurface)
+                Text(
+                    text = verb.verb.baseForm,
+                    style = BrainDropTheme.type.verbBase,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
                 Text(
                     text = verbFormsLine(verb.verb),
                     style = BrainDropTheme.type.verbForms,
@@ -642,10 +746,28 @@ private fun VerbListSkeleton() {
                 modifier = Modifier.fillMaxWidth().padding(horizontal = BrainDropTheme.spacing.md, vertical = 13.dp),
                 horizontalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.sm),
             ) {
-                Box(modifier = Modifier.size(width = 4.dp, height = 40.dp).background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(2.dp)))
+                Box(
+                    modifier = Modifier
+                        .size(
+                            width = 4.dp,
+                            height = 40.dp,
+                        ).background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(2.dp)),
+                )
                 Column(verticalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.xs)) {
-                    Box(modifier = Modifier.size(width = 120.dp, height = 15.dp).background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp)))
-                    Box(modifier = Modifier.size(width = 180.dp, height = 11.dp).background(MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(4.dp)))
+                    Box(
+                        modifier = Modifier
+                            .size(
+                                width = 120.dp,
+                                height = 15.dp,
+                            ).background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp)),
+                    )
+                    Box(
+                        modifier = Modifier
+                            .size(
+                                width = 180.dp,
+                                height = 11.dp,
+                            ).background(MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(4.dp)),
+                    )
                 }
             }
         }

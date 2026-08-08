@@ -1,6 +1,8 @@
 package by.freiding.braindrop.core.ui
 
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Typography
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -9,6 +11,7 @@ import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -16,9 +19,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Shapes
-import androidx.compose.ui.graphics.Shape
 import by.freiding.braindrop.core.ui.generated.resources.Res
 import by.freiding.braindrop.core.ui.generated.resources.ibm_plex_mono_medium
 import by.freiding.braindrop.core.ui.generated.resources.ibm_plex_mono_semibold
@@ -142,70 +142,78 @@ data class BrainDropSemantics(
     val formsLabelInk: Color = Color(0xFF4E6DB5),
 ) {
     /** Group tag color: a 4×40dp strip in the row, border-start on the sticky header. */
-    fun groupColor(group: String): Color = when (group) {
-        "AAA" -> Color(0xFF0F7F73)
-        "ABA" -> Color(0xFF3FA096)
-        "ABB_OUGHT" -> Color(0xFF3F3FBF)
-        "ABB_OUND" -> Color(0xFF4F4FCB)
-        "ABB_UNG" -> Color(0xFF5F60D5)
-        "ABB_T" -> Color(0xFF5257D3)
-        "ABB_AID" -> Color(0xFF7E84E4)
-        "ABB_OTHER" -> Color(0xFF8E95EA)
-        "ABC_IAN" -> Color(0xFFC2620F)
-        "ABC_EWN" -> Color(0xFFCE7315)
-        "ABC_O" -> Color(0xFFD9851F)
-        else -> Color(0xFFE0972E) // ABC_OTHER
-    }
+    fun groupColor(group: String): Color =
+        when (group) {
+            "AAA" -> Color(0xFF0F7F73)
+            "ABA" -> Color(0xFF3FA096)
+            "ABB_OUGHT" -> Color(0xFF3F3FBF)
+            "ABB_OUND" -> Color(0xFF4F4FCB)
+            "ABB_UNG" -> Color(0xFF5F60D5)
+            "ABB_T" -> Color(0xFF5257D3)
+            "ABB_AID" -> Color(0xFF7E84E4)
+            "ABB_OTHER" -> Color(0xFF8E95EA)
+            "ABC_IAN" -> Color(0xFFC2620F)
+            "ABC_EWN" -> Color(0xFFCE7315)
+            "ABC_O" -> Color(0xFFD9851F)
+            else -> Color(0xFFE0972E) // ABC_OTHER
+        }
 
     /** Base family color — the A·A·A / A·B·B / A·B·C label and the counter in the header. */
-    fun familyColor(group: String): Color = when (family(group)) {
-        Family.AAA -> Color(0xFF0F7F73)
-        Family.ABB -> Color(0xFF5257D3)
-        Family.ABC -> Color(0xFFC2620F)
-    }
+    fun familyColor(group: String): Color =
+        when (family(group)) {
+            Family.AAA -> Color(0xFF0F7F73)
+            Family.ABB -> Color(0xFF5257D3)
+            Family.ABC -> Color(0xFFC2620F)
+        }
 
     /** Background of the group's sticky header; also the color of the vertical translation rule inside the group. */
-    fun groupSurface(group: String): Color = when (family(group)) {
-        Family.AAA -> Color(0xFFE9F4F3)
-        Family.ABB -> Color(0xFFEEEEFB)
-        Family.ABC -> Color(0xFFFBF0E4)
-    }
+    fun groupSurface(group: String): Color =
+        when (family(group)) {
+            Family.AAA -> Color(0xFFE9F4F3)
+            Family.ABB -> Color(0xFFEEEEFB)
+            Family.ABC -> Color(0xFFFBF0E4)
+        }
 
     /** Group header color on groupSurface. */
-    fun groupInk(group: String): Color = when (family(group)) {
-        Family.AAA -> Color(0xFF0B5E55)
-        Family.ABB -> Color(0xFF33359B)
-        Family.ABC -> Color(0xFF8A4A0B)
-    }
+    fun groupInk(group: String): Color =
+        when (family(group)) {
+            Family.AAA -> Color(0xFF0B5E55)
+            Family.ABB -> Color(0xFF33359B)
+            Family.ABC -> Color(0xFF8A4A0B)
+        }
 
     /** Hint color under the group header. */
-    fun groupHintInk(group: String): Color = when (family(group)) {
-        Family.AAA -> Color(0xFF3E7C76)
-        Family.ABB -> Color(0xFF5A5EA8)
-        Family.ABC -> Color(0xFF9C6220)
-    }
+    fun groupHintInk(group: String): Color =
+        when (family(group)) {
+            Family.AAA -> Color(0xFF3E7C76)
+            Family.ABB -> Color(0xFF5A5EA8)
+            Family.ABC -> Color(0xFF9C6220)
+        }
 
     /** Forms-scheme label printed in the group header and chip. */
-    fun familyLabel(group: String): String = when (family(group)) {
-        Family.AAA -> "A·A·A"
-        Family.ABB -> "A·B·B"
-        Family.ABC -> "A·B·C"
-    }
+    fun familyLabel(group: String): String =
+        when (family(group)) {
+            Family.AAA -> "A·A·A"
+            Family.ABB -> "A·B·B"
+            Family.ABC -> "A·B·C"
+        }
 
     /** Ring color on the quiz result screen. */
-    fun scoreRing(ratio: Float): Color = when {
-        ratio >= 0.7f -> correct
-        ratio >= 0.4f -> streak
-        else -> incorrect
-    }
+    fun scoreRing(ratio: Float): Color =
+        when {
+            ratio >= 0.7f -> correct
+            ratio >= 0.4f -> streak
+            else -> incorrect
+        }
 
     private enum class Family { AAA, ABB, ABC }
 
-    private fun family(group: String): Family = when {
-        group.startsWith("ABB") -> Family.ABB
-        group.startsWith("ABC") -> Family.ABC
-        else -> Family.AAA // AAA, ABA
-    }
+    private fun family(group: String): Family =
+        when {
+            group.startsWith("ABB") -> Family.ABB
+            group.startsWith("ABC") -> Family.ABC
+            else -> Family.AAA // AAA, ABA
+        }
 }
 
 // --------------------------------------------------------------- spacing
@@ -250,18 +258,20 @@ private val Material3Shapes = Shapes(
 // ------------------------------------------------------------ typography
 
 @Composable
-private fun manrope(): FontFamily = FontFamily(
-    Font(Res.font.manrope_medium, FontWeight.Medium),
-    Font(Res.font.manrope_semibold, FontWeight.SemiBold),
-    Font(Res.font.manrope_bold, FontWeight.Bold),
-    Font(Res.font.manrope_extrabold, FontWeight.ExtraBold),
-)
+private fun manrope(): FontFamily =
+    FontFamily(
+        Font(Res.font.manrope_medium, FontWeight.Medium),
+        Font(Res.font.manrope_semibold, FontWeight.SemiBold),
+        Font(Res.font.manrope_bold, FontWeight.Bold),
+        Font(Res.font.manrope_extrabold, FontWeight.ExtraBold),
+    )
 
 @Composable
-private fun plexMono(): FontFamily = FontFamily(
-    Font(Res.font.ibm_plex_mono_medium, FontWeight.Medium),
-    Font(Res.font.ibm_plex_mono_semibold, FontWeight.SemiBold),
-)
+private fun plexMono(): FontFamily =
+    FontFamily(
+        Font(Res.font.ibm_plex_mono_medium, FontWeight.Medium),
+        Font(Res.font.ibm_plex_mono_semibold, FontWeight.SemiBold),
+    )
 
 /**
  * Styles that don't have a matching Material 3 role: verb forms, mono labels
@@ -333,54 +343,80 @@ fun BrainDropTheme(content: @Composable () -> Unit) {
         Typography(
             // h1 — headline on Home
             headlineMedium = TextStyle(
-                fontFamily = sans, fontWeight = FontWeight.ExtraBold,
-                fontSize = 25.sp, lineHeight = 30.5.sp, letterSpacing = (-0.5).sp,
+                fontFamily = sans,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 25.sp,
+                lineHeight = 30.5.sp,
+                letterSpacing = (-0.5).sp,
             ),
             // h2 — screen header
             headlineSmall = TextStyle(
-                fontFamily = sans, fontWeight = FontWeight.ExtraBold,
-                fontSize = 20.sp, lineHeight = 24.sp, letterSpacing = (-0.3).sp,
+                fontFamily = sans,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 20.sp,
+                lineHeight = 24.sp,
+                letterSpacing = (-0.3).sp,
             ),
             // Result card / empty state title
             titleLarge = TextStyle(
-                fontFamily = sans, fontWeight = FontWeight.ExtraBold,
-                fontSize = 22.sp, lineHeight = 27.5.sp, letterSpacing = (-0.33).sp,
+                fontFamily = sans,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 22.sp,
+                lineHeight = 27.5.sp,
+                letterSpacing = (-0.33).sp,
             ),
             // Category card title, group header
             titleMedium = TextStyle(
-                fontFamily = sans, fontWeight = FontWeight.ExtraBold,
-                fontSize = 16.5.sp, lineHeight = 20.5.sp,
+                fontFamily = sans,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 16.5.sp,
+                lineHeight = 20.5.sp,
             ),
             titleSmall = TextStyle(
-                fontFamily = sans, fontWeight = FontWeight.Bold,
-                fontSize = 14.5.sp, lineHeight = 17.5.sp,
+                fontFamily = sans,
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.5.sp,
+                lineHeight = 17.5.sp,
             ),
             // Examples, answer options
             bodyLarge = TextStyle(
-                fontFamily = sans, fontWeight = FontWeight.SemiBold,
-                fontSize = 15.sp, lineHeight = 21.75.sp,
+                fontFamily = sans,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 15.sp,
+                lineHeight = 21.75.sp,
             ),
             // Descriptions, subtitles
             bodyMedium = TextStyle(
-                fontFamily = sans, fontWeight = FontWeight.Medium,
-                fontSize = 13.5.sp, lineHeight = 20.25.sp,
+                fontFamily = sans,
+                fontWeight = FontWeight.Medium,
+                fontSize = 13.5.sp,
+                lineHeight = 20.25.sp,
             ),
             bodySmall = TextStyle(
-                fontFamily = sans, fontWeight = FontWeight.Medium,
-                fontSize = 12.5.sp, lineHeight = 17.5.sp,
+                fontFamily = sans,
+                fontWeight = FontWeight.Medium,
+                fontSize = 12.5.sp,
+                lineHeight = 17.5.sp,
             ),
             // Filter chips
             labelLarge = TextStyle(
-                fontFamily = sans, fontWeight = FontWeight.Bold,
-                fontSize = 13.sp, lineHeight = 13.sp,
+                fontFamily = sans,
+                fontWeight = FontWeight.Bold,
+                fontSize = 13.sp,
+                lineHeight = 13.sp,
             ),
             labelMedium = TextStyle(
-                fontFamily = sans, fontWeight = FontWeight.SemiBold,
-                fontSize = 12.sp, lineHeight = 15.6.sp,
+                fontFamily = sans,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 12.sp,
+                lineHeight = 15.6.sp,
             ),
             labelSmall = TextStyle(
-                fontFamily = mono, fontWeight = FontWeight.SemiBold,
-                fontSize = 11.sp, lineHeight = 11.sp, letterSpacing = 0.9.sp,
+                fontFamily = mono,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 11.sp,
+                lineHeight = 11.sp,
+                letterSpacing = 0.9.sp,
             ),
         )
     }
@@ -388,40 +424,61 @@ fun BrainDropTheme(content: @Composable () -> Unit) {
     val brainDropType = remember(sans, mono) {
         BrainDropType(
             display = TextStyle(
-                fontFamily = sans, fontWeight = FontWeight.ExtraBold,
-                fontSize = 40.sp, lineHeight = 42.sp, letterSpacing = (-1.2).sp,
+                fontFamily = sans,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 40.sp,
+                lineHeight = 42.sp,
+                letterSpacing = (-1.2).sp,
             ),
             verbBase = TextStyle(
-                fontFamily = sans, fontWeight = FontWeight.ExtraBold,
-                fontSize = 17.sp, lineHeight = 20.4.sp,
+                fontFamily = sans,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 17.sp,
+                lineHeight = 20.4.sp,
             ),
             verbForms = TextStyle(
-                fontFamily = mono, fontWeight = FontWeight.Medium,
-                fontSize = 13.5.sp, lineHeight = 16.2.sp,
+                fontFamily = mono,
+                fontWeight = FontWeight.Medium,
+                fontSize = 13.5.sp,
+                lineHeight = 16.2.sp,
             ),
             verbForm = TextStyle(
-                fontFamily = sans, fontWeight = FontWeight.ExtraBold,
-                fontSize = 20.sp, lineHeight = 20.sp,
+                fontFamily = sans,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 20.sp,
+                lineHeight = 20.sp,
             ),
             label = TextStyle(
-                fontFamily = mono, fontWeight = FontWeight.SemiBold,
-                fontSize = 10.5.sp, lineHeight = 10.5.sp, letterSpacing = 0.95.sp,
+                fontFamily = mono,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 10.5.sp,
+                lineHeight = 10.5.sp,
+                letterSpacing = 0.95.sp,
             ),
             counter = TextStyle(
-                fontFamily = mono, fontWeight = FontWeight.SemiBold,
-                fontSize = 12.sp, lineHeight = 12.sp,
+                fontFamily = mono,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 12.sp,
+                lineHeight = 12.sp,
             ),
             family = TextStyle(
-                fontFamily = mono, fontWeight = FontWeight.SemiBold,
-                fontSize = 10.sp, lineHeight = 10.sp, letterSpacing = 0.8.sp,
+                fontFamily = mono,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 10.sp,
+                lineHeight = 10.sp,
+                letterSpacing = 0.8.sp,
             ),
             translation = TextStyle(
-                fontFamily = sans, fontWeight = FontWeight.Medium,
-                fontSize = 13.sp, lineHeight = 18.2.sp,
+                fontFamily = sans,
+                fontWeight = FontWeight.Medium,
+                fontSize = 13.sp,
+                lineHeight = 18.2.sp,
             ),
             button = TextStyle(
-                fontFamily = sans, fontWeight = FontWeight.ExtraBold,
-                fontSize = 16.sp, lineHeight = 16.sp,
+                fontFamily = sans,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 16.sp,
+                lineHeight = 16.sp,
             ),
         )
     }

@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ComplexCondition:VerbListScreen.kt$(delta &gt; 0 &amp;&amp; !isLearnedState.value) || (delta &lt; 0 &amp;&amp; isLearnedState.value)</ID>
+    <ID>CyclomaticComplexMethod:VerbListScreen.kt$@Composable private fun SwipeableVerbRow( verb: VerbWithProgress, translationAccent: Color, onClick: () -&gt; Unit, onToggleLearned: () -&gt; Unit, )</ID>
+    <ID>LargeClass:LocalIrregularVerbDataSource.kt$LocalIrregularVerbDataSource$Companion</ID>
+    <ID>LongMethod:QuizScreen.kt$@Composable private fun QuizResultContent( state: QuizUiState, onRetryMistakes: () -&gt; Unit, onRestart: () -&gt; Unit, onBack: () -&gt; Unit, onMistakeClick: (String) -&gt; Unit, )</ID>
+    <ID>LongMethod:VerbListScreen.kt$@Composable private fun VerbListHeader( state: VerbListUiState, searchInput: String, onSearchInputChange: (String) -&gt; Unit, searchFocusRequester: FocusRequester, onSearchIconClick: () -&gt; Unit, onBack: () -&gt; Unit, onToggleUnlearnedFilter: () -&gt; Unit, onToggleViewMode: () -&gt; Unit, onStartQuiz: (String) -&gt; Unit, )</ID>
+    <ID>LongParameterList:VerbListScreen.kt$( state: VerbListUiState, searchInput: String, onSearchInputChange: (String) -&gt; Unit, searchFocusRequester: FocusRequester, onSearchIconClick: () -&gt; Unit, onBack: () -&gt; Unit, onToggleUnlearnedFilter: () -&gt; Unit, onToggleViewMode: () -&gt; Unit, onStartQuiz: (String) -&gt; Unit, )</ID>
+    <ID>ReturnCount:GenerateQuizUseCase.kt$GenerateQuizUseCase$suspend operator fun invoke( type: QuizType, sessionSize: Int = 10, restrictToVerbIds: List&lt;String&gt;? = null, ): Result&lt;List&lt;QuizQuestion&gt;&gt;</ID>
+  </CurrentIssues>
+</SmellBaseline>

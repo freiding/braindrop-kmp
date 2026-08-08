@@ -6,8 +6,9 @@ import by.freiding.braindrop.feature.irregularverbs.domain.model.QuizQuestion
 import by.freiding.braindrop.feature.irregularverbs.domain.model.QuizType
 import by.freiding.braindrop.feature.irregularverbs.domain.repository.IrregularVerbRepository
 
-class GenerateQuizUseCase(private val repository: IrregularVerbRepository) {
-
+class GenerateQuizUseCase(
+    private val repository: IrregularVerbRepository,
+) {
     /**
      * @param restrictToVerbIds if set, the session is built strictly from these verbs ("Retry
      *   mistakes" mode); otherwise the session is drawn from unlearned verbs.
@@ -36,7 +37,11 @@ class GenerateQuizUseCase(private val repository: IrregularVerbRepository) {
         return Result.Success(questions)
     }
 
-    private fun buildQuestion(verb: IrregularVerb, type: QuizType, allVerbs: List<IrregularVerb>): QuizQuestion {
+    private fun buildQuestion(
+        verb: IrregularVerb,
+        type: QuizType,
+        allVerbs: List<IrregularVerb>,
+    ): QuizQuestion {
         val others = allVerbs.filter { it.id != verb.id }.shuffled()
         return when (type) {
             QuizType.EN_TO_RU -> {

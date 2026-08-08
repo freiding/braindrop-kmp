@@ -1,0 +1,27 @@
+# Builds on detekt's default ruleset (see build.gradle.kts: buildUponDefaultConfig = true).
+# Only rules that need tuning for this codebase are listed below.
+
+style:
+  # Compose UI code is one dp/sp/color/weight/alpha literal after another by nature (this design
+  # system alone has hundreds of Color(0xFF...) constants) — flagging every one of them is pure
+  # noise here rather than a real smell, and there's no practical per-call-site exemption list.
+  MagicNumber:
+    active: false
+  MaxLineLength:
+    # Already enforced by ktlint (see .editorconfig); no need for two tools disagreeing on it.
+    active: false
+
+complexity:
+  LongMethod:
+    threshold: 120
+  LongParameterList:
+    functionThreshold: 8
+    constructorThreshold: 8
+  TooManyFunctions:
+    thresholdInFiles: 20
+    thresholdInClasses: 20
+
+naming:
+  FunctionNaming:
+    # Composable functions are PascalCase by convention, not the usual camelCase.
+    ignoreAnnotated: ["Composable"]

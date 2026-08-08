@@ -120,10 +120,18 @@ fun VerbDetailScreen(
 }
 
 @Composable
-private fun DetailHeader(group: VerbGroup?, onBack: () -> Unit) {
+private fun DetailHeader(
+    group: VerbGroup?,
+    onBack: () -> Unit,
+) {
     val semantics = BrainDropTheme.semantics
     Row(
-        modifier = Modifier.fillMaxWidth().padding(start = BrainDropTheme.spacing.xxs, end = BrainDropTheme.spacing.sm, top = BrainDropTheme.spacing.xxs, bottom = BrainDropTheme.spacing.xs),
+        modifier = Modifier.fillMaxWidth().padding(
+            start = BrainDropTheme.spacing.xxs,
+            end = BrainDropTheme.spacing.sm,
+            top = BrainDropTheme.spacing.xxs,
+            bottom = BrainDropTheme.spacing.xs,
+        ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         BrainDropIconButton(onClick = onBack, contentDescription = stringResource(Res.string.cd_back)) {
@@ -139,7 +147,12 @@ private fun DetailHeader(group: VerbGroup?, onBack: () -> Unit) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
-                Box(modifier = Modifier.size(6.dp).background(semantics.groupColor(group.name), BrainDropTheme.shapes.chip))
+                Box(
+                    modifier = Modifier
+                        .size(
+                            6.dp,
+                        ).background(semantics.groupColor(group.name), BrainDropTheme.shapes.chip),
+                )
                 Text(
                     text = groupTitle(group),
                     style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.sp, fontWeight = FontWeight.Bold),
@@ -182,7 +195,11 @@ private fun VerbFormsCard(verb: IrregularVerb) {
 }
 
 @Composable
-private fun VerbFormRow(label: String, form: String, labelColor: Color) {
+private fun VerbFormRow(
+    label: String,
+    form: String,
+    labelColor: Color,
+) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(vertical = BrainDropTheme.spacing.sm),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -194,7 +211,10 @@ private fun VerbFormRow(label: String, form: String, labelColor: Color) {
 }
 
 @Composable
-private fun ExamplesCard(examples: List<VerbExample>, verb: IrregularVerb) {
+private fun ExamplesCard(
+    examples: List<VerbExample>,
+    verb: IrregularVerb,
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -231,7 +251,11 @@ private fun ExamplesCard(examples: List<VerbExample>, verb: IrregularVerb) {
 }
 
 @Composable
-private fun LearnButtonBar(isLearned: Boolean, onToggle: () -> Unit, modifier: Modifier = Modifier) {
+private fun LearnButtonBar(
+    isLearned: Boolean,
+    onToggle: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     val background = MaterialTheme.colorScheme.background
     Column(modifier = modifier.fillMaxWidth()) {
         Box(
@@ -240,7 +264,13 @@ private fun LearnButtonBar(isLearned: Boolean, onToggle: () -> Unit, modifier: M
                 .height(14.dp)
                 .background(Brush.verticalGradient(listOf(Color.Transparent, background))),
         )
-        Box(modifier = Modifier.fillMaxWidth().background(background).padding(start = 20.dp, end = 20.dp, bottom = 20.dp, top = 2.dp)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    background,
+                ).padding(start = 20.dp, end = 20.dp, bottom = 20.dp, top = 2.dp),
+        ) {
             if (isLearned) {
                 BrainDropButton(
                     text = stringResource(Res.string.verb_detail_unmark_learned),

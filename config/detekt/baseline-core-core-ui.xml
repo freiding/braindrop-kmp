@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>LongMethod:Theme.kt$@Composable fun BrainDropTheme(content: @Composable () -&gt; Unit)</ID>
+    <ID>LongParameterList:BrainDropButton.kt$( text: String, onClick: () -&gt; Unit, modifier: Modifier = Modifier, style: BrainDropButtonStyle = BrainDropButtonStyle.FILLED, height: Dp = 46.dp, cornerRadius: Dp = 15.dp, fillWidth: Boolean = false, textStyle: TextStyle = BrainDropTheme.type.button, containerColor: Color? = null, contentColor: Color? = null, leadingIcon: (@Composable RowScope.() -&gt; Unit)? = null, trailingIcon: (@Composable RowScope.() -&gt; Unit)? = null, )</ID>
+    <ID>LongParameterList:SegmentedBar.kt$( segmentCount: Int, ratio: Float, height: Dp, gap: Dp, cornerRadius: Dp, filledColor: Color, emptyColor: Color, modifier: Modifier = Modifier, partialColor: Color = filledColor.copy(alpha = 0.45f), )</ID>
+    <ID>LongParameterList:StatusCard.kt$( icon: @Composable () -&gt; Unit, iconBackground: Color, title: String, body: String, modifier: Modifier = Modifier, primaryAction: (@Composable () -&gt; Unit)? = null, secondaryAction: (@Composable () -&gt; Unit)? = null, trailingContent: (@Composable () -&gt; Unit)? = null, )</ID>
+    <ID>MatchingDeclarationName:BrainDropButton.kt$BrainDropButtonStyle</ID>
+    <ID>MatchingDeclarationName:BrainDropNavigationBar.kt$BrainDropNavTab</ID>
+    <ID>TooManyFunctions:BrainDropIcons.kt$BrainDropIcons</ID>
+  </CurrentIssues>
+</SmellBaseline>

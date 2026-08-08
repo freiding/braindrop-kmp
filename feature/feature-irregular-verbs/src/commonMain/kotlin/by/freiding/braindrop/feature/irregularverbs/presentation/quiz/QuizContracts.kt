@@ -4,7 +4,10 @@ import by.freiding.braindrop.feature.irregularverbs.domain.model.IrregularVerb
 import by.freiding.braindrop.feature.irregularverbs.domain.model.QuizQuestion
 
 /** One wrong answer from the session — the verb plus what the user picked (for review on the result screen). */
-data class QuizMistake(val verb: IrregularVerb, val userAnswerText: String)
+data class QuizMistake(
+    val verb: IrregularVerb,
+    val userAnswerText: String,
+)
 
 data class QuizUiState(
     val isLoading: Boolean = true,
@@ -28,14 +31,26 @@ data class QuizUiState(
 
 sealed class QuizUiEffect {
     data object NavigateBack : QuizUiEffect()
-    data class NavigateToVerbDetail(val verbId: String) : QuizUiEffect()
+
+    data class NavigateToVerbDetail(
+        val verbId: String,
+    ) : QuizUiEffect()
 }
 
 sealed class QuizUiEvent {
-    data class AnswerSelected(val answer: String) : QuizUiEvent()
+    data class AnswerSelected(
+        val answer: String,
+    ) : QuizUiEvent()
+
     data object NextQuestion : QuizUiEvent()
+
     data object RestartQuiz : QuizUiEvent()
+
     data object RetryMistakes : QuizUiEvent()
+
     data object NavigateBack : QuizUiEvent()
-    data class MistakeClicked(val verbId: String) : QuizUiEvent()
+
+    data class MistakeClicked(
+        val verbId: String,
+    ) : QuizUiEvent()
 }

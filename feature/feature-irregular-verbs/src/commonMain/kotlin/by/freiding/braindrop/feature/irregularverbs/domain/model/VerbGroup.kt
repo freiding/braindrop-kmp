@@ -1,6 +1,9 @@
 package by.freiding.braindrop.feature.irregularverbs.domain.model
 
-enum class VerbGroup(val title: String, val hint: String) {
+enum class VerbGroup(
+    val title: String,
+    val hint: String,
+) {
     AAA("Без изменений", "все три формы одинаковы: cut / cut / cut"),
     ABA("Как основа", "причастие = основа: run / ran / run"),
     ABB_OUGHT("-ought / -aught", "bring→brought, think→thought, catch→caught"),

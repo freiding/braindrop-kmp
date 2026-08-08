@@ -45,18 +45,39 @@ data class VerbListUiState(
 }
 
 sealed class VerbListUiEffect {
-    data class NavigateToDetail(val verbId: String) : VerbListUiEffect()
-    data class NavigateToQuiz(val mode: String) : VerbListUiEffect()
+    data class NavigateToDetail(
+        val verbId: String,
+    ) : VerbListUiEffect()
+
+    data class NavigateToQuiz(
+        val mode: String,
+    ) : VerbListUiEffect()
+
     data object NavigateBack : VerbListUiEffect()
 }
 
 sealed class VerbListUiEvent {
-    data class VerbClicked(val verbId: String) : VerbListUiEvent()
-    data class ToggleLearned(val verbId: String) : VerbListUiEvent()
+    data class VerbClicked(
+        val verbId: String,
+    ) : VerbListUiEvent()
+
+    data class ToggleLearned(
+        val verbId: String,
+    ) : VerbListUiEvent()
+
     data object ToggleFilter : VerbListUiEvent()
+
     data object ToggleViewMode : VerbListUiEvent()
-    data class StartQuiz(val mode: String) : VerbListUiEvent()
-    data class SearchChanged(val query: String) : VerbListUiEvent()
+
+    data class StartQuiz(
+        val mode: String,
+    ) : VerbListUiEvent()
+
+    data class SearchChanged(
+        val query: String,
+    ) : VerbListUiEvent()
+
     data object ClearFilter : VerbListUiEvent()
+
     data object NavigateBack : VerbListUiEvent()
 }

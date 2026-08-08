@@ -7,8 +7,9 @@ class LocalStudyProgressDataSource(
     private val studyProgressQueries: StudyProgressQueries,
     private val irregularVerbProgressQueries: IrregularVerbProgressQueries,
 ) {
-    fun getStudiedCount(categoryId: String): Int = when (categoryId) {
-        "irregular_verbs" -> irregularVerbProgressQueries.countLearned().executeAsOne().toInt()
-        else -> studyProgressQueries.countByCategory(categoryId).executeAsOne().toInt()
-    }
+    fun getStudiedCount(categoryId: String): Int =
+        when (categoryId) {
+            "irregular_verbs" -> irregularVerbProgressQueries.countLearned().executeAsOne().toInt()
+            else -> studyProgressQueries.countByCategory(categoryId).executeAsOne().toInt()
+        }
 }

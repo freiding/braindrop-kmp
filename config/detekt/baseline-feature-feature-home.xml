@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>TooGenericExceptionCaught:DailyProgressRepositoryImpl.kt$DailyProgressRepositoryImpl$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:StudyCategoryRepositoryImpl.kt$StudyCategoryRepositoryImpl$e: Exception</ID>
+  </CurrentIssues>
+</SmellBaseline>
