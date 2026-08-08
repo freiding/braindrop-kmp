@@ -6,6 +6,7 @@ import by.freiding.braindrop.feature.irregularverbs.data.repository.IrregularVer
 import by.freiding.braindrop.feature.irregularverbs.domain.model.QuizType
 import by.freiding.braindrop.feature.irregularverbs.domain.repository.IrregularVerbRepository
 import by.freiding.braindrop.feature.irregularverbs.domain.usecase.GenerateQuizUseCase
+import by.freiding.braindrop.feature.irregularverbs.domain.usecase.GetStreakDaysUseCase
 import by.freiding.braindrop.feature.irregularverbs.domain.usecase.GetVerbDetailUseCase
 import by.freiding.braindrop.feature.irregularverbs.domain.usecase.GetVerbsUseCase
 import by.freiding.braindrop.feature.irregularverbs.domain.usecase.SubmitQuizAnswerUseCase
@@ -19,15 +20,16 @@ import org.koin.dsl.module
 val irregularVerbsModule = module {
     single { LocalIrregularVerbDataSource() }
     single { LocalVerbProgressDataSource(get()) }
-    factory<IrregularVerbRepository> { IrregularVerbRepositoryImpl(get(), get()) }
+    factory<IrregularVerbRepository> { IrregularVerbRepositoryImpl(get(), get(), get(), get()) }
 
     factory { GetVerbsUseCase(get()) }
     factory { GetVerbDetailUseCase(get()) }
     factory { ToggleVerbLearnedUseCase(get()) }
     factory { GenerateQuizUseCase(get()) }
     factory { SubmitQuizAnswerUseCase(get()) }
+    factory { GetStreakDaysUseCase(get()) }
 
     viewModel { VerbListViewModel(get(), get()) }
     viewModel { (verbId: String) -> VerbDetailViewModel(verbId, get(), get()) }
-    viewModel { (quizType: QuizType) -> QuizViewModel(quizType, get(), get()) }
+    viewModel { (quizType: QuizType) -> QuizViewModel(quizType, get(), get(), get()) }
 }

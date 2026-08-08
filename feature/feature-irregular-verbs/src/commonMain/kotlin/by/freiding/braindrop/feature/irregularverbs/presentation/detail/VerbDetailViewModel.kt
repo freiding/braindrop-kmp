@@ -30,6 +30,8 @@ class VerbDetailViewModel(
         loadDetail()
     }
 
+    fun reload() = loadDetail()
+
     fun onEvent(event: VerbDetailUiEvent) {
         when (event) {
             is VerbDetailUiEvent.ToggleLearned -> viewModelScope.launch {

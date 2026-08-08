@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BrainDrop</string>
+
+    <string name="home_subtitle">Отмечено %1$d из %2$d · держите серию</string>
+    <string name="home_headline_done">Цель дня выполнена — отличная работа!</string>
+    <string name="home_daily_goal_label">ЦЕЛЬ ДНЯ</string>
+    <string name="home_continue_quiz">Продолжить квиз</string>
+    <string name="home_categories_label">КАТЕГОРИИ</string>
+    <string name="home_error_generic">Не удалось загрузить категории</string>
+    <string name="home_error_retry">Повторить</string>
+
+    <string name="category_soon_badge">СКОРО</string>
+
+    <string name="category_irregular_verbs_title">Irregular Verbs</string>
+    <string name="category_tenses_title">English Tenses</string>
+    <string name="category_tenses_description">12 времён с примерами</string>
+    <string name="category_phrasal_verbs_title">Phrasal Verbs</string>
+    <string name="category_phrasal_verbs_description">200 фразовых глаголов</string>
+</resources>

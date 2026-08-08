@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="home_streak_days">
+        <item quantity="one">%1$d день</item>
+        <item quantity="few">%1$d дня</item>
+        <item quantity="many">%1$d дней</item>
+        <item quantity="other">%1$d дней</item>
+    </plurals>
+
+    <plurals name="home_headline_progress">
+        <item quantity="one">Ещё %1$d глагол до цели на сегодня</item>
+        <item quantity="few">Ещё %1$d глагола до цели на сегодня</item>
+        <item quantity="many">Ещё %1$d глаголов до цели на сегодня</item>
+        <item quantity="other">Ещё %1$d глагола до цели на сегодня</item>
+    </plurals>
+
+    <plurals name="category_verbs_count">
+        <item quantity="one">%1$d глагол</item>
+        <item quantity="few">%1$d глагола</item>
+        <item quantity="many">%1$d глаголов</item>
+        <item quantity="other">%1$d глагола</item>
+    </plurals>
+
+    <plurals name="category_groups_count">
+        <item quantity="one">%1$d группа</item>
+        <item quantity="few">%1$d группы</item>
+        <item quantity="many">%1$d групп</item>
+        <item quantity="other">%1$d группы</item>
+    </plurals>
+</resources>

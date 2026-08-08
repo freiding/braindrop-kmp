@@ -10,6 +10,9 @@ sealed interface Routes {
     data object Profile : Routes
 
     @Serializable
+    data object Progress : Routes
+
+    @Serializable
     data object IrregularVerbsList : Routes
 
     @Serializable

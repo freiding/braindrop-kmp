@@ -6,24 +6,22 @@ class LocalStudyCategoryDataSource {
     fun getStaticCategories(): List<StudyCategory> = listOf(
         StudyCategory(
             id = "irregular_verbs",
-            title = "Irregular Verbs",
-            description = "Master past tense and past participle forms",
             icon = "📚",
             totalItems = 179,
+            secondaryCount = 12,
+            isAvailable = true,
         ),
         StudyCategory(
             id = "tenses",
-            title = "English Tenses",
-            description = "Learn all 12 tenses with examples",
             icon = "⏰",
             totalItems = 12,
+            isAvailable = false,
         ),
         StudyCategory(
             id = "phrasal_verbs",
-            title = "Phrasal Verbs",
-            description = "Essential two-word verbs for daily use",
             icon = "💬",
             totalItems = 200,
+            isAvailable = false,
         ),
     )
 }

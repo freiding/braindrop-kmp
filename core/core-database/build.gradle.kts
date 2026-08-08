@@ -16,8 +16,13 @@ kotlin {
             implementation(libs.sqldelight.native.driver)
         }
         commonMain.dependencies {
+            implementation(projects.core.coreCommon)
             implementation(libs.sqldelight.coroutines.extensions)
             implementation(libs.koin.core)
+            implementation(libs.kotlinx.datetime)
+        }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
         }
     }
 }

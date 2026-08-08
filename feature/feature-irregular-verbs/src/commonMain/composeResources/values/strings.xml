@@ -1,34 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Common -->
-    <string name="nav_back">← Назад</string>
+    <string name="cd_back">Назад</string>
+    <string name="cd_search">Поиск</string>
+    <string name="cd_close">Закрыть</string>
     <string name="error_loading">Ошибка загрузки</string>
     <string name="error_generic">Ошибка</string>
+    <string name="error_retry">Повторить</string>
 
     <!-- VerbListScreen -->
-    <string name="verb_list_studied_count">%1$d/%2$d изучено</string>
+    <string name="verb_list_title">Irregular Verbs</string>
+    <string name="verb_list_progress_count">%1$d из %2$d изучено</string>
+    <string name="verb_list_search_placeholder">Глагол или перевод</string>
     <string name="verb_list_filter_unlearned">Неизученные</string>
     <string name="verb_list_filter_groups">Группы</string>
-    <string name="verb_list_quiz_button">Квиз ▸</string>
+    <string name="verb_list_quiz_button">Квиз</string>
     <string name="verb_list_quiz_en_ru">EN → RU (перевод)</string>
     <string name="verb_list_quiz_ru_en">RU → EN (перевод)</string>
     <string name="verb_list_quiz_forms">Формы глагола</string>
-    <string name="swipe_mark_learned">✓ Изучено</string>
-    <string name="swipe_unmark_learned">↩ Снять отметку</string>
+    <string name="swipe_mark_learned">Изучено</string>
+    <string name="swipe_unmark_learned">Снять отметку</string>
+    <string name="verb_list_empty_title">Здесь пусто — и это хорошо</string>
+    <string name="verb_list_empty_body">Все глаголы в этом фильтре уже изучены. Снимите фильтр, чтобы повторить пройденное.</string>
+    <string name="verb_list_empty_action">Показать все %1$d</string>
+    <string name="verb_list_search_empty_title">Ничего не нашлось</string>
+    <string name="verb_list_search_empty_body">Ничего не нашлось по запросу «%1$s»</string>
+    <string name="verb_list_error_title">Не удалось загрузить глаголы</string>
+    <string name="verb_list_error_body">Проверьте соединение — данные лежат на устройстве, так что это должно быть быстро.</string>
+    <string name="verb_group_family_aaa">Морфологическая схема: все формы совпадают</string>
+    <string name="verb_group_family_abb">Морфологическая схема: прошедшее время совпадает с причастием</string>
+    <string name="verb_group_family_abc">Морфологическая схема: все три формы разные</string>
 
     <!-- VerbDetailScreen -->
-    <string name="verb_detail_mark_learned">Отметить как изученный ✓</string>
-    <string name="verb_detail_unmark_learned">Отметить как не изученный</string>
-    <string name="verb_detail_examples">Примеры</string>
+    <string name="verb_detail_mark_learned">Отметить как изученный</string>
+    <string name="verb_detail_unmark_learned">Снять отметку об изучении</string>
+    <string name="verb_detail_examples">ПРИМЕРЫ</string>
+    <string name="verb_detail_label_base_form">BASE FORM</string>
+    <string name="verb_detail_label_past_simple">PAST SIMPLE</string>
+    <string name="verb_detail_label_past_participle">PAST PARTICIPLE</string>
 
     <!-- QuizScreen -->
-    <string name="quiz_title">Квиз</string>
-    <string name="quiz_next">Дальше →</string>
-    <string name="quiz_finished_title">Квиз завершён!</string>
-    <string name="quiz_correct_answers">Правильных ответов: %1$d / %2$d</string>
-    <string name="quiz_retry">Ещё раз</string>
-    <string name="quiz_to_list">К списку</string>
-    <string name="quiz_back">Назад</string>
+    <string name="quiz_next">Дальше</string>
+    <string name="quiz_prompt_en_ru">ПЕРЕВЕДИ НА РУССКИЙ</string>
+    <string name="quiz_prompt_ru_en">ПЕРЕВЕДИ НА АНГЛИЙСКИЙ</string>
+    <string name="quiz_prompt_forms">ВЫБЕРИ ФОРМУ</string>
+    <string name="quiz_footer_hint">Выберите вариант — кнопка появится здесь</string>
+    <string name="quiz_your_answer">ваш ответ</string>
+    <string name="quiz_progress_count">%1$d/%2$d</string>
+    <string name="quiz_result_title_great">Отличная сессия!</string>
+    <string name="quiz_result_title_good">Хорошая сессия!</string>
+    <string name="quiz_result_title_meh">Есть над чем поработать</string>
+    <string name="quiz_result_percent_correct">%1$d%% ВЕРНО</string>
+    <string name="quiz_result_subtitle_perfect">Ни одной ошибки — сессия пройдена идеально!</string>
+    <string name="quiz_tile_time_label">время</string>
+    <string name="quiz_tile_progress_label">к прогрессу</string>
+    <string name="quiz_mistakes_section_title">РАЗБОР ОШИБОК · %1$d</string>
+    <string name="quiz_mistake_row_format">%1$s — вы ответили «%2$s»</string>
+    <string name="quiz_retry_mistakes">Пройти ошибки ещё раз</string>
+    <string name="quiz_retry_again">Ещё раз</string>
+    <string name="quiz_to_list">К списку глаголов</string>
+    <string name="quiz_empty_title">Нечего спрашивать — всё изучено</string>
+    <string name="quiz_empty_body">Вы уже знаете все глаголы в этом наборе. Загляните в список, чтобы повторить пройденное.</string>
+    <string name="quiz_empty_action">К списку</string>
+    <string name="quiz_error_title">Не удалось загрузить квиз</string>
+    <string name="quiz_error_body">Проверьте соединение и попробуйте ещё раз.</string>
 
     <!-- VerbGroup titles -->
     <string name="verb_group_aaa_title">Без изменений</string>

@@ -4,6 +4,12 @@ plugins {
     alias(libs.plugins.composeCompiler)
 }
 
+compose {
+    resources {
+        packageOfResClass = "by.freiding.braindrop.core.ui.generated.resources"
+    }
+}
+
 kotlin {
     androidLibrary {
         namespace = "by.freiding.braindrop.core.ui"

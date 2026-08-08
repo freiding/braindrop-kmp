@@ -1,6 +1,5 @@
 package by.freiding.braindrop.feature.irregularverbs.domain.usecase
 
-import by.freiding.braindrop.core.common.AppException
 import by.freiding.braindrop.core.common.Result
 import by.freiding.braindrop.feature.irregularverbs.domain.model.IrregularVerb
 import by.freiding.braindrop.feature.irregularverbs.domain.model.QuizQuestion
@@ -9,25 +8,30 @@ import by.freiding.braindrop.feature.irregularverbs.domain.repository.IrregularV
 
 class GenerateQuizUseCase(private val repository: IrregularVerbRepository) {
 
-    suspend operator fun invoke(type: QuizType, sessionSize: Int = 10): Result<List<QuizQuestion>> {
-        val unlearnedResult = repository.getUnlearnedVerbs()
-        if (unlearnedResult is Result.Error) return unlearnedResult
-
+    /**
+     * @param restrictToVerbIds if set, the session is built strictly from these verbs ("Retry
+     *   mistakes" mode); otherwise the session is drawn from unlearned verbs.
+     *   An empty list of unlearned verbs isn't an error but a valid result: "nothing to ask".
+     */
+    suspend operator fun invoke(
+        type: QuizType,
+        sessionSize: Int = 10,
+        restrictToVerbIds: List<String>? = null,
+    ): Result<List<QuizQuestion>> {
         val allVerbsResult = repository.getVerbsWithProgress()
         if (allVerbsResult is Result.Error) return Result.Error(allVerbsResult.exception)
-
-        val unlearned = (unlearnedResult as Result.Success).data
         val allVerbs = (allVerbsResult as Result.Success).data.map { it.verb }
 
-        if (unlearned.size < MIN_VERBS_FOR_QUIZ) {
-            return Result.Error(
-                AppException.UnknownException(
-                    IllegalStateException("Not enough unlearned verbs to start a quiz (need at least $MIN_VERBS_FOR_QUIZ).")
-                )
-            )
+        val session = if (restrictToVerbIds != null) {
+            allVerbs.filter { it.id in restrictToVerbIds }
+        } else {
+            val unlearnedResult = repository.getUnlearnedVerbs()
+            if (unlearnedResult is Result.Error) return unlearnedResult
+            (unlearnedResult as Result.Success).data.shuffled().take(sessionSize)
         }
 
-        val session = unlearned.shuffled().take(sessionSize)
+        if (session.isEmpty()) return Result.Success(emptyList())
+
         val questions = session.map { verb -> buildQuestion(verb, type, allVerbs) }
         return Result.Success(questions)
     }
@@ -41,7 +45,7 @@ class GenerateQuizUseCase(private val repository: IrregularVerbRepository) {
                 QuizQuestion(
                     verb = verb,
                     type = type,
-                    questionText = "Как переводится глагол «${verb.baseForm}»?",
+                    questionText = verb.baseForm,
                     correctAnswer = correct,
                     options = (listOf(correct) + wrong).shuffled(),
                 )
@@ -52,32 +56,27 @@ class GenerateQuizUseCase(private val repository: IrregularVerbRepository) {
                 QuizQuestion(
                     verb = verb,
                     type = type,
-                    questionText = "Переведите на английский: «${verb.translation}»",
+                    questionText = verb.translation,
                     correctAnswer = correct,
                     options = (listOf(correct) + wrong).shuffled(),
                 )
             }
             QuizType.VERB_FORMS -> {
-                val askPastSimple = (0..1).random() == 0
-                val correct = if (askPastSimple) verb.pastSimple else verb.pastParticiple
-                val wrong = if (askPastSimple) {
+                val askPastSimple = (0..1).random()
+                val correct = if (askPastSimple == 0) verb.pastSimple else verb.pastParticiple
+                val wrong = if (askPastSimple == 0) {
                     others.take(3).map { it.pastSimple }
                 } else {
                     others.take(3).map { it.pastParticiple }
                 }
-                val formLabel = if (askPastSimple) "Past Simple" else "Past Participle"
                 QuizQuestion(
                     verb = verb,
                     type = type,
-                    questionText = "Выберите $formLabel для глагола «${verb.baseForm}»:",
+                    questionText = verb.baseForm,
                     correctAnswer = correct,
                     options = (listOf(correct) + wrong).shuffled(),
                 )
             }
         }
-    }
-
-    companion object {
-        private const val MIN_VERBS_FOR_QUIZ = 4
     }
 }

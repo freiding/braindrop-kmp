@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="quiz_tile_streak_caption">
+        <item quantity="one">день серия</item>
+        <item quantity="few">дня серия</item>
+        <item quantity="many">дней серия</item>
+        <item quantity="other">дня серия</item>
+    </plurals>
+
+    <plurals name="quiz_result_subtitle_mistakes">
+        <item quantity="one">Разберите %1$d ошибку ниже — это быстро</item>
+        <item quantity="few">Разберите %1$d ошибки ниже — это быстро</item>
+        <item quantity="many">Разберите %1$d ошибок ниже — это быстро</item>
+        <item quantity="other">Разберите %1$d ошибки ниже — это быстро</item>
+    </plurals>
+</resources>

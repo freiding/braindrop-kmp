@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="progress_title">Прогресс</string>
+    <string name="progress_placeholder">Здесь появится статистика по всем категориям — серия, время занятий, освоенные слова.</string>
+    <string name="profile_title">Профиль</string>
+    <string name="profile_placeholder">Настройки аккаунта и напоминания появятся здесь в одном из следующих обновлений.</string>
+    <string name="placeholder_badge">СКОРО</string>
+</resources>

@@ -1,6 +1,7 @@
 package by.freiding.braindrop
 
 import android.app.Application
+import by.freiding.braindrop.core.common.di.commonModule
 import by.freiding.braindrop.core.database.AndroidDatabaseDriverFactory
 import by.freiding.braindrop.core.database.DatabaseDriverFactory
 import by.freiding.braindrop.core.database.di.databaseModule
@@ -17,6 +18,7 @@ class BrainDropApplication : Application() {
             androidContext(this@BrainDropApplication)
             modules(
                 module { single<DatabaseDriverFactory> { AndroidDatabaseDriverFactory(androidContext()) } },
+                commonModule,
                 databaseModule,
                 homeModule,
                 irregularVerbsModule,

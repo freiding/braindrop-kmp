@@ -4,6 +4,12 @@ plugins {
     alias(libs.plugins.composeCompiler)
 }
 
+compose {
+    resources {
+        packageOfResClass = "by.freiding.braindrop.feature.home"
+    }
+}
+
 kotlin {
     androidLibrary {
         namespace = "by.freiding.braindrop.feature.home"
@@ -25,6 +31,8 @@ kotlin {
             implementation(libs.navigation.compose)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.compose.components.resources)
         }
     }
 }

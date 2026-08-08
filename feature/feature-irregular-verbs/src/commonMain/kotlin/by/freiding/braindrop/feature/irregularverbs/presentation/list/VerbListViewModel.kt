@@ -25,9 +25,9 @@ class VerbListViewModel(
     private val _effects = MutableSharedFlow<VerbListUiEffect>()
     val effects: SharedFlow<VerbListUiEffect> = _effects.asSharedFlow()
 
-    init {
-        loadVerbs()
-    }
+    // The initial load is triggered by the screen (LaunchedEffect(Unit) { reload() }) rather
+    // than here, since the screen also needs it on every re-entry — a single load path avoids
+    // a duplicate query on first composition.
 
     fun onEvent(event: VerbListUiEvent) {
         when (event) {
@@ -39,13 +39,22 @@ class VerbListViewModel(
                 loadVerbs()
             }
             is VerbListUiEvent.ToggleFilter -> _state.update {
-                it.copy(showLearnedOnly = !it.showLearnedOnly)
+                it.copy(unlearnedOnly = !it.unlearnedOnly)
+            }
+            is VerbListUiEvent.ClearFilter -> _state.update {
+                it.copy(unlearnedOnly = false)
             }
             is VerbListUiEvent.ToggleViewMode -> _state.update {
                 it.copy(viewMode = if (it.viewMode == ViewMode.LIST) ViewMode.GROUPED else ViewMode.LIST)
             }
             is VerbListUiEvent.StartQuiz -> viewModelScope.launch {
                 _effects.emit(VerbListUiEffect.NavigateToQuiz(event.mode))
+            }
+            is VerbListUiEvent.SearchChanged -> _state.update {
+                it.copy(searchQuery = event.query)
+            }
+            is VerbListUiEvent.NavigateBack -> viewModelScope.launch {
+                _effects.emit(VerbListUiEffect.NavigateBack)
             }
         }
     }

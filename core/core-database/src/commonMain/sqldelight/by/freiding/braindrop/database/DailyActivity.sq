@@ -1,0 +1,19 @@
+CREATE TABLE DailyActivity (
+    date TEXT NOT NULL PRIMARY KEY,  -- ISO-8601 local date, e.g. "2026-08-06"
+    learned_count INTEGER NOT NULL DEFAULT 0
+);
+
+getByDate:
+SELECT * FROM DailyActivity WHERE date = ?;
+
+getActiveDatesDesc:
+SELECT date FROM DailyActivity WHERE learned_count > 0 ORDER BY date DESC LIMIT ?;
+
+-- SQLDelight here targets the SQLite 3.18 dialect (matches the SQLite version bundled with
+-- minSdk 24 devices), which predates "INSERT ... ON CONFLICT DO UPDATE" (needs 3.24+). Insert-or-
+-- ignore a zero row, then unconditionally increment — same two-statement cost, no upsert syntax.
+insertIfAbsent:
+INSERT OR IGNORE INTO DailyActivity(date, learned_count) VALUES (?, 0);
+
+incrementToday:
+UPDATE DailyActivity SET learned_count = learned_count + 1 WHERE date = ?;

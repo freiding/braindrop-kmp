@@ -10,4 +10,5 @@ interface IrregularVerbRepository {
     suspend fun toggleLearned(verbId: String): Result<Unit>
     suspend fun recordAnswer(verbId: String, isCorrect: Boolean): Result<Unit>
     suspend fun getUnlearnedVerbs(): Result<List<IrregularVerb>>
+    suspend fun getStreakDays(): Result<Int>
 }
