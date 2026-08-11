@@ -24,4 +24,23 @@ sealed interface Routes {
     data class IrregularVerbsQuiz(
         val mode: String = "EN_TO_RU",
     ) : Routes
+
+    @Serializable
+    data object TensesList : Routes
+
+    @Serializable
+    data class TenseDetail(
+        val tenseId: String,
+    ) : Routes
+
+    @Serializable
+    data object TenseComparisons : Routes
+
+    @Serializable
+    data object TenseCheatSheet : Routes
+
+    @Serializable
+    data class TensesQuiz(
+        val mode: String = "MIXED_REVIEW",
+    ) : Routes
 }

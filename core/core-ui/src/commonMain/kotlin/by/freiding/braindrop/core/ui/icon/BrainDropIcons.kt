@@ -229,6 +229,26 @@ object BrainDropIcons {
         drawPath(path, tint)
     }
 
+    /** Clock face: used for the "tenses" study category on Home. */
+    @Composable
+    fun Clock(
+        modifier: Modifier = Modifier,
+        tint: Color = LocalContentColor.current,
+        iconSize: Dp = 24.dp,
+        strokeWidth: Dp = 2.2.dp,
+    ) = Canvas(modifier = modifier.size(iconSize)) {
+        val scale = size.width / 24f
+        val stroke = strokeWidth.toPx()
+        drawCircle(
+            color = tint,
+            radius = 8.5f * scale,
+            center = Offset(12f * scale, 12f * scale),
+            style = Stroke(stroke),
+        )
+        drawLine(tint, Offset(12f * scale, 12f * scale), Offset(12f * scale, 7f * scale), stroke, StrokeCap.Round)
+        drawLine(tint, Offset(12f * scale, 12f * scale), Offset(15.5f * scale, 13.5f * scale), stroke, StrokeCap.Round)
+    }
+
     @Composable
     fun Undo(
         modifier: Modifier = Modifier,

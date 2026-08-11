@@ -1,0 +1,22 @@
+package by.freiding.braindrop.feature.tenses.presentation.comparison
+
+import by.freiding.braindrop.feature.tenses.domain.model.TenseComparison
+
+data class TenseComparisonsUiState(
+    val isLoading: Boolean = true,
+    val comparisons: List<TenseComparison> = emptyList(),
+    val expandedId: String? = null,
+    val error: String? = null,
+)
+
+sealed class TenseComparisonsUiEffect {
+    data object NavigateBack : TenseComparisonsUiEffect()
+}
+
+sealed class TenseComparisonsUiEvent {
+    data class ComparisonClicked(
+        val id: String,
+    ) : TenseComparisonsUiEvent()
+
+    data object NavigateBack : TenseComparisonsUiEvent()
+}

@@ -10,6 +10,6 @@ class LocalStudyProgressDataSource(
     fun getStudiedCount(categoryId: String): Int =
         when (categoryId) {
             "irregular_verbs" -> irregularVerbProgressQueries.countLearned().executeAsOne().toInt()
-            else -> studyProgressQueries.countByCategory(categoryId).executeAsOne().toInt()
+            else -> studyProgressQueries.countLearnedByCategory(categoryId).executeAsOne().toInt()
         }
 }

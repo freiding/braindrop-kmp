@@ -206,6 +206,26 @@ data class BrainDropSemantics(
             else -> incorrect
         }
 
+    /**
+     * Section color for the tenses list grid (Present / Past / Future). Takes the TenseTime
+     * name (String) so that core-ui doesn't depend on the feature module — same convention as
+     * groupColor(group: String) above.
+     */
+    fun tenseTimeColor(time: String): Color =
+        when (time) {
+            "PRESENT" -> Color(0xFF0F7F73)
+            "PAST" -> Color(0xFF5257D3)
+            else -> Color(0xFFC2620F) // FUTURE
+        }
+
+    /** Background tint for the tenses list grid section header. */
+    fun tenseTimeSurface(time: String): Color =
+        when (time) {
+            "PRESENT" -> Color(0xFFE9F4F3)
+            "PAST" -> Color(0xFFEEEEFB)
+            else -> Color(0xFFFBF0E4) // FUTURE
+        }
+
     private enum class Family { AAA, ABB, ABC }
 
     private fun family(group: String): Family =

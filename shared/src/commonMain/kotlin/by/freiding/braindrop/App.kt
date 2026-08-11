@@ -24,6 +24,11 @@ import by.freiding.braindrop.feature.irregularverbs.presentation.list.VerbListSc
 import by.freiding.braindrop.feature.irregularverbs.presentation.quiz.QuizScreen
 import by.freiding.braindrop.feature.profile.presentation.screen.ProfileScreen
 import by.freiding.braindrop.feature.profile.presentation.screen.ProgressScreen
+import by.freiding.braindrop.feature.tenses.presentation.cheatsheet.TenseCheatSheetScreen
+import by.freiding.braindrop.feature.tenses.presentation.comparison.TenseComparisonsScreen
+import by.freiding.braindrop.feature.tenses.presentation.detail.TenseDetailScreen
+import by.freiding.braindrop.feature.tenses.presentation.list.TensesListScreen
+import by.freiding.braindrop.feature.tenses.presentation.quiz.TensesQuizScreen
 
 @Composable
 fun App() {
@@ -71,6 +76,23 @@ fun App() {
                     composable<Routes.IrregularVerbsQuiz> { backStackEntry ->
                         val route = backStackEntry.toRoute<Routes.IrregularVerbsQuiz>()
                         QuizScreen(mode = route.mode, navController = navController)
+                    }
+                    composable<Routes.TensesList> {
+                        TensesListScreen(navController)
+                    }
+                    composable<Routes.TenseDetail> { backStackEntry ->
+                        val route = backStackEntry.toRoute<Routes.TenseDetail>()
+                        TenseDetailScreen(tenseId = route.tenseId, navController = navController)
+                    }
+                    composable<Routes.TenseComparisons> {
+                        TenseComparisonsScreen(navController)
+                    }
+                    composable<Routes.TenseCheatSheet> {
+                        TenseCheatSheetScreen(navController)
+                    }
+                    composable<Routes.TensesQuiz> { backStackEntry ->
+                        val route = backStackEntry.toRoute<Routes.TensesQuiz>()
+                        TensesQuizScreen(mode = route.mode, navController = navController)
                     }
                 }
             }

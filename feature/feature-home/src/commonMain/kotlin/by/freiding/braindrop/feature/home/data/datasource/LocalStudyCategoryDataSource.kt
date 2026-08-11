@@ -16,7 +16,7 @@ class LocalStudyCategoryDataSource {
                 id = "tenses",
                 icon = "⏰",
                 totalItems = 12,
-                isAvailable = false,
+                isAvailable = true,
             ),
             StudyCategory(
                 id = "phrasal_verbs",
