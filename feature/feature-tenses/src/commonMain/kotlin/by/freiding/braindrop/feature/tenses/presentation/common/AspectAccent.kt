@@ -1,6 +1,17 @@
 package by.freiding.braindrop.feature.tenses.presentation.common
 
+import androidx.compose.runtime.Composable
+import by.freiding.braindrop.feature.tenses.Res
 import by.freiding.braindrop.feature.tenses.domain.model.TenseAspect
+import by.freiding.braindrop.feature.tenses.tense_aspect_continuous_description
+import by.freiding.braindrop.feature.tenses.tense_aspect_continuous_label
+import by.freiding.braindrop.feature.tenses.tense_aspect_perfect_continuous_description
+import by.freiding.braindrop.feature.tenses.tense_aspect_perfect_continuous_label
+import by.freiding.braindrop.feature.tenses.tense_aspect_perfect_description
+import by.freiding.braindrop.feature.tenses.tense_aspect_perfect_label
+import by.freiding.braindrop.feature.tenses.tense_aspect_simple_description
+import by.freiding.braindrop.feature.tenses.tense_aspect_simple_label
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * The one-line "big idea" behind each aspect, independent of time — the mental model that lets a
@@ -12,29 +23,23 @@ internal data class AspectAccent(
     val description: String,
 )
 
+@Composable
 internal fun aspectAccent(aspect: TenseAspect): AspectAccent =
     when (aspect) {
         TenseAspect.SIMPLE -> AspectAccent(
-            label = "ФАКТ",
-            description = "Simple — это факт, привычка или законченное действие. Не важен ни " +
-                "процесс, ни результат «здесь и сейчас» — просто что происходит, происходило " +
-                "или произойдёт.",
+            label = stringResource(Res.string.tense_aspect_simple_label),
+            description = stringResource(Res.string.tense_aspect_simple_description),
         )
         TenseAspect.CONTINUOUS -> AspectAccent(
-            label = "ПРОЦЕСС",
-            description = "Continuous — это процесс в развитии. Важно, что действие " +
-                "происходит, происходило или будет происходить в конкретный момент, а не то, " +
-                "чем оно закончилось.",
+            label = stringResource(Res.string.tense_aspect_continuous_label),
+            description = stringResource(Res.string.tense_aspect_continuous_description),
         )
         TenseAspect.PERFECT -> AspectAccent(
-            label = "РЕЗУЛЬТАТ",
-            description = "Perfect — это результат к моменту. Важна связь между двумя точками " +
-                "во времени и сам факт завершения действия, а не то, сколько оно длилось.",
+            label = stringResource(Res.string.tense_aspect_perfect_label),
+            description = stringResource(Res.string.tense_aspect_perfect_description),
         )
         TenseAspect.PERFECT_CONTINUOUS -> AspectAccent(
-            label = "ДЛИТЕЛЬНОСТЬ",
-            description = "Perfect Continuous — это длительность процесса вплоть до момента. " +
-                "Важно, сколько действие уже длится, длилось или будет длиться, а не факт его " +
-                "завершения.",
+            label = stringResource(Res.string.tense_aspect_perfect_continuous_label),
+            description = stringResource(Res.string.tense_aspect_perfect_continuous_description),
         )
     }

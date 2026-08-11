@@ -34,7 +34,9 @@ sealed interface Routes {
     ) : Routes
 
     @Serializable
-    data object TenseComparisons : Routes
+    data class TenseComparisons(
+        val comparisonId: String? = null,
+    ) : Routes
 
     @Serializable
     data object TenseCheatSheet : Routes

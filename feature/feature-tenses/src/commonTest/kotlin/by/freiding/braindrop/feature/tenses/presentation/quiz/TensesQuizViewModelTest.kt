@@ -5,6 +5,7 @@ import by.freiding.braindrop.feature.tenses.domain.model.TenseQuizType
 import by.freiding.braindrop.feature.tenses.domain.usecase.FakeTenseRepository
 import by.freiding.braindrop.feature.tenses.domain.usecase.GenerateTenseQuizUseCase
 import by.freiding.braindrop.feature.tenses.domain.usecase.GetStreakDaysUseCase
+import by.freiding.braindrop.feature.tenses.domain.usecase.GetTensesUseCase
 import by.freiding.braindrop.feature.tenses.domain.usecase.SubmitTenseQuizAnswerUseCase
 import by.freiding.braindrop.feature.tenses.domain.usecase.tenseFixture
 import by.freiding.braindrop.feature.tenses.domain.usecase.tenseWithProgressFixture
@@ -46,6 +47,7 @@ class TensesQuizViewModelTest {
             generateQuiz = GenerateTenseQuizUseCase(repository),
             submitAnswer = SubmitTenseQuizAnswerUseCase(repository),
             getStreakDays = GetStreakDaysUseCase(repository),
+            getTenses = GetTensesUseCase(repository),
         )
 
     /** Answers whatever question is on screen (correctly) until the quiz finishes. */

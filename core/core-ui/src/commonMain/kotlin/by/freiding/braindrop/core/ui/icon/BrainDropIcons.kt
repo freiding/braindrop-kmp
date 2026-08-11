@@ -47,6 +47,30 @@ object BrainDropIcons {
     }
 
     @Composable
+    fun ChevronDown(
+        modifier: Modifier = Modifier,
+        tint: Color = LocalContentColor.current,
+        iconSize: Dp = 24.dp,
+        strokeWidth: Dp = 2.4.dp,
+    ) = strokeIcon(modifier, tint, iconSize, strokeWidth) { scale ->
+        moveTo(6f * scale, 10f * scale)
+        lineTo(12f * scale, 16f * scale)
+        lineTo(18f * scale, 10f * scale)
+    }
+
+    @Composable
+    fun ChevronUp(
+        modifier: Modifier = Modifier,
+        tint: Color = LocalContentColor.current,
+        iconSize: Dp = 24.dp,
+        strokeWidth: Dp = 2.4.dp,
+    ) = strokeIcon(modifier, tint, iconSize, strokeWidth) { scale ->
+        moveTo(6f * scale, 14f * scale)
+        lineTo(12f * scale, 8f * scale)
+        lineTo(18f * scale, 14f * scale)
+    }
+
+    @Composable
     fun Check(
         modifier: Modifier = Modifier,
         tint: Color = LocalContentColor.current,
@@ -270,6 +294,50 @@ object BrainDropIcons {
             lineTo(9.6f * scale, 14.3f * scale)
         }
         drawPath(arrow, tint, style = Stroke(width = stroke, cap = StrokeCap.Round, join = StrokeJoin.Round))
+    }
+
+    /** Export/share arrow-out-of-box: used for the cheat sheet's "share" header action. */
+    @Composable
+    fun Share(
+        modifier: Modifier = Modifier,
+        tint: Color = LocalContentColor.current,
+        iconSize: Dp = 24.dp,
+        strokeWidth: Dp = 2.2.dp,
+    ) = Canvas(modifier = modifier.size(iconSize)) {
+        val scale = size.width / 24f
+        val stroke = strokeWidth.toPx()
+        drawLine(tint, Offset(12f * scale, 15f * scale), Offset(12f * scale, 4f * scale), stroke, StrokeCap.Round)
+        val arrow = Path().apply {
+            moveTo(8f * scale, 8f * scale)
+            lineTo(12f * scale, 4f * scale)
+            lineTo(16f * scale, 8f * scale)
+        }
+        drawPath(arrow, tint, style = Stroke(width = stroke, cap = StrokeCap.Round, join = StrokeJoin.Round))
+        val tray = Path().apply {
+            moveTo(5f * scale, 15f * scale)
+            lineTo(5f * scale, 19f * scale)
+            lineTo(19f * scale, 19f * scale)
+            lineTo(19f * scale, 15f * scale)
+        }
+        drawPath(tray, tint, style = Stroke(width = stroke, cap = StrokeCap.Round, join = StrokeJoin.Round))
+    }
+
+    /** Two dots on vertical lines: the "confused with" / comparisons row icon. */
+    @Composable
+    fun Compare(
+        modifier: Modifier = Modifier,
+        tint: Color = LocalContentColor.current,
+        iconSize: Dp = 24.dp,
+        strokeWidth: Dp = 2.2.dp,
+    ) = Canvas(modifier = modifier.size(iconSize)) {
+        val scale = size.width / 24f
+        val stroke = strokeWidth.toPx()
+        drawLine(tint, Offset(6f * scale, 4f * scale), Offset(6f * scale, 14f * scale), stroke, StrokeCap.Round)
+        drawLine(tint, Offset(6f * scale, 20f * scale), Offset(6f * scale, 18f * scale), stroke, StrokeCap.Round)
+        drawLine(tint, Offset(18f * scale, 20f * scale), Offset(18f * scale, 10f * scale), stroke, StrokeCap.Round)
+        drawLine(tint, Offset(18f * scale, 4f * scale), Offset(18f * scale, 6f * scale), stroke, StrokeCap.Round)
+        drawCircle(tint, radius = 2.4f * scale, center = Offset(6f * scale, 17f * scale), style = Stroke(stroke))
+        drawCircle(tint, radius = 2.4f * scale, center = Offset(18f * scale, 7f * scale), style = Stroke(stroke))
     }
 }
 

@@ -3,56 +3,65 @@
     <!-- Common -->
     <string name="cd_back">Назад</string>
     <string name="cd_close">Закрыть</string>
+    <string name="cd_share">Поделиться</string>
     <string name="error_generic">Ошибка</string>
     <string name="error_retry">Повторить</string>
 
     <!-- TensesListScreen -->
-    <string name="tenses_list_title">Времена</string>
-    <string name="tenses_list_progress_count">%1$d из %2$d понятно</string>
+    <string name="tenses_list_title">English Tenses</string>
     <string name="tenses_list_cheatsheet_button">Шпаргалка</string>
-    <string name="tenses_list_comparisons_button">Сравнение</string>
-    <string name="tenses_list_quiz_button">Тест</string>
-    <string name="tenses_list_quiz_form">Формы</string>
-    <string name="tenses_list_quiz_marker">Маркеры</string>
-    <string name="tenses_list_quiz_discrimination">Какое время?</string>
-    <string name="tenses_list_quiz_mixed">Все вперемешку</string>
+    <string name="tenses_list_train_button">Тренировать</string>
     <string name="tenses_list_time_present">Настоящее</string>
     <string name="tenses_list_time_past">Прошедшее</string>
     <string name="tenses_list_time_future">Будущее</string>
+    <string name="tenses_list_all_learned">Все 12 времён пройдены</string>
+    <string name="tenses_list_confused_title">Что с чем путают</string>
     <string name="tenses_list_error_title">Не удалось загрузить времена</string>
     <string name="tenses_list_error_body">Проверьте соединение — данные лежат на устройстве, так что это должно быть быстро.</string>
+
+    <!-- Aspect semantics: shared across TensesListScreen, TenseDetailScreen, TenseCheatSheetScreen -->
+    <string name="tense_aspect_simple_label">ФАКТ</string>
+    <string name="tense_aspect_simple_description">Simple — это факт, привычка или законченное действие. Не важен ни процесс, ни результат «здесь и сейчас» — просто что происходит, происходило или произойдёт.</string>
+    <string name="tense_aspect_continuous_label">ПРОЦЕСС</string>
+    <string name="tense_aspect_continuous_description">Continuous — это процесс в развитии. Важно, что действие происходит, происходило или будет происходить в конкретный момент, а не то, чем оно закончилось.</string>
+    <string name="tense_aspect_perfect_label">РЕЗУЛЬТАТ</string>
+    <string name="tense_aspect_perfect_description">Perfect — это результат к моменту. Важна связь между двумя точками во времени и сам факт завершения действия, а не то, сколько оно длилось.</string>
+    <string name="tense_aspect_perfect_continuous_label">ДЛИТЕЛЬНОСТЬ</string>
+    <string name="tense_aspect_perfect_continuous_description">Perfect Continuous — это длительность процесса вплоть до момента. Важно, сколько действие уже длится, длилось или будет длиться, а не факт его завершения.</string>
 
     <!-- TenseDetailScreen -->
     <string name="tense_detail_label_affirmative">УТВЕРЖДЕНИЕ</string>
     <string name="tense_detail_label_negative">ОТРИЦАНИЕ</string>
     <string name="tense_detail_label_question">ВОПРОС</string>
     <string name="tense_detail_example_title">ПРИМЕР</string>
-    <string name="tense_detail_usage_title">КОГДА ИСПОЛЬЗУЕТСЯ</string>
-    <string name="tense_detail_more_examples_title">ЕЩЁ ПРИМЕРЫ</string>
-    <string name="tense_detail_markers_title">МАРКЕРЫ</string>
-    <string name="tense_detail_special_notes_title">ОСОБЕННОСТИ И ИСКЛЮЧЕНИЯ</string>
-    <string name="tense_detail_mistake_title">ТИПИЧНАЯ ОШИБКА</string>
-    <string name="tense_detail_confused_title">ЧАСТО ПУТАЮТ С</string>
-    <string name="tense_detail_compare_button">Сравнить времена →</string>
+    <string name="tense_detail_usage_title">Когда использовать</string>
+    <string name="tense_detail_markers_title">Маркеры</string>
+    <string name="tense_detail_special_notes_title">Особые случаи</string>
+    <string name="tense_detail_mistake_title">Частая ошибка</string>
+    <string name="tense_detail_confused_with_format">Путают с %1$s</string>
+    <string name="tense_detail_open_comparison">Открыть разбор пары</string>
     <string name="tense_detail_mark_learned">Я понял(а) это время</string>
     <string name="tense_detail_unmark_learned">Снять отметку</string>
 
     <!-- TenseComparisonsScreen -->
     <string name="tense_comparisons_title">Сравнение времён</string>
-    <string name="tense_comparisons_vs">vs</string>
+    <string name="tense_comparisons_vs">VS</string>
     <string name="tense_comparisons_error_title">Не удалось загрузить сравнения</string>
     <string name="tense_comparisons_error_body">Проверьте соединение — данные лежат на устройстве, так что это должно быть быстро.</string>
 
     <!-- TenseCheatSheetScreen -->
     <string name="tense_cheatsheet_title">Шпаргалка</string>
+    <string name="tense_cheatsheet_col_tense">ВРЕМЯ</string>
+    <string name="tense_cheatsheet_col_formula">УТВЕРЖДЕНИЕ</string>
     <string name="tense_cheatsheet_error_title">Не удалось загрузить шпаргалку</string>
     <string name="tense_cheatsheet_error_body">Проверьте соединение — данные лежат на устройстве, так что это должно быть быстро.</string>
 
     <!-- TensesQuizScreen -->
-    <string name="tenses_quiz_prompt_form">ЗАПОЛНИТЕ ПРОПУСК</string>
+    <string name="tenses_quiz_prompt_form">ПОСТАВЬТЕ ФОРМУ</string>
     <string name="tenses_quiz_prompt_marker">КАКОЕ ЭТО ВРЕМЯ?</string>
     <string name="tenses_quiz_prompt_discrimination">ВЫБЕРИТЕ ФОРМУ</string>
     <string name="tenses_quiz_prompt_mixed">ВОПРОС</string>
+    <string name="tenses_quiz_chip_marker">МАРКЕР</string>
     <string name="tenses_quiz_footer_hint">Выберите вариант — кнопка появится здесь</string>
     <string name="tenses_quiz_next">Дальше</string>
     <string name="tenses_quiz_progress_count">%1$d/%2$d</string>
@@ -65,7 +74,7 @@
     <string name="tenses_quiz_result_percent_correct">%1$d%% ВЕРНО</string>
     <string name="tenses_quiz_result_subtitle_perfect">Ни одной ошибки — сессия пройдена идеально!</string>
     <string name="tenses_quiz_tile_time_label">время</string>
-    <string name="tenses_quiz_tile_progress_label">к прогрессу</string>
+    <string name="tenses_quiz_tile_progress_label">верных</string>
     <string name="tenses_quiz_retry_mistakes">Пройти ошибки ещё раз</string>
     <string name="tenses_quiz_retry_again">Ещё раз</string>
     <string name="tenses_quiz_to_list">К временам</string>

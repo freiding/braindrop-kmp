@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -15,16 +14,15 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
@@ -62,11 +60,9 @@ import by.freiding.braindrop.core.ui.component.brainDropCard
 import by.freiding.braindrop.core.ui.icon.BrainDropIcons
 import by.freiding.braindrop.feature.tenses.Res
 import by.freiding.braindrop.feature.tenses.cd_close
-import by.freiding.braindrop.feature.tenses.domain.model.TenseQuizQuestion
 import by.freiding.braindrop.feature.tenses.domain.model.TenseQuizType
 import by.freiding.braindrop.feature.tenses.error_retry
 import by.freiding.braindrop.feature.tenses.presentation.common.formatTenseId
-import by.freiding.braindrop.feature.tenses.presentation.common.highlightedExample
 import by.freiding.braindrop.feature.tenses.tenses_quiz_empty_action
 import by.freiding.braindrop.feature.tenses.tenses_quiz_empty_body
 import by.freiding.braindrop.feature.tenses.tenses_quiz_empty_title
@@ -77,10 +73,6 @@ import by.freiding.braindrop.feature.tenses.tenses_quiz_mistake_row_format
 import by.freiding.braindrop.feature.tenses.tenses_quiz_mistakes_section_title
 import by.freiding.braindrop.feature.tenses.tenses_quiz_next
 import by.freiding.braindrop.feature.tenses.tenses_quiz_progress_count
-import by.freiding.braindrop.feature.tenses.tenses_quiz_prompt_discrimination
-import by.freiding.braindrop.feature.tenses.tenses_quiz_prompt_form
-import by.freiding.braindrop.feature.tenses.tenses_quiz_prompt_marker
-import by.freiding.braindrop.feature.tenses.tenses_quiz_prompt_mixed
 import by.freiding.braindrop.feature.tenses.tenses_quiz_result_percent_correct
 import by.freiding.braindrop.feature.tenses.tenses_quiz_result_subtitle_mistakes
 import by.freiding.braindrop.feature.tenses.tenses_quiz_result_subtitle_perfect
@@ -172,9 +164,11 @@ private fun QuizQuestionContent(
     onNext: () -> Unit,
 ) {
     val question = state.currentQuestion ?: return
+    val tense = state.tensesById[question.tenseId]
     val semanticsForSegments = BrainDropTheme.semantics
     val currentColor = MaterialTheme.colorScheme.primary
     val aheadColor = MaterialTheme.colorScheme.outline
+    val showMistake = state.isAnswered && state.selectedAnswer != question.correctAnswer
 
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
@@ -213,106 +207,45 @@ private fun QuizQuestionContent(
             )
         }
 
-        BoxWithConstraints(modifier = Modifier.weight(1f)) {
-            val minContentHeight = maxHeight
+        // The question pane is the only weighted child here, so it always gets exactly
+        // (available height - options/mistake card's natural height), regardless of whether that
+        // content is short (empty space stays inside the scrollable pane, under the card) or tall
+        // (the pane scrolls internally). Options never move when the mistake card appears below
+        // them — unlike a Spacer(weight(1f)) inside a verticalScroll'd Column sized via
+        // heightIn(min = ...), which only behaves once total content fits under that minimum and
+        // otherwise snaps to packed layout, jumping the options up right as the mistake card
+        // appears.
+        Column(modifier = Modifier.weight(1f).fillMaxWidth().padding(horizontal = 20.dp)) {
+            Spacer(Modifier.height(BrainDropTheme.spacing.xs))
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = minContentHeight)
-                    .padding(horizontal = 20.dp)
-                    .verticalScroll(rememberScrollState()),
+                modifier = Modifier.weight(1f).verticalScroll(rememberScrollState()),
             ) {
-                Spacer(Modifier.height(BrainDropTheme.spacing.xs))
-                QuestionCard(question = question, isAnswered = state.isAnswered)
-                if (state.isAnswered && state.selectedAnswer != question.correctAnswer) {
-                    Spacer(Modifier.height(BrainDropTheme.spacing.md))
-                    MistakeBreakdownCard(question = question)
-                }
-                Spacer(Modifier.weight(1f))
-                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    question.options.forEach { option ->
-                        val optionState = when {
-                            !state.isAnswered -> AnswerOptionState.IDLE
-                            option == question.correctAnswer -> AnswerOptionState.CORRECT
-                            option == state.selectedAnswer -> AnswerOptionState.WRONG_SELECTED
-                            else -> AnswerOptionState.MUTED
-                        }
-                        AnswerButton(text = option, state = optionState, onClick = { onAnswerSelected(option) })
-                    }
-                }
-                Spacer(Modifier.height(BrainDropTheme.spacing.sm))
+                QuestionCard(question = question, tense = tense)
             }
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                question.options.forEach { option ->
+                    val optionState = when {
+                        !state.isAnswered -> AnswerOptionState.IDLE
+                        option == question.correctAnswer -> AnswerOptionState.CORRECT
+                        option == state.selectedAnswer -> AnswerOptionState.WRONG_SELECTED
+                        else -> AnswerOptionState.MUTED
+                    }
+                    AnswerButton(
+                        text = option,
+                        state = optionState,
+                        mono = question.type != TenseQuizType.MARKER_MATCH,
+                        onClick = { onAnswerSelected(option) },
+                    )
+                }
+            }
+            if (showMistake) {
+                Spacer(Modifier.height(BrainDropTheme.spacing.md))
+                MistakeBreakdownCard(question = question, tense = tense)
+            }
+            Spacer(Modifier.height(BrainDropTheme.spacing.sm))
         }
 
         QuizFooter(isAnswered = state.isAnswered, onNext = onNext)
-    }
-}
-
-@Composable
-private fun QuestionCard(
-    question: TenseQuizQuestion,
-    isAnswered: Boolean,
-) {
-    val promptRes = when (question.type) {
-        TenseQuizType.FORM -> Res.string.tenses_quiz_prompt_form
-        TenseQuizType.MARKER_MATCH -> Res.string.tenses_quiz_prompt_marker
-        TenseQuizType.DISCRIMINATION -> Res.string.tenses_quiz_prompt_discrimination
-        TenseQuizType.MIXED_REVIEW -> Res.string.tenses_quiz_prompt_mixed
-    }
-    val semantics = BrainDropTheme.semantics
-    val horizontalPadding by animateFloatAsState(if (isAnswered) 22f else 26f)
-    val fontSize by animateFloatAsState(if (isAnswered) 30f else 34f)
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .brainDropCard(BrainDropTheme.shapes.xl)
-            .padding(horizontal = horizontalPadding.dp, vertical = horizontalPadding.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(text = stringResource(promptRes), style = BrainDropTheme.type.label, color = semantics.ink400)
-        Spacer(Modifier.height(BrainDropTheme.spacing.md))
-        Text(
-            text = question.questionText,
-            style = BrainDropTheme.type.display.copy(fontSize = fontSize.sp, lineHeight = (fontSize + 4).sp),
-            color = MaterialTheme.colorScheme.onSurface,
-            textAlign = TextAlign.Center,
-        )
-    }
-}
-
-@Composable
-private fun MistakeBreakdownCard(question: TenseQuizQuestion) {
-    val semantics = BrainDropTheme.semantics
-    val fullSentence = if (question.questionText.contains("___")) {
-        question.questionText.replace("___", question.correctAnswer)
-    } else {
-        question.questionText
-    }
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(semantics.mistakeCardSurface, BrainDropTheme.shapes.lg)
-            .padding(horizontal = 18.dp, vertical = BrainDropTheme.spacing.md),
-    ) {
-        Text(
-            text = formatTenseId(question.tenseId),
-            style = MaterialTheme.typography.titleSmall.copy(fontSize = 16.sp),
-            fontWeight = FontWeight.ExtraBold,
-            color = Color.White,
-        )
-        Spacer(Modifier.height(BrainDropTheme.spacing.xs))
-        Text(
-            text = question.explanation,
-            style = MaterialTheme.typography.bodyMedium,
-            color = semantics.mistakeCardMuted,
-        )
-        Spacer(Modifier.height(BrainDropTheme.spacing.sm))
-        Text(
-            text = highlightedExample(fullSentence, question.correctAnswer, semantics.mistakeCardAccent),
-            style = MaterialTheme.typography.bodyMedium,
-            color = semantics.mistakeCardHint,
-        )
     }
 }
 
@@ -355,6 +288,7 @@ private fun answerButtonPalette(state: AnswerOptionState): AnswerButtonPalette {
 private fun AnswerButton(
     text: String,
     state: AnswerOptionState,
+    mono: Boolean,
     onClick: () -> Unit,
 ) {
     val semantics = BrainDropTheme.semantics
@@ -397,8 +331,8 @@ private fun AnswerButton(
         }
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyLarge.copy(
-                fontSize = 16.sp,
+            style = (if (mono) BrainDropTheme.type.verbForms else MaterialTheme.typography.bodyLarge).copy(
+                fontSize = 15.5.sp,
                 fontWeight = if (state == AnswerOptionState.IDLE) FontWeight.SemiBold else FontWeight.ExtraBold,
             ),
             color = textColor.copy(alpha = textAlpha),
@@ -569,7 +503,7 @@ private fun ScoreSummaryCard(
                 modifier = Modifier.weight(1f),
             )
             ResultTile(
-                value = "+${state.score}",
+                value = "${state.score}",
                 caption = stringResource(Res.string.tenses_quiz_tile_progress_label),
                 valueColor = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.weight(1f),

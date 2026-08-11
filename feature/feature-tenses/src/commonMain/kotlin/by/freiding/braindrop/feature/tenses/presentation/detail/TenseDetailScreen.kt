@@ -5,16 +5,19 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -24,9 +27,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -45,8 +50,6 @@ import by.freiding.braindrop.feature.tenses.cd_back
 import by.freiding.braindrop.feature.tenses.domain.model.Tense
 import by.freiding.braindrop.feature.tenses.domain.model.TenseAspect
 import by.freiding.braindrop.feature.tenses.domain.model.TenseExample
-import by.freiding.braindrop.feature.tenses.domain.model.TenseFormExample
-import by.freiding.braindrop.feature.tenses.domain.model.TenseScenario
 import by.freiding.braindrop.feature.tenses.domain.model.TenseUsageCase
 import by.freiding.braindrop.feature.tenses.error_generic
 import by.freiding.braindrop.feature.tenses.error_retry
@@ -54,8 +57,7 @@ import by.freiding.braindrop.feature.tenses.presentation.common.aspectAccent
 import by.freiding.braindrop.feature.tenses.presentation.common.formatTenseId
 import by.freiding.braindrop.feature.tenses.presentation.common.highlightedExample
 import by.freiding.braindrop.feature.tenses.presentation.common.highlightedMarkers
-import by.freiding.braindrop.feature.tenses.tense_detail_compare_button
-import by.freiding.braindrop.feature.tenses.tense_detail_confused_title
+import by.freiding.braindrop.feature.tenses.tense_detail_confused_with_format
 import by.freiding.braindrop.feature.tenses.tense_detail_example_title
 import by.freiding.braindrop.feature.tenses.tense_detail_label_affirmative
 import by.freiding.braindrop.feature.tenses.tense_detail_label_negative
@@ -63,7 +65,7 @@ import by.freiding.braindrop.feature.tenses.tense_detail_label_question
 import by.freiding.braindrop.feature.tenses.tense_detail_mark_learned
 import by.freiding.braindrop.feature.tenses.tense_detail_markers_title
 import by.freiding.braindrop.feature.tenses.tense_detail_mistake_title
-import by.freiding.braindrop.feature.tenses.tense_detail_more_examples_title
+import by.freiding.braindrop.feature.tenses.tense_detail_open_comparison
 import by.freiding.braindrop.feature.tenses.tense_detail_special_notes_title
 import by.freiding.braindrop.feature.tenses.tense_detail_unmark_learned
 import by.freiding.braindrop.feature.tenses.tense_detail_usage_title
@@ -83,7 +85,8 @@ fun TenseDetailScreen(
         viewModel.effects.collect { effect ->
             when (effect) {
                 is TenseDetailUiEffect.NavigateBack -> navController.popBackStack()
-                is TenseDetailUiEffect.NavigateToComparisons -> navController.navigate(Routes.TenseComparisons)
+                is TenseDetailUiEffect.NavigateToComparisons ->
+                    navController.navigate(Routes.TenseComparisons(effect.comparisonId))
             }
         }
     }
@@ -114,21 +117,50 @@ fun TenseDetailScreen(
                                 .verticalScroll(rememberScrollState())
                                 .padding(horizontal = 20.dp)
                                 .padding(bottom = 96.dp),
-                            verticalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.md),
+                            verticalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.sm),
                         ) {
                             FormulasCard(tense = tense)
                             AspectAccentCard(aspect = tense.aspect)
-                            UsageCasesCard(cases = tense.usageCases)
-                            OtherExamplesCard(scenarios = tense.scenarios)
-                            MarkersCard(tense = tense)
+                            ExampleCard(tense = tense)
+
+                            UsageSectionRow(
+                                cases = tense.usageCases,
+                                expanded = TenseDetailSection.USAGE in state.expandedSections,
+                                onToggle = {
+                                    viewModel.onEvent(TenseDetailUiEvent.SectionToggled(TenseDetailSection.USAGE))
+                                },
+                            )
+                            MarkersSectionRow(
+                                tense = tense,
+                                expanded = TenseDetailSection.MARKERS in state.expandedSections,
+                                onToggle = {
+                                    viewModel.onEvent(TenseDetailUiEvent.SectionToggled(TenseDetailSection.MARKERS))
+                                },
+                            )
                             if (tense.specialNotes.isNotEmpty()) {
-                                SpecialNotesCard(notes = tense.specialNotes)
+                                SpecialNotesSectionRow(
+                                    notes = tense.specialNotes,
+                                    expanded = TenseDetailSection.SPECIAL_NOTES in state.expandedSections,
+                                    onToggle = {
+                                        viewModel.onEvent(
+                                            TenseDetailUiEvent.SectionToggled(TenseDetailSection.SPECIAL_NOTES),
+                                        )
+                                    },
+                                )
                             }
-                            MistakeCard(text = tense.commonMistake)
-                            if (tense.confusedWith.isNotEmpty()) {
+                            MistakeSectionRow(
+                                text = tense.commonMistake,
+                                expanded = TenseDetailSection.MISTAKE in state.expandedSections,
+                                onToggle = {
+                                    viewModel.onEvent(TenseDetailUiEvent.SectionToggled(TenseDetailSection.MISTAKE))
+                                },
+                            )
+                            state.confusedComparisons.forEach { confused ->
                                 ConfusedWithRow(
-                                    ids = tense.confusedWith,
-                                    onClick = { viewModel.onEvent(TenseDetailUiEvent.ComparisonsClicked) },
+                                    partnerTitle = formatTenseId(confused.partnerTenseId),
+                                    onClick = {
+                                        viewModel.onEvent(TenseDetailUiEvent.ComparisonClicked(confused.comparisonId))
+                                    },
                                 )
                             }
                         }
@@ -167,18 +199,25 @@ private fun DetailHeader(
         }
         Spacer(Modifier.weight(1f))
         if (tense != null) {
+            val aspectName = tense.aspect.name
             Row(
                 modifier = Modifier
                     .height(30.dp)
-                    .background(semantics.tenseTimeSurface(tense.time.name), RoundedCornerShape(15.dp))
+                    .background(semantics.aspectSurface(aspectName), BrainDropTheme.shapes.md)
                     .padding(horizontal = BrainDropTheme.spacing.sm),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                horizontalArrangement = Arrangement.spacedBy(7.dp),
             ) {
+                Box(
+                    modifier = Modifier
+                        .width(7.dp)
+                        .height(7.dp)
+                        .background(semantics.aspectColor(aspectName), BrainDropTheme.shapes.chip),
+                )
                 Text(
-                    text = tense.titleEn,
-                    style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.sp, fontWeight = FontWeight.Bold),
-                    color = semantics.tenseTimeColor(tense.time.name),
+                    text = "${aspectName.replace('_', ' ')} · ${aspectAccent(tense.aspect).label}",
+                    style = BrainDropTheme.type.label.copy(fontSize = 11.5.sp, letterSpacing = 0.6.sp),
+                    color = semantics.aspectInk(aspectName),
                 )
             }
         }
@@ -187,70 +226,64 @@ private fun DetailHeader(
 
 @Composable
 private fun FormulasCard(tense: Tense) {
+    val semantics = BrainDropTheme.semantics
+    val aspectName = tense.aspect.name
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.primaryContainer, BrainDropTheme.shapes.xl)
-            .padding(top = 22.dp, start = 20.dp, end = 20.dp, bottom = BrainDropTheme.spacing.md),
+            .background(semantics.aspectSurface(aspectName), BrainDropTheme.shapes.xl)
+            .padding(top = 20.dp, start = 20.dp, end = 20.dp, bottom = 16.dp),
     ) {
         Text(
             text = tense.titleEn,
-            style = BrainDropTheme.type.display.copy(fontSize = 28.sp, lineHeight = 30.sp),
+            style = BrainDropTheme.type.display.copy(
+                fontSize = 27.sp,
+                lineHeight = 29.7.sp,
+                letterSpacing = (-0.675).sp,
+            ),
             color = MaterialTheme.colorScheme.onSurface,
         )
-        Spacer(Modifier.height(BrainDropTheme.spacing.xs))
         Text(
             text = tense.titleRu,
-            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 15.5.sp),
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 15.sp),
+            color = semantics.aspectInk(aspectName),
+            modifier = Modifier.padding(top = 7.dp),
         )
-        Spacer(Modifier.height(18.dp))
-        HorizontalDivider(color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.16f))
+        HorizontalDivider(
+            color = semantics.aspectInk(aspectName).copy(alpha = 0.16f),
+            modifier = Modifier.padding(top = 16.dp, bottom = 2.dp),
+        )
 
-        FormulaRow(stringResource(Res.string.tense_detail_label_affirmative), tense.formulas.affirmative)
-        HorizontalDivider(color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.12f))
-        FormulaRow(stringResource(Res.string.tense_detail_label_negative), tense.formulas.negative)
-        HorizontalDivider(color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.12f))
-        FormulaRow(stringResource(Res.string.tense_detail_label_question), tense.formulas.question)
-        HorizontalDivider(color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.16f))
-
-        Spacer(Modifier.height(BrainDropTheme.spacing.md))
-        Text(
-            text = stringResource(Res.string.tense_detail_example_title),
-            style = BrainDropTheme.type.label,
-            color = BrainDropTheme.semantics.formsLabelInk,
+        FormulaBlock(
+            stringResource(Res.string.tense_detail_label_affirmative),
+            tense.formulas.affirmative,
+            aspectName,
         )
-        Spacer(Modifier.height(BrainDropTheme.spacing.xxs))
-        Text(
-            text = highlightedExample(
-                tense.formExample.english,
-                tense.formExample.highlight,
-                MaterialTheme.colorScheme.primary,
-            ),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurface,
-        )
-        Text(
-            text = tense.formExample.russian,
-            style = BrainDropTheme.type.translation,
-            color = BrainDropTheme.semantics.ink500,
-            modifier = Modifier.padding(top = 4.dp),
-        )
+        HorizontalDivider(color = semantics.aspectInk(aspectName).copy(alpha = 0.13f))
+        FormulaBlock(stringResource(Res.string.tense_detail_label_negative), tense.formulas.negative, aspectName)
+        HorizontalDivider(color = semantics.aspectInk(aspectName).copy(alpha = 0.13f))
+        FormulaBlock(stringResource(Res.string.tense_detail_label_question), tense.formulas.question, aspectName)
     }
 }
 
 @Composable
-private fun FormulaRow(
+private fun FormulaBlock(
     label: String,
     formula: String,
+    aspectName: String,
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = BrainDropTheme.spacing.sm),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(text = label, style = BrainDropTheme.type.label, color = BrainDropTheme.semantics.formsLabelInk)
-        Text(text = formula, style = BrainDropTheme.type.verbForms, color = MaterialTheme.colorScheme.onSurface)
+    Column(modifier = Modifier.fillMaxWidth().padding(vertical = 11.dp)) {
+        Text(
+            text = label,
+            style = BrainDropTheme.type.label.copy(fontSize = 10.sp, letterSpacing = 0.85.sp),
+            color = BrainDropTheme.semantics.aspectMutedInk(aspectName),
+        )
+        Text(
+            text = formula,
+            style = BrainDropTheme.type.verbForms.copy(fontSize = 16.sp, fontWeight = FontWeight.SemiBold),
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.padding(top = 6.dp),
+        )
     }
 }
 
@@ -261,17 +294,17 @@ private fun AspectAccentCard(aspect: TenseAspect) {
         modifier = Modifier
             .fillMaxWidth()
             .brainDropCard(BrainDropTheme.shapes.xl)
-            .padding(horizontal = 20.dp, vertical = 18.dp),
+            .padding(horizontal = 20.dp, vertical = 16.dp),
     ) {
         Text(
             text = accent.label,
             style = BrainDropTheme.type.label,
-            color = MaterialTheme.colorScheme.primary,
+            color = BrainDropTheme.semantics.aspectColor(aspect.name),
         )
-        Spacer(Modifier.height(BrainDropTheme.spacing.xs))
+        Spacer(Modifier.height(9.dp))
         Text(
             text = accent.description,
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 14.5.sp),
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurface,
         )
@@ -279,141 +312,190 @@ private fun AspectAccentCard(aspect: TenseAspect) {
 }
 
 @Composable
-private fun UsageCasesCard(cases: List<TenseUsageCase>) {
+private fun ExampleCard(tense: Tense) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .brainDropCard(BrainDropTheme.shapes.xl)
-            .padding(horizontal = 20.dp, vertical = 18.dp),
+            .padding(horizontal = 20.dp, vertical = 16.dp),
     ) {
         Text(
-            text = stringResource(Res.string.tense_detail_usage_title),
+            text = stringResource(Res.string.tense_detail_example_title),
             style = BrainDropTheme.type.label,
             color = BrainDropTheme.semantics.ink400,
         )
-        Spacer(Modifier.height(BrainDropTheme.spacing.md))
-        cases.forEachIndexed { index, case ->
-            Text(
-                text = case.description,
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-            Row(modifier = Modifier.padding(top = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(modifier = Modifier.width(2.dp).height(28.dp).background(MaterialTheme.colorScheme.outline))
-                Column(modifier = Modifier.padding(start = 11.dp)) {
-                    Text(
-                        text = case.example.english,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    Text(
-                        text = case.example.russian,
-                        style = BrainDropTheme.type.translation,
-                        color = BrainDropTheme.semantics.ink500,
-                    )
-                }
-            }
-            if (index != cases.lastIndex) Spacer(Modifier.height(BrainDropTheme.spacing.sm))
-        }
-    }
-}
-
-@Composable
-private fun OtherExamplesCard(scenarios: Map<TenseScenario, TenseFormExample>) {
-    val extra = scenarios.filterKeys { it != TenseScenario.READ_BOOK }.values.toList()
-    if (extra.isEmpty()) return
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .brainDropCard(BrainDropTheme.shapes.xl)
-            .padding(horizontal = 20.dp, vertical = 18.dp),
-    ) {
         Text(
-            text = stringResource(Res.string.tense_detail_more_examples_title),
-            style = BrainDropTheme.type.label,
-            color = BrainDropTheme.semantics.ink400,
+            text = highlightedExample(
+                tense.formExample.english,
+                tense.formExample.highlight,
+                BrainDropTheme.semantics.aspectColor(tense.aspect.name),
+            ),
+            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 15.sp),
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.padding(top = 10.dp),
         )
-        Spacer(Modifier.height(BrainDropTheme.spacing.md))
-        extra.forEachIndexed { index, example ->
+        Row(modifier = Modifier.padding(top = 6.dp).height(IntrinsicSize.Min)) {
+            Box(modifier = Modifier.fillMaxHeight().width(2.dp).background(MaterialTheme.colorScheme.outline))
             Text(
-                text = highlightedExample(example.english, example.highlight, MaterialTheme.colorScheme.primary),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-            Text(
-                text = example.russian,
-                style = BrainDropTheme.type.translation,
+                text = tense.formExample.russian,
+                style = BrainDropTheme.type.translation.copy(fontSize = 13.sp),
                 color = BrainDropTheme.semantics.ink500,
+                modifier = Modifier.padding(start = 11.dp),
             )
-            if (index != extra.lastIndex) Spacer(Modifier.height(BrainDropTheme.spacing.sm))
         }
     }
 }
 
 @Composable
-private fun SpecialNotesCard(notes: List<TenseUsageCase>) {
-    val semantics = BrainDropTheme.semantics
+private fun DetailSectionCard(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    background: Color = MaterialTheme.colorScheme.surface,
+    withShadow: Boolean = true,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    val shape = BrainDropTheme.shapes.lg
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .background(semantics.streakTint, BrainDropTheme.shapes.xl)
-            .padding(horizontal = 20.dp, vertical = 18.dp),
-    ) {
+            .then(
+                if (withShadow) {
+                    Modifier.brainDropCard(shape)
+                } else {
+                    Modifier.clip(shape).background(background, shape)
+                },
+            ).clickable(onClick = onClick)
+            .padding(horizontal = 18.dp, vertical = 15.dp),
+        content = content,
+    )
+}
+
+@Composable
+private fun SectionHeaderRow(
+    title: String,
+    titleColor: Color = MaterialTheme.colorScheme.onSurface,
+    chevronColor: Color = BrainDropTheme.semantics.ink400,
+    expanded: Boolean = false,
+    showChevron: Boolean = true,
+    leading: (@Composable () -> Unit)? = null,
+    trailing: (@Composable () -> Unit)? = null,
+) {
+    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        leading?.invoke()
         Text(
-            text = stringResource(Res.string.tense_detail_special_notes_title),
-            style = BrainDropTheme.type.label,
-            color = semantics.streakInk,
+            text = title,
+            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 14.5.sp, fontWeight = FontWeight.Bold),
+            color = titleColor,
+            modifier = Modifier.weight(1f),
         )
-        Spacer(Modifier.height(BrainDropTheme.spacing.md))
-        notes.forEachIndexed { index, note ->
-            Text(
-                text = note.description,
-                style = MaterialTheme.typography.bodyMedium,
-                color = semantics.streakInk,
-            )
-            Row(modifier = Modifier.padding(top = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(modifier = Modifier.width(2.dp).height(20.dp).background(semantics.streakInk.copy(alpha = 0.35f)))
-                Column(modifier = Modifier.padding(start = 11.dp)) {
+        trailing?.invoke()
+        if (showChevron) {
+            if (expanded) {
+                BrainDropIcons.ChevronUp(iconSize = 16.dp, tint = chevronColor)
+            } else {
+                BrainDropIcons.ChevronDown(iconSize = 16.dp, tint = chevronColor)
+            }
+        } else {
+            BrainDropIcons.ChevronRight(iconSize = 16.dp, tint = chevronColor)
+        }
+    }
+}
+
+@Composable
+private fun UsageCaseItem(case: TenseUsageCase) {
+    Column {
+        Text(
+            text = case.description,
+            style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp, fontWeight = FontWeight.Bold),
+            color = MaterialTheme.colorScheme.onSurface,
+        )
+        Row(modifier = Modifier.padding(top = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+            Box(modifier = Modifier.width(2.dp).height(28.dp).background(MaterialTheme.colorScheme.outline))
+            Column(modifier = Modifier.padding(start = 11.dp)) {
+                Text(
+                    text = case.example.english,
+                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 13.5.sp),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Text(
+                    text = case.example.russian,
+                    style = BrainDropTheme.type.translation.copy(fontSize = 12.5.sp),
+                    color = BrainDropTheme.semantics.ink500,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun UsageSectionRow(
+    cases: List<TenseUsageCase>,
+    expanded: Boolean,
+    onToggle: () -> Unit,
+) {
+    DetailSectionCard(onClick = onToggle) {
+        SectionHeaderRow(
+            title = stringResource(Res.string.tense_detail_usage_title),
+            expanded = expanded,
+            trailing = {
+                Text(
+                    text = "${cases.size}",
+                    style = BrainDropTheme.type.counter,
+                    color = BrainDropTheme.semantics.ink400,
+                )
+            },
+        )
+        val visibleCases = if (expanded) cases else cases.take(1)
+        Column(
+            modifier = Modifier.padding(top = BrainDropTheme.spacing.sm),
+            verticalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.sm),
+        ) {
+            visibleCases.forEach { case -> UsageCaseItem(case) }
+        }
+    }
+}
+
+@Composable
+private fun MarkersSectionRow(
+    tense: Tense,
+    expanded: Boolean,
+    onToggle: () -> Unit,
+) {
+    DetailSectionCard(onClick = onToggle) {
+        SectionHeaderRow(
+            title = stringResource(Res.string.tense_detail_markers_title),
+            expanded = expanded,
+            trailing = if (!expanded) {
+                {
                     Text(
-                        text = note.example.english,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = semantics.streakInk,
-                    )
-                    Text(
-                        text = note.example.russian,
-                        style = BrainDropTheme.type.translation,
-                        color = semantics.streakInk.copy(alpha = 0.75f),
+                        text = markersPreview(tense.markers),
+                        style = BrainDropTheme.type.verbForms.copy(fontSize = 12.sp),
+                        color = BrainDropTheme.semantics.ink400,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.widthIn(max = 150.dp),
                     )
                 }
+            } else {
+                null
+            },
+        )
+        if (expanded) {
+            Column(modifier = Modifier.padding(top = BrainDropTheme.spacing.sm)) {
+                MarkerChipsRow(tense.markers)
+                Spacer(Modifier.height(BrainDropTheme.spacing.md))
+                tense.markerExamples.forEachIndexed { index, example ->
+                    MarkerExampleRow(example, tense.markers)
+                    if (index != tense.markerExamples.lastIndex) Spacer(Modifier.height(BrainDropTheme.spacing.sm))
+                }
             }
-            if (index != notes.lastIndex) Spacer(Modifier.height(BrainDropTheme.spacing.sm))
         }
     }
 }
 
-@Composable
-private fun MarkersCard(tense: Tense) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .brainDropCard(BrainDropTheme.shapes.xl)
-            .padding(horizontal = 20.dp, vertical = 18.dp),
-    ) {
-        Text(
-            text = stringResource(Res.string.tense_detail_markers_title),
-            style = BrainDropTheme.type.label,
-            color = BrainDropTheme.semantics.ink400,
-        )
-        Spacer(Modifier.height(BrainDropTheme.spacing.sm))
-        MarkerChipsRow(tense.markers)
-        Spacer(Modifier.height(BrainDropTheme.spacing.md))
-        tense.markerExamples.forEachIndexed { index, example ->
-            MarkerExampleRow(example, tense.markers)
-            if (index != tense.markerExamples.lastIndex) Spacer(Modifier.height(BrainDropTheme.spacing.sm))
-        }
-    }
+private fun markersPreview(markers: List<String>): String {
+    val head = markers.take(3).joinToString(" · ")
+    return if (markers.size > 3) "$head · …" else head
 }
 
 @Composable
@@ -458,62 +540,76 @@ private fun MarkerExampleRow(
 }
 
 @Composable
-private fun MistakeCard(text: String) {
-    val semantics = BrainDropTheme.semantics
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(semantics.incorrectTint, BrainDropTheme.shapes.xl)
-            .padding(horizontal = 20.dp, vertical = 18.dp),
-    ) {
-        Text(
-            text = stringResource(Res.string.tense_detail_mistake_title),
-            style = BrainDropTheme.type.label,
-            color = semantics.incorrectInk,
+private fun SpecialNotesSectionRow(
+    notes: List<TenseUsageCase>,
+    expanded: Boolean,
+    onToggle: () -> Unit,
+) {
+    DetailSectionCard(onClick = onToggle) {
+        SectionHeaderRow(
+            title = stringResource(Res.string.tense_detail_special_notes_title),
+            expanded = expanded,
+            trailing = {
+                Text(
+                    text = "${notes.size}",
+                    style = BrainDropTheme.type.counter,
+                    color = BrainDropTheme.semantics.ink400,
+                )
+            },
         )
-        Spacer(Modifier.height(BrainDropTheme.spacing.xs))
-        Text(text = text, style = MaterialTheme.typography.bodyMedium, color = semantics.incorrectInk)
+        if (expanded) {
+            Column(
+                modifier = Modifier.padding(top = BrainDropTheme.spacing.sm),
+                verticalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.sm),
+            ) {
+                notes.forEach { note -> UsageCaseItem(note) }
+            }
+        }
+    }
+}
+
+@Composable
+private fun MistakeSectionRow(
+    text: String,
+    expanded: Boolean,
+    onToggle: () -> Unit,
+) {
+    val semantics = BrainDropTheme.semantics
+    DetailSectionCard(onClick = onToggle, background = semantics.incorrectTint, withShadow = false) {
+        SectionHeaderRow(
+            title = stringResource(Res.string.tense_detail_mistake_title),
+            titleColor = semantics.incorrectInk,
+            chevronColor = semantics.incorrectInk.copy(alpha = 0.55f),
+            expanded = expanded,
+            leading = { BrainDropIcons.Alert(iconSize = 18.dp, tint = semantics.incorrect) },
+        )
+        if (expanded) {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.bodyMedium,
+                color = semantics.incorrectInk,
+                modifier = Modifier.padding(top = BrainDropTheme.spacing.xs),
+            )
+        }
     }
 }
 
 @Composable
 private fun ConfusedWithRow(
-    ids: List<String>,
+    partnerTitle: String,
     onClick: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .brainDropCard(BrainDropTheme.shapes.xl)
-            .clickable(onClick = onClick)
-            .padding(horizontal = 20.dp, vertical = 16.dp),
-    ) {
-        Text(
-            text = stringResource(Res.string.tense_detail_confused_title),
-            style = BrainDropTheme.type.label,
-            color = BrainDropTheme.semantics.ink400,
-        )
-        Spacer(Modifier.height(BrainDropTheme.spacing.xs))
-        Row(horizontalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.xxs)) {
-            ids.forEach { id ->
-                Box(
-                    modifier = Modifier
-                        .background(MaterialTheme.colorScheme.primaryContainer, BrainDropTheme.shapes.chip)
-                        .padding(horizontal = BrainDropTheme.spacing.sm, vertical = 5.dp),
-                ) {
-                    Text(
-                        text = formatTenseId(id),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    )
-                }
-            }
-        }
-        Spacer(Modifier.height(BrainDropTheme.spacing.xs))
-        Text(
-            text = stringResource(Res.string.tense_detail_compare_button),
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.primary,
+    DetailSectionCard(onClick = onClick) {
+        SectionHeaderRow(
+            title = stringResource(Res.string.tense_detail_confused_with_format, partnerTitle),
+            showChevron = false,
+            trailing = {
+                Text(
+                    text = stringResource(Res.string.tense_detail_open_comparison),
+                    style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.sp),
+                    color = BrainDropTheme.semantics.ink400,
+                )
+            },
         )
     }
 }

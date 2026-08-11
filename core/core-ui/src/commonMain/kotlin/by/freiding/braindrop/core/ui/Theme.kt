@@ -226,6 +226,57 @@ data class BrainDropSemantics(
             else -> Color(0xFFFBF0E4) // FUTURE
         }
 
+    /**
+     * Aspect color: the tenses module's hard axis (Simple / Continuous / Perfect / Perfect
+     * Continuous) gets the color; time (Present / Past / Future) is read from grouping and the
+     * tab instead. Used for the 4dp stripe in the list row, the dot in the cheat sheet, and the
+     * accent in the detail example. Takes TenseAspect.name (String) so core-ui doesn't depend on
+     * the feature module — same convention as tenseTimeColor(time: String) above.
+     */
+    fun aspectColor(aspect: String): Color =
+        when (aspect) {
+            "SIMPLE" -> Color(0xFF0F7F73)
+            "CONTINUOUS" -> Color(0xFF5257D3)
+            "PERFECT" -> Color(0xFFC2620F)
+            else -> Color(0xFFA03D86) // PERFECT_CONTINUOUS
+        }
+
+    /** Background of the formulas card on the detail screen, the aspect chip, and the comparison side panel. */
+    fun aspectSurface(aspect: String): Color =
+        when (aspect) {
+            "SIMPLE" -> Color(0xFFE9F4F3)
+            "CONTINUOUS" -> Color(0xFFEEEEFB)
+            "PERFECT" -> Color(0xFFFBF0E4)
+            else -> Color(0xFFF8EAF5)
+        }
+
+    /** Text on aspectSurface: titleRu in the formulas card, the chip and panel headers. */
+    fun aspectInk(aspect: String): Color =
+        when (aspect) {
+            "SIMPLE" -> Color(0xFF0B5E55)
+            "CONTINUOUS" -> Color(0xFF33359B)
+            "PERFECT" -> Color(0xFF8A4A0B)
+            else -> Color(0xFF78295F)
+        }
+
+    /** Muted text on aspectSurface: formula labels, comparison bullet points. */
+    fun aspectMutedInk(aspect: String): Color =
+        when (aspect) {
+            "SIMPLE" -> Color(0xFF3E7C76)
+            "CONTINUOUS" -> Color(0xFF5A5EA8)
+            "PERFECT" -> Color(0xFF9C6220)
+            else -> Color(0xFF944E80)
+        }
+
+    /** Short column label in the tense matrix map: S / C / P / PC. */
+    fun aspectShortLabel(aspect: String): String =
+        when (aspect) {
+            "SIMPLE" -> "S"
+            "CONTINUOUS" -> "C"
+            "PERFECT" -> "P"
+            else -> "PC"
+        }
+
     private enum class Family { AAA, ABB, ABC }
 
     private fun family(group: String): Family =

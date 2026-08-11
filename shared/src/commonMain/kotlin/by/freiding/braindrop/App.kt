@@ -84,8 +84,9 @@ fun App() {
                         val route = backStackEntry.toRoute<Routes.TenseDetail>()
                         TenseDetailScreen(tenseId = route.tenseId, navController = navController)
                     }
-                    composable<Routes.TenseComparisons> {
-                        TenseComparisonsScreen(navController)
+                    composable<Routes.TenseComparisons> { backStackEntry ->
+                        val route = backStackEntry.toRoute<Routes.TenseComparisons>()
+                        TenseComparisonsScreen(initialComparisonId = route.comparisonId, navController = navController)
                     }
                     composable<Routes.TenseCheatSheet> {
                         TenseCheatSheetScreen(navController)

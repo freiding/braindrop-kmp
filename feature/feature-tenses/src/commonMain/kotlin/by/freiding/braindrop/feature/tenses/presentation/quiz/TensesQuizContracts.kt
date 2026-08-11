@@ -1,5 +1,6 @@
 package by.freiding.braindrop.feature.tenses.presentation.quiz
 
+import by.freiding.braindrop.feature.tenses.domain.model.Tense
 import by.freiding.braindrop.feature.tenses.domain.model.TenseQuizQuestion
 
 /** One wrong answer from the session — the question plus what the user picked (for review on the result screen). */
@@ -21,6 +22,13 @@ data class TensesQuizUiState(
     val mistakes: List<TenseQuizMistake> = emptyList(),
     val elapsedSeconds: Int = 0,
     val streakDays: Int = 0,
+    /**
+     * Full tense data keyed by id, fetched alongside the quiz session so the question card can
+     * show the tense's aspect color and recover the marker word / Russian translation of a quiz
+     * sentence by matching it back to the tense's own scenarios — without the domain layer (which
+     * this redesign leaves untouched) needing to carry that extra data on [TenseQuizQuestion].
+     */
+    val tensesById: Map<String, Tense> = emptyMap(),
 ) {
     val currentQuestion: TenseQuizQuestion? get() = questions.getOrNull(currentIndex)
     val isAnswered: Boolean get() = selectedAnswer != null

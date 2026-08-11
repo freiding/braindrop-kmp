@@ -33,9 +33,9 @@ val tensesModule = module {
     factory { SubmitTenseQuizAnswerUseCase(get()) }
     factory { GetStreakDaysUseCase(get()) }
 
-    viewModel { TensesListViewModel(get()) }
-    viewModel { (tenseId: String) -> TenseDetailViewModel(tenseId, get(), get()) }
-    viewModel { TenseComparisonsViewModel(get()) }
+    viewModel { TensesListViewModel(get(), get()) }
+    viewModel { (tenseId: String) -> TenseDetailViewModel(tenseId, get(), get(), get()) }
+    viewModel { (comparisonId: String?) -> TenseComparisonsViewModel(comparisonId, get(), get()) }
     viewModel { TenseCheatSheetViewModel(get()) }
-    viewModel { (quizType: TenseQuizType) -> TensesQuizViewModel(quizType, get(), get(), get()) }
+    viewModel { (quizType: TenseQuizType) -> TensesQuizViewModel(quizType, get(), get(), get(), get()) }
 }

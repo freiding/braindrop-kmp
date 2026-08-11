@@ -13,4 +13,18 @@
         <item quantity="many">Разберите %1$d ошибок ниже — это быстро</item>
         <item quantity="other">Разберите %1$d ошибки ниже — это быстро</item>
     </plurals>
+
+    <plurals name="tenses_list_remaining">
+        <item quantity="one">Ещё %1$d время до полной картины</item>
+        <item quantity="few">Ещё %1$d времени до полной картины</item>
+        <item quantity="many">Ещё %1$d времён до полной картины</item>
+        <item quantity="other">Ещё %1$d времени до полной картины</item>
+    </plurals>
+
+    <plurals name="tenses_list_confused_subtitle">
+        <item quantity="one">%1$d разбор пары</item>
+        <item quantity="few">%1$d разбора пар</item>
+        <item quantity="many">%1$d разборов пар</item>
+        <item quantity="other">%1$d разбора пар</item>
+    </plurals>
 </resources>

@@ -6,6 +6,7 @@ import by.freiding.braindrop.core.common.Result
 import by.freiding.braindrop.feature.tenses.domain.model.TenseQuizType
 import by.freiding.braindrop.feature.tenses.domain.usecase.GenerateTenseQuizUseCase
 import by.freiding.braindrop.feature.tenses.domain.usecase.GetStreakDaysUseCase
+import by.freiding.braindrop.feature.tenses.domain.usecase.GetTensesUseCase
 import by.freiding.braindrop.feature.tenses.domain.usecase.SubmitTenseQuizAnswerUseCase
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -23,6 +24,7 @@ class TensesQuizViewModel(
     private val generateQuiz: GenerateTenseQuizUseCase,
     private val submitAnswer: SubmitTenseQuizAnswerUseCase,
     private val getStreakDays: GetStreakDaysUseCase,
+    private val getTenses: GetTensesUseCase,
 ) : ViewModel() {
     private val _state = MutableStateFlow(TensesQuizUiState())
     val state: StateFlow<TensesQuizUiState> = _state.asStateFlow()
@@ -96,6 +98,10 @@ class TensesQuizViewModel(
         tickerJob?.cancel()
         viewModelScope.launch {
             _state.update { TensesQuizUiState(isLoading = true) }
+            val tensesById = (getTenses() as? Result.Success)
+                ?.data
+                ?.associate { it.tense.id to it.tense }
+                .orEmpty()
             when (val result = generateQuiz(quizType, restrictToTenseIds = restrictToTenseIds)) {
                 is Result.Success -> {
                     _state.update {
@@ -103,6 +109,7 @@ class TensesQuizViewModel(
                             isLoading = false,
                             questions = result.data,
                             answerHistory = List(result.data.size) { null },
+                            tensesById = tensesById,
                         )
                     }
                     if (result.data.isNotEmpty()) startTicker()

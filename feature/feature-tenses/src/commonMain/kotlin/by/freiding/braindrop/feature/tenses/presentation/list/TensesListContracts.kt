@@ -7,13 +7,12 @@ data class TensesListUiState(
     val isLoading: Boolean = true,
     val tenses: List<TenseWithProgress> = emptyList(),
     val learnedCount: Int = 0,
+    val comparisonsCount: Int = 0,
+    val selectedTime: TenseTime = TenseTime.PRESENT,
     val error: String? = null,
 ) {
-    val groupedByTime: List<Pair<TenseTime, List<TenseWithProgress>>> by lazy {
-        TenseTime.entries.mapNotNull { time ->
-            val items = tenses.filter { it.tense.time == time }
-            if (items.isNotEmpty()) time to items else null
-        }
+    val tensesForSelectedTime: List<TenseWithProgress> by lazy {
+        tenses.filter { it.tense.time == selectedTime }
     }
 }
 
@@ -26,9 +25,7 @@ sealed class TensesListUiEffect {
 
     data object NavigateToCheatSheet : TensesListUiEffect()
 
-    data class NavigateToQuiz(
-        val mode: String,
-    ) : TensesListUiEffect()
+    data object NavigateToQuiz : TensesListUiEffect()
 
     data object NavigateBack : TensesListUiEffect()
 }
@@ -38,13 +35,15 @@ sealed class TensesListUiEvent {
         val tenseId: String,
     ) : TensesListUiEvent()
 
-    data object ComparisonsClicked : TensesListUiEvent()
+    data class TimeTabSelected(
+        val time: TenseTime,
+    ) : TensesListUiEvent()
+
+    data object ConfusedWithClicked : TensesListUiEvent()
 
     data object CheatSheetClicked : TensesListUiEvent()
 
-    data class StartQuiz(
-        val mode: String,
-    ) : TensesListUiEvent()
+    data object TrainClicked : TensesListUiEvent()
 
     data object NavigateBack : TensesListUiEvent()
 }
