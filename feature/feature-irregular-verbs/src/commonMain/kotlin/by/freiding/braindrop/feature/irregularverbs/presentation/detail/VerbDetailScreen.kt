@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -98,6 +100,7 @@ fun VerbDetailScreen(
                                 .fillMaxSize()
                                 .verticalScroll(rememberScrollState())
                                 .padding(horizontal = 20.dp)
+                                .navigationBarsPadding()
                                 .padding(bottom = 96.dp),
                             verticalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.md),
                         ) {
@@ -113,7 +116,7 @@ fun VerbDetailScreen(
             LearnButtonBar(
                 isLearned = state.verbWithProgress!!.progress.isLearned,
                 onToggle = { viewModel.onEvent(VerbDetailUiEvent.ToggleLearned) },
-                modifier = Modifier.align(Alignment.BottomCenter),
+                modifier = Modifier.align(Alignment.BottomCenter).navigationBarsPadding(),
             )
         }
     }
@@ -126,12 +129,15 @@ private fun DetailHeader(
 ) {
     val semantics = BrainDropTheme.semantics
     Row(
-        modifier = Modifier.fillMaxWidth().padding(
-            start = BrainDropTheme.spacing.xxs,
-            end = BrainDropTheme.spacing.sm,
-            top = BrainDropTheme.spacing.xxs,
-            bottom = BrainDropTheme.spacing.xs,
-        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .statusBarsPadding()
+            .padding(
+                start = BrainDropTheme.spacing.xxs,
+                end = BrainDropTheme.spacing.sm,
+                top = BrainDropTheme.spacing.xxs,
+                bottom = BrainDropTheme.spacing.xs,
+            ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         BrainDropIconButton(onClick = onBack, contentDescription = stringResource(Res.string.cd_back)) {

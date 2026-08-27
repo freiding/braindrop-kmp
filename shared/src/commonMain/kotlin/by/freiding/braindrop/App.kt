@@ -15,6 +15,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import by.freiding.braindrop.core.navigation.Routes
+import androidx.compose.foundation.layout.WindowInsets
 import by.freiding.braindrop.core.ui.BrainDropTheme
 import by.freiding.braindrop.core.ui.component.BrainDropNavTab
 import by.freiding.braindrop.core.ui.component.BrainDropNavigationBar
@@ -49,6 +50,7 @@ fun App() {
         }
 
         Scaffold(
+            contentWindowInsets = WindowInsets(0, 0, 0, 0),
             bottomBar = {
                 if (currentTab != null) {
                     BrainDropNavigationBar(

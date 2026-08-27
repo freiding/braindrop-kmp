@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -114,6 +116,7 @@ private fun QuizHeader(
         modifier = Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surface)
+            .statusBarsPadding()
             .padding(horizontal = BrainDropTheme.spacing.xs, vertical = BrainDropTheme.spacing.xxs),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -149,7 +152,7 @@ private fun QuizQuestion(
     val semantics = BrainDropTheme.semantics
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(BrainDropTheme.spacing.md),
+        modifier = Modifier.fillMaxSize().navigationBarsPadding().padding(BrainDropTheme.spacing.md),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.sm)) {
@@ -275,7 +278,7 @@ private fun QuizResult(
     }
 
     LazyColumn(
-        modifier = Modifier.fillMaxSize().padding(BrainDropTheme.spacing.md),
+        modifier = Modifier.fillMaxSize().navigationBarsPadding().padding(BrainDropTheme.spacing.md),
         verticalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.md),
     ) {
         item {

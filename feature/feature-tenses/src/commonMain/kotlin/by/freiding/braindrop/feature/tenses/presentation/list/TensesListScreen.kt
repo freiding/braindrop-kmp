@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -128,7 +130,7 @@ fun TensesListScreen(
 @Composable
 private fun TensesListTopBar(onBack: () -> Unit) {
     Row(
-        modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface).padding(
+        modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface).statusBarsPadding().padding(
             horizontal = BrainDropTheme.spacing.xs,
             vertical = BrainDropTheme.spacing.xxs,
         ),
@@ -192,6 +194,7 @@ private fun TensesListHeader(
         modifier = Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surface)
+            .statusBarsPadding()
             .padding(
                 top = BrainDropTheme.spacing.xxs,
                 start = BrainDropTheme.spacing.xs,
@@ -422,6 +425,7 @@ private fun BottomActionPanel(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(background)
+                .navigationBarsPadding()
                 .padding(start = 20.dp, end = 20.dp, bottom = 26.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
