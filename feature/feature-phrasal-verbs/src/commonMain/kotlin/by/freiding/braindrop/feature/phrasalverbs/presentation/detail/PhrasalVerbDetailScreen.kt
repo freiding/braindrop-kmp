@@ -73,7 +73,7 @@ fun PhrasalVerbDetailScreen(
                 title = "Не удалось загрузить глагол",
                 body = state.error ?: "",
                 retryText = "Повторить",
-                onRetry = { /* re-init happens in VM */ },
+                onRetry = { viewModel.reload() },
                 secondaryText = "Назад",
                 onSecondary = { viewModel.onEvent(PhrasalVerbDetailUiEvent.NavigateBack) },
             )

@@ -31,7 +31,7 @@ class GeneratePhrasalVerbQuizUseCase(
 
         if (session.isEmpty()) return Result.Success(emptyList())
 
-        val questions = session.map { verb -> buildQuestion(verb, type, allVerbs) }
+        val questions = session.mapNotNull { verb -> buildQuestion(verb, type, allVerbs) }
         return Result.Success(questions)
     }
 
@@ -39,10 +39,9 @@ class GeneratePhrasalVerbQuizUseCase(
         verb: PhrasalVerb,
         type: PhrasalVerbQuizType,
         allVerbs: List<PhrasalVerb>,
-    ): PhrasalVerbQuizQuestion {
+    ): PhrasalVerbQuizQuestion? {
+        val meaning = verb.meanings.firstOrNull() ?: return null
         val others = allVerbs.filter { it.id != verb.id }.shuffled()
-        val meaningIndex = 0
-        val meaning = verb.meanings[meaningIndex]
 
         return when (type) {
             PhrasalVerbQuizType.DEFINITION_TO_VERB -> {
@@ -50,7 +49,7 @@ class GeneratePhrasalVerbQuizUseCase(
                 val wrong = others.take(3).map { it.fullForm }
                 PhrasalVerbQuizQuestion(
                     verb = verb,
-                    meaningIndex = meaningIndex,
+                    meaningIndex = 0,
                     type = type,
                     questionText = meaning.definition,
                     correctAnswer = correct,
@@ -59,10 +58,10 @@ class GeneratePhrasalVerbQuizUseCase(
             }
             PhrasalVerbQuizType.VERB_TO_TRANSLATION -> {
                 val correct = meaning.translation
-                val wrong = others.take(3).map { it.meanings[0].translation }
+                val wrong = others.take(3).mapNotNull { it.meanings.firstOrNull()?.translation }
                 PhrasalVerbQuizQuestion(
                     verb = verb,
-                    meaningIndex = meaningIndex,
+                    meaningIndex = 0,
                     type = type,
                     questionText = verb.fullForm,
                     correctAnswer = correct,
@@ -78,7 +77,7 @@ class GeneratePhrasalVerbQuizUseCase(
                     .take(3)
                 PhrasalVerbQuizQuestion(
                     verb = verb,
-                    meaningIndex = meaningIndex,
+                    meaningIndex = 0,
                     type = type,
                     questionText = "${verb.verb} ___ (${meaning.translation})",
                     correctAnswer = correct,

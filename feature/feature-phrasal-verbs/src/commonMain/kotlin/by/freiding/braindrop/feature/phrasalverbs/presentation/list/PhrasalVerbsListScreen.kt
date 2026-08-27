@@ -61,6 +61,7 @@ fun PhrasalVerbsListScreen(
     viewModel: PhrasalVerbsListViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    var errorMessage by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(Unit) {
         viewModel.reload()
@@ -71,7 +72,15 @@ fun PhrasalVerbsListScreen(
                 is PhrasalVerbsListUiEffect.NavigateToQuiz ->
                     navController.navigate(Routes.PhrasalVerbsQuiz(effect.mode))
                 is PhrasalVerbsListUiEffect.NavigateBack -> navController.popBackStack()
+                is PhrasalVerbsListUiEffect.ShowError -> errorMessage = effect.message
             }
+        }
+    }
+
+    errorMessage?.let { msg ->
+        LaunchedEffect(msg) {
+            delay(3000)
+            errorMessage = null
         }
     }
 
@@ -92,6 +101,17 @@ fun PhrasalVerbsListScreen(
             onCategorySelected = { cat -> viewModel.onEvent(PhrasalVerbsListUiEvent.CategorySelected(cat)) },
             onStartQuiz = { mode -> viewModel.onEvent(PhrasalVerbsListUiEvent.StartQuiz(mode)) },
         )
+
+        errorMessage?.let { msg ->
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.errorContainer)
+                    .padding(horizontal = BrainDropTheme.spacing.md, vertical = BrainDropTheme.spacing.xs),
+            ) {
+                Text(text = msg, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onErrorContainer)
+            }
+        }
 
         Box(modifier = Modifier.fillMaxSize()) {
             when {

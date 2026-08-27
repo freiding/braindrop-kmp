@@ -46,7 +46,9 @@ fun PhrasalVerbsQuizScreen(
     mode: String,
     navController: NavController,
     viewModel: PhrasalVerbsQuizViewModel = koinViewModel {
-        parametersOf(PhrasalVerbQuizType.valueOf(mode))
+        val type = runCatching { PhrasalVerbQuizType.valueOf(mode) }
+            .getOrDefault(PhrasalVerbQuizType.DEFINITION_TO_VERB)
+        parametersOf(type)
     },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()

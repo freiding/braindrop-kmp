@@ -29,6 +29,8 @@ class PhrasalVerbDetailViewModel(
         loadDetail()
     }
 
+    fun reload() = loadDetail()
+
     fun onEvent(event: PhrasalVerbDetailUiEvent) {
         when (event) {
             is PhrasalVerbDetailUiEvent.ToggleLearned -> viewModelScope.launch {

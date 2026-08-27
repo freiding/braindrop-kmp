@@ -5,6 +5,7 @@ import by.freiding.braindrop.feature.phrasalverbs.data.datasource.LocalPhrasalVe
 import by.freiding.braindrop.feature.phrasalverbs.data.repository.PhrasalVerbRepositoryImpl
 import by.freiding.braindrop.feature.phrasalverbs.domain.model.PhrasalVerbQuizType
 import by.freiding.braindrop.feature.phrasalverbs.domain.repository.PhrasalVerbRepository
+import by.freiding.braindrop.feature.phrasalverbs.domain.usecase.EvaluatePhrasalVerbAnswerUseCase
 import by.freiding.braindrop.feature.phrasalverbs.domain.usecase.GeneratePhrasalVerbQuizUseCase
 import by.freiding.braindrop.feature.phrasalverbs.domain.usecase.GetPhrasalVerbDetailUseCase
 import by.freiding.braindrop.feature.phrasalverbs.domain.usecase.GetPhrasalVerbStreakDaysUseCase
@@ -18,8 +19,8 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val phrasalVerbsModule = module {
-    single { LocalPhrasalVerbDataSource() }
-    single { LocalPhrasalVerbProgressDataSource(get()) }
+    factory { LocalPhrasalVerbDataSource() }
+    factory { LocalPhrasalVerbProgressDataSource(get()) }
     factory<PhrasalVerbRepository> { PhrasalVerbRepositoryImpl(get(), get(), get(), get()) }
 
     factory { GetPhrasalVerbsUseCase(get()) }
@@ -28,8 +29,9 @@ val phrasalVerbsModule = module {
     factory { GeneratePhrasalVerbQuizUseCase(get()) }
     factory { SubmitPhrasalVerbQuizAnswerUseCase(get()) }
     factory { GetPhrasalVerbStreakDaysUseCase(get()) }
+    factory { EvaluatePhrasalVerbAnswerUseCase() }
 
     viewModel { PhrasalVerbsListViewModel(get(), get()) }
     viewModel { (verbId: String) -> PhrasalVerbDetailViewModel(verbId, get(), get()) }
-    viewModel { (quizType: PhrasalVerbQuizType) -> PhrasalVerbsQuizViewModel(quizType, get(), get(), get()) }
+    viewModel { (quizType: PhrasalVerbQuizType) -> PhrasalVerbsQuizViewModel(quizType, get(), get(), get(), get()) }
 }

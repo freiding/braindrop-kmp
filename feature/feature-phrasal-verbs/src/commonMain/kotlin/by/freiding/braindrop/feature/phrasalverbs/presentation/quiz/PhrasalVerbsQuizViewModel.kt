@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.freiding.braindrop.core.common.Result
 import by.freiding.braindrop.feature.phrasalverbs.domain.model.PhrasalVerbQuizType
+import by.freiding.braindrop.feature.phrasalverbs.domain.usecase.EvaluatePhrasalVerbAnswerUseCase
 import by.freiding.braindrop.feature.phrasalverbs.domain.usecase.GeneratePhrasalVerbQuizUseCase
 import by.freiding.braindrop.feature.phrasalverbs.domain.usecase.GetPhrasalVerbStreakDaysUseCase
 import by.freiding.braindrop.feature.phrasalverbs.domain.usecase.SubmitPhrasalVerbQuizAnswerUseCase
@@ -23,6 +24,7 @@ class PhrasalVerbsQuizViewModel(
     private val generateQuiz: GeneratePhrasalVerbQuizUseCase,
     private val submitAnswer: SubmitPhrasalVerbQuizAnswerUseCase,
     private val getStreakDays: GetPhrasalVerbStreakDaysUseCase,
+    private val evaluateAnswer: EvaluatePhrasalVerbAnswerUseCase,
 ) : ViewModel() {
     private val _state = MutableStateFlow(PhrasalVerbsQuizUiState())
     val state: StateFlow<PhrasalVerbsQuizUiState> = _state.asStateFlow()
@@ -56,11 +58,11 @@ class PhrasalVerbsQuizViewModel(
         val current = _state.value.currentQuestion ?: return
         if (_state.value.isAnswered) return
 
-        val isCorrect = answer == current.correctAnswer
+        val isCorrect = evaluateAnswer(current, answer)
         viewModelScope.launch { submitAnswer(current.verb.id, isCorrect) }
 
         _state.update { state ->
-            val history = state.answerHistory.toMutableList().apply { this[state.currentIndex] = isCorrect }
+            val history = state.answerHistory.mapIndexed { i, v -> if (i == state.currentIndex) isCorrect else v }
             state.copy(
                 selectedAnswer = answer,
                 score = if (isCorrect) state.score + 1 else state.score,
