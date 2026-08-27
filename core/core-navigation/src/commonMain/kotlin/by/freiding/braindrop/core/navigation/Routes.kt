@@ -45,4 +45,17 @@ sealed interface Routes {
     data class TensesQuiz(
         val mode: String = "MIXED_REVIEW",
     ) : Routes
+
+    @Serializable
+    data object PhrasalVerbsList : Routes
+
+    @Serializable
+    data class PhrasalVerbDetail(
+        val verbId: String,
+    ) : Routes
+
+    @Serializable
+    data class PhrasalVerbsQuiz(
+        val mode: String = "DEFINITION_TO_VERB",
+    ) : Routes
 }

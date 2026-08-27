@@ -21,8 +21,8 @@ class LocalStudyCategoryDataSource {
             StudyCategory(
                 id = "phrasal_verbs",
                 icon = "💬",
-                totalItems = 200,
-                isAvailable = false,
+                totalItems = 72,
+                isAvailable = true,
             ),
         )
 }

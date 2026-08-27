@@ -75,6 +75,7 @@ fun HomeScreen(
                 is HomeUiEffect.NavigateToCategory -> when (effect.categoryId) {
                     "irregular_verbs" -> navController.navigate(Routes.IrregularVerbsList)
                     "tenses" -> navController.navigate(Routes.TensesList)
+                    "phrasal_verbs" -> navController.navigate(Routes.PhrasalVerbsList)
                     else -> Unit
                 }
                 is HomeUiEffect.ContinueQuiz -> navController.navigate(Routes.IrregularVerbsQuiz())
