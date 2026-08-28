@@ -8,6 +8,7 @@ import by.freiding.braindrop.core.database.di.databaseModule
 import by.freiding.braindrop.feature.home.di.homeModule
 import by.freiding.braindrop.feature.irregularverbs.di.irregularVerbsModule
 import by.freiding.braindrop.feature.phrasalverbs.di.phrasalVerbsModule
+import by.freiding.braindrop.feature.profile.di.profileModule
 import by.freiding.braindrop.feature.tenses.di.tensesModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -26,6 +27,7 @@ class BrainDropApplication : Application() {
                 irregularVerbsModule,
                 tensesModule,
                 phrasalVerbsModule,
+                profileModule,
             )
         }
     }

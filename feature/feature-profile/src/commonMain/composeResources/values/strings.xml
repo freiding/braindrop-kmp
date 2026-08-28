@@ -5,4 +5,21 @@
     <string name="profile_title">Профиль</string>
     <string name="profile_placeholder">Настройки аккаунта и напоминания появятся здесь в одном из следующих обновлений.</string>
     <string name="placeholder_badge">СКОРО</string>
+
+    <string name="progress_stat_learned">изучено</string>
+    <string name="progress_stat_streak">серия</string>
+    <string name="progress_stat_accuracy">точность</string>
+    <string name="progress_stat_streak_days">%1$d дн.</string>
+    <string name="progress_stat_accuracy_pct">%1$d%%</string>
+    <string name="progress_section_activity">Активность</string>
+    <string name="progress_section_categories">По категориям</string>
+    <string name="progress_category_irregular_verbs">Неправильные глаголы</string>
+    <string name="progress_category_tenses">Времена</string>
+    <string name="progress_category_phrasal_verbs">Фразовые глаголы</string>
+    <string name="progress_learned_of">%1$d из %2$d</string>
+    <string name="progress_accuracy_label">Точность: %1$d%%</string>
+    <string name="progress_no_data">—</string>
+    <string name="progress_error_title">Не удалось загрузить прогресс</string>
+    <string name="progress_error_body">Проверьте подключение и попробуйте ещё раз.</string>
+    <string name="progress_error_retry">Повторить</string>
 </resources>
