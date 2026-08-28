@@ -1,9 +1,11 @@
 package by.freiding.braindrop.feature.phrasalverbs.presentation.list
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.size
@@ -33,15 +36,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -52,11 +64,16 @@ import by.freiding.braindrop.core.ui.component.BrainDropIconButton
 import by.freiding.braindrop.core.ui.component.ErrorStatusCard
 import by.freiding.braindrop.core.ui.component.SegmentedProgressBar
 import by.freiding.braindrop.core.ui.icon.BrainDropIcons
+import by.freiding.braindrop.feature.phrasalverbs.Res
 import by.freiding.braindrop.feature.phrasalverbs.domain.model.PhrasalVerbCategory
 import by.freiding.braindrop.feature.phrasalverbs.domain.model.PhrasalVerbQuizType
 import by.freiding.braindrop.feature.phrasalverbs.domain.model.PhrasalVerbWithProgress
+import by.freiding.braindrop.feature.phrasalverbs.swipe_mark_learned
+import by.freiding.braindrop.feature.phrasalverbs.swipe_unmark_learned
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 @Composable
@@ -363,17 +380,106 @@ private fun PhrasalVerbsListContent(
         contentPadding = WindowInsets.navigationBars.asPaddingValues(),
     ) {
         items(verbs, key = { it.verb.id }) { item ->
-            PhrasalVerbRow(
+            SwipeablePhrasalVerbRow(
                 item = item,
                 onClick = { onVerbClick(item.verb.id) },
                 onToggleLearned = { onToggleLearned(item.verb.id) },
             )
-            HorizontalDivider(
-                color = MaterialTheme.colorScheme.outlineVariant,
-                thickness = 1.dp,
-                modifier = Modifier.padding(start = BrainDropTheme.spacing.md),
-            )
         }
+    }
+}
+
+@Composable
+private fun SwipeablePhrasalVerbRow(
+    item: PhrasalVerbWithProgress,
+    onClick: () -> Unit,
+    onToggleLearned: () -> Unit,
+) {
+    var dragOffsetPx by remember { mutableFloatStateOf(0f) }
+    var didExceedThreshold by remember { mutableStateOf(false) }
+    val animatedOffset by animateFloatAsState(targetValue = dragOffsetPx, label = "swipe")
+    val thresholdPx = with(LocalDensity.current) { 120.dp.toPx() }
+    val haptics = LocalHapticFeedback.current
+    val semantics = BrainDropTheme.semantics
+    val isLearned = item.progress.isLearned
+    val isLearnedState = rememberUpdatedState(isLearned)
+
+    Column {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .pointerInput(item.verb.id) {
+                    detectHorizontalDragGestures(
+                        onDragStart = { didExceedThreshold = false },
+                        onDragEnd = {
+                            dragOffsetPx = 0f
+                            if (didExceedThreshold) onToggleLearned()
+                        },
+                        onDragCancel = { dragOffsetPx = 0f },
+                        onHorizontalDrag = { change, delta ->
+                            val allowedDelta = if ((delta > 0 && !isLearnedState.value) ||
+                                (delta < 0 && isLearnedState.value)
+                            ) delta else 0f
+                            dragOffsetPx = (dragOffsetPx + allowedDelta).coerceIn(-400f, 400f)
+                            val exceeded = abs(dragOffsetPx) > thresholdPx
+                            if (exceeded && !didExceedThreshold) {
+                                haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                            }
+                            didExceedThreshold = exceeded
+                            if (allowedDelta != 0f) change.consume()
+                        },
+                    )
+                },
+        ) {
+            if (abs(animatedOffset) > 1f) {
+                val bgColor = if (isLearned) semantics.incorrect else semantics.correct
+                val label = if (isLearned) {
+                    stringResource(Res.string.swipe_unmark_learned)
+                } else {
+                    stringResource(Res.string.swipe_mark_learned)
+                }
+                val icon: @Composable () -> Unit = {
+                    if (isLearned) {
+                        BrainDropIcons.Undo(iconSize = 19.dp, tint = Color.White)
+                    } else {
+                        BrainDropIcons.Check(iconSize = 19.dp, tint = Color.White)
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .background(bgColor)
+                        .padding(horizontal = BrainDropTheme.spacing.lg, vertical = BrainDropTheme.spacing.lg),
+                    horizontalArrangement = if (animatedOffset > 0f) {
+                        Arrangement.spacedBy(BrainDropTheme.spacing.xs)
+                    } else {
+                        Arrangement.End
+                    },
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    if (animatedOffset > 0f) {
+                        icon()
+                        Text(text = label, color = Color.White, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.bodyMedium)
+                    } else {
+                        Text(text = label, color = Color.White, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.bodyMedium)
+                        Spacer(Modifier.width(BrainDropTheme.spacing.xs))
+                        icon()
+                    }
+                }
+            }
+            Box(
+                modifier = Modifier
+                    .offset { IntOffset(animatedOffset.roundToInt(), 0) }
+                    .let { if (abs(animatedOffset) > 1f) it.shadow(6.dp, RectangleShape, ambientColor = Color.Black.copy(alpha = 0.1f), spotColor = Color.Black.copy(alpha = 0.1f)) else it },
+            ) {
+                PhrasalVerbRow(item = item, onClick = onClick, onToggleLearned = onToggleLearned)
+            }
+        }
+        HorizontalDivider(
+            color = MaterialTheme.colorScheme.outlineVariant,
+            thickness = 1.dp,
+            modifier = Modifier.padding(start = BrainDropTheme.spacing.md),
+        )
     }
 }
 
