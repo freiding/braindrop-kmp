@@ -21,6 +21,7 @@ kotlinx-datetime = "0.6.1"
 turbine = "1.2.0"
 ktlintGradle = "14.2.0"
 detekt = "1.23.8"
+gradlePlayPublisher = "4.1.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -65,3 +66,4 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradle" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+gradlePlayPublisher = { id = "com.github.triplet.play", version.ref = "gradlePlayPublisher" }

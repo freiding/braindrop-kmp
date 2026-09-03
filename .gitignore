@@ -18,3 +18,8 @@ captures
 **/xcshareddata/WorkspaceSettings.xcsettings
 node_modules/
 design/
+
+# Release signing / Play publishing secrets — never commit these
+*.jks
+*.keystore
+play-service-account*.json
