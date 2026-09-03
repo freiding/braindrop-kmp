@@ -9,10 +9,10 @@ plugins {
 
 // Release signing is only wired up when all four env vars are present (i.e. on CI).
 // Local/debug builds and `assembleDebug` are unaffected when they're unset.
-val releaseKeystorePath = System.getenv("KEYSTORE_PATH")
-val releaseKeystorePassword = System.getenv("KEYSTORE_PASSWORD")
-val releaseKeyAlias = System.getenv("KEY_ALIAS")
-val releaseKeyPassword = System.getenv("KEY_PASSWORD")
+val releaseKeystorePath = providers.environmentVariable("KEYSTORE_PATH").orNull
+val releaseKeystorePassword = providers.environmentVariable("KEYSTORE_PASSWORD").orNull
+val releaseKeyAlias = providers.environmentVariable("KEY_ALIAS").orNull
+val releaseKeyPassword = providers.environmentVariable("KEY_PASSWORD").orNull
 val hasReleaseSigning = listOf(releaseKeystorePath, releaseKeystorePassword, releaseKeyAlias, releaseKeyPassword)
     .all { !it.isNullOrBlank() }
 
@@ -47,7 +47,9 @@ android {
 // tracks) at publish time, so staging and main can never collide even though
 // they're separate Jenkins multibranch jobs with independent BUILD_NUMBERs.
 play {
-    serviceAccountCredentials.set(file(System.getenv("PLAY_SERVICE_ACCOUNT_JSON") ?: "play-service-account.json"))
+    serviceAccountCredentials.set(
+        file(providers.environmentVariable("PLAY_SERVICE_ACCOUNT_JSON").getOrElse("play-service-account.json")),
+    )
     track.set(providers.gradleProperty("playTrack").getOrElse("internal"))
     defaultToAppBundles.set(true)
     resolutionStrategy.set(ResolutionStrategy.AUTO)
