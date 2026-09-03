@@ -59,7 +59,15 @@ pipeline {
                 branch 'staging'
             }
             steps {
+                // :app:publishReleaseBundle transitively depends on :app:bundleRelease, and
+                // this is a separate --no-daemon invocation from the 'Release Bundle' stage —
+                // without the keystore creds here too, Gradle sees the signing config vanish,
+                // re-runs bundleRelease unsigned, and Play rejects the upload.
                 withCredentials([
+                    file(credentialsId: 'android-release-keystore', variable: 'KEYSTORE_PATH'),
+                    string(credentialsId: 'android-keystore-password', variable: 'KEYSTORE_PASSWORD'),
+                    string(credentialsId: 'android-key-alias', variable: 'KEY_ALIAS'),
+                    string(credentialsId: 'android-key-password', variable: 'KEY_PASSWORD'),
                     file(credentialsId: 'play-service-account-json', variable: 'PLAY_SERVICE_ACCOUNT_JSON'),
                 ]) {
                     sh './gradlew --no-daemon :app:publishReleaseBundle -PplayTrack=internal'
@@ -73,6 +81,10 @@ pipeline {
             }
             steps {
                 withCredentials([
+                    file(credentialsId: 'android-release-keystore', variable: 'KEYSTORE_PATH'),
+                    string(credentialsId: 'android-keystore-password', variable: 'KEYSTORE_PASSWORD'),
+                    string(credentialsId: 'android-key-alias', variable: 'KEY_ALIAS'),
+                    string(credentialsId: 'android-key-password', variable: 'KEY_PASSWORD'),
                     file(credentialsId: 'play-service-account-json', variable: 'PLAY_SERVICE_ACCOUNT_JSON'),
                 ]) {
                     // TODO: replace with the real closed-testing track alias from Play Console
