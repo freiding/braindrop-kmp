@@ -14,6 +14,7 @@ plugins {
     alias(libs.plugins.sqldelight) apply false
     alias(libs.plugins.ktlint) apply false
     alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.gradlePlayPublisher) apply false
 }
 
 // ktlint/detekt are cross-cutting lint concerns, not compile config, so they're wired here
