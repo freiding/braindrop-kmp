@@ -34,11 +34,16 @@ pipeline {
                 anyOf { branch 'staging'; branch 'main' }
             }
             steps {
+                // play.resolutionStrategy is AUTO, so the version code is resolved via the
+                // Play Developer API and baked into the bundle at build time, not just at
+                // publish time — :app:bundleRelease transitively depends on
+                // :app:processReleaseVersionCodes, which needs the service account credential.
                 withCredentials([
                     file(credentialsId: 'android-release-keystore', variable: 'KEYSTORE_PATH'),
                     string(credentialsId: 'android-keystore-password', variable: 'KEYSTORE_PASSWORD'),
                     string(credentialsId: 'android-key-alias', variable: 'KEY_ALIAS'),
                     string(credentialsId: 'android-key-password', variable: 'KEY_PASSWORD'),
+                    file(credentialsId: 'play-service-account-json', variable: 'PLAY_SERVICE_ACCOUNT_JSON'),
                 ]) {
                     sh './gradlew --no-daemon :app:bundleRelease'
                 }
