@@ -5,7 +5,6 @@ pipeline {
     agent any // swap for a specific label if this Jenkins has a dedicated Android build pool
 
     options {
-        timestamps()
         disableConcurrentBuilds()
     }
 
