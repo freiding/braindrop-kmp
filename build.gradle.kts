@@ -15,6 +15,8 @@ plugins {
     alias(libs.plugins.ktlint) apply false
     alias(libs.plugins.detekt) apply false
     alias(libs.plugins.gradlePlayPublisher) apply false
+    alias(libs.plugins.googleServices) apply false
+    alias(libs.plugins.firebaseCrashlytics) apply false
 }
 
 // ktlint/detekt are cross-cutting lint concerns, not compile config, so they're wired here

@@ -1,6 +1,7 @@
 package by.freiding.braindrop
 
 import androidx.compose.ui.window.ComposeUIViewController
+import by.freiding.braindrop.core.analytics.di.noOpAnalyticsModule
 import by.freiding.braindrop.core.common.di.commonModule
 import by.freiding.braindrop.core.database.DatabaseDriverFactory
 import by.freiding.braindrop.core.database.IosDatabaseDriverFactory
@@ -21,6 +22,7 @@ fun initKoin() {
             module { single<DatabaseDriverFactory> { IosDatabaseDriverFactory() } },
             commonModule,
             databaseModule,
+            noOpAnalyticsModule,
             homeModule,
         )
     }

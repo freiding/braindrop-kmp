@@ -20,6 +20,7 @@ kotlin {
             export(projects.core.coreUi)
             export(projects.core.coreDatabase)
             export(projects.core.coreNavigation)
+            export(projects.core.coreAnalytics)
             export(projects.feature.featureHome)
             export(projects.feature.featureProfile)
             export(projects.feature.featureIrregularVerbs)
@@ -47,6 +48,7 @@ kotlin {
             api(projects.core.coreUi)
             api(projects.core.coreDatabase)
             api(projects.core.coreNavigation)
+            api(projects.core.coreAnalytics)
             api(projects.feature.featureHome)
             api(projects.feature.featureProfile)
             api(projects.feature.featureIrregularVerbs)
@@ -55,6 +57,7 @@ kotlin {
             implementation(libs.compose.material3)
             implementation(libs.navigation.compose)
             implementation(libs.koin.core)
+            implementation(libs.koin.compose)
         }
         iosMain.dependencies {
             implementation(libs.koin.core)

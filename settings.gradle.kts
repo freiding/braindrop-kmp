@@ -37,6 +37,8 @@ include(":core:core-ui")
 include(":core:core-database")
 include(":core:core-navigation")
 include(":core:core-network")
+include(":core:core-analytics")
+include(":core:core-analytics-firebase")
 
 include(":feature:feature-home")
 include(":feature:feature-profile")

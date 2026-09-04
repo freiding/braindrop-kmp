@@ -7,6 +7,18 @@ plugins {
     alias(libs.plugins.gradlePlayPublisher)
 }
 
+// Firebase (Analytics + Crashlytics) is wired only when app/google-services.json is present.
+// Contributor and CI builds without the file still compile and run — analytics falls back to
+// the no-op implementations (see BrainDropApplication). Drop the real file in from the
+// Firebase console to enable reporting; it is safe to commit (client config, shipped in the APK).
+// Plugin ids are hardcoded here (not via libs.plugins.*) because they're only applied
+// conditionally; their versions still come from the catalog through the root build's
+// `apply false` declarations.
+if (file("google-services.json").exists()) {
+    apply(plugin = "com.google.gms.google-services")
+    apply(plugin = "com.google.firebase.crashlytics")
+}
+
 // Release signing is only wired up when all four env vars are present (i.e. on CI).
 // Local/debug builds and `assembleDebug` are unaffected when they're unset.
 val releaseKeystorePath = providers.environmentVariable("KEYSTORE_PATH").orNull
@@ -57,6 +69,8 @@ play {
 
 dependencies {
     implementation(projects.shared)
+    implementation(projects.core.coreAnalytics)
+    implementation(projects.core.coreAnalyticsFirebase)
     implementation(libs.androidx.activity.compose)
     implementation(libs.koin.android)
     implementation(libs.compose.uiToolingPreview)

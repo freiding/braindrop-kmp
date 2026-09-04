@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
@@ -14,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import by.freiding.braindrop.core.analytics.AnalyticsTracker
 import by.freiding.braindrop.core.navigation.Routes
 import by.freiding.braindrop.core.ui.BrainDropTheme
 import by.freiding.braindrop.core.ui.component.BrainDropNavTab
@@ -29,13 +31,22 @@ import by.freiding.braindrop.feature.tenses.presentation.comparison.TenseCompari
 import by.freiding.braindrop.feature.tenses.presentation.detail.TenseDetailScreen
 import by.freiding.braindrop.feature.tenses.presentation.list.TensesListScreen
 import by.freiding.braindrop.feature.tenses.presentation.quiz.TensesQuizScreen
+import org.koin.compose.koinInject
 
 @Composable
 fun App() {
     BrainDropTheme {
+        val analytics = koinInject<AnalyticsTracker>()
         val navController = rememberNavController()
         val backStackEntry by navController.currentBackStackEntryAsState()
         val destination = backStackEntry?.destination
+
+        // One screen_view per destination change; the route's serial name (e.g.
+        // "…Routes.TenseDetail/{tenseId}") is trimmed to a bare screen name.
+        LaunchedEffect(destination?.route) {
+            val route = destination?.route ?: return@LaunchedEffect
+            analytics.logScreenView(route.substringBefore('/').substringAfterLast('.'))
+        }
 
         // The tab bar is visible only on the three top-level tabs — list/detail/quiz screens go on top, without it.
         val currentTab = when {
