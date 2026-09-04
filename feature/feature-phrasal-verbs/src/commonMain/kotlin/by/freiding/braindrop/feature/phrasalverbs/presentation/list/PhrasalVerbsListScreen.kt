@@ -75,6 +75,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.abs
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun PhrasalVerbsListScreen(
@@ -100,7 +101,7 @@ fun PhrasalVerbsListScreen(
 
     errorMessage?.let { msg ->
         LaunchedEffect(msg) {
-            delay(3000)
+            delay(3000.milliseconds)
             errorMessage = null
         }
     }
@@ -108,7 +109,7 @@ fun PhrasalVerbsListScreen(
     var searchInput by rememberSaveable { mutableStateOf(state.searchQuery) }
     LaunchedEffect(searchInput) {
         if (searchInput == state.searchQuery) return@LaunchedEffect
-        delay(200)
+        delay(200.milliseconds)
         viewModel.onEvent(PhrasalVerbsListUiEvent.SearchChanged(searchInput))
     }
 
