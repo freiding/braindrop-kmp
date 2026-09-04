@@ -5,6 +5,7 @@ import by.freiding.braindrop.database.DailyActivityQueries
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.minus
+import kotlinx.datetime.plus
 
 /**
  * Daily activity ("did the user learn something today") backing the Home daily-goal card and
@@ -25,6 +26,17 @@ class DailyActivityDataSource(
         val today = AppClock.todayIso()
         queries.insertIfAbsent(today)
         queries.incrementToday(today)
+    }
+
+    /**
+     * Activity map for the last [n] calendar days (today + n-1 prior days), keyed by ISO date.
+     * Days with no recorded activity are absent from the map; callers should treat missing keys as 0.
+     */
+    fun getLastNDaysActivity(n: Int): Map<String, Int> {
+        val today = LocalDate.parse(AppClock.todayIso())
+        val startDate = today.minus(n - 1, DateTimeUnit.DAY).toString()
+        return queries.getRecentActivity(startDate).executeAsList()
+            .associate { row -> row.date to row.learned_count.toInt() }
     }
 
     /**

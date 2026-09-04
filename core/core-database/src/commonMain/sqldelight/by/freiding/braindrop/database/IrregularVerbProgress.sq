@@ -18,3 +18,9 @@ SELECT COUNT(*) FROM IrregularVerbProgress WHERE is_learned = 1;
 upsertProgress:
 INSERT OR REPLACE INTO IrregularVerbProgress(verb_id, is_learned, times_correct, times_incorrect, last_studied_at)
 VALUES (?, ?, ?, ?, ?);
+
+sumCorrect:
+SELECT COALESCE(SUM(times_correct), 0) FROM IrregularVerbProgress;
+
+sumIncorrect:
+SELECT COALESCE(SUM(times_incorrect), 0) FROM IrregularVerbProgress;

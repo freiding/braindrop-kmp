@@ -25,6 +25,7 @@ kotlin {
             export(projects.feature.featureProfile)
             export(projects.feature.featureIrregularVerbs)
             export(projects.feature.featureTenses)
+            export(projects.feature.featurePhrasalVerbs)
         }
     }
 
@@ -53,6 +54,7 @@ kotlin {
             api(projects.feature.featureProfile)
             api(projects.feature.featureIrregularVerbs)
             api(projects.feature.featureTenses)
+            api(projects.feature.featurePhrasalVerbs)
             implementation(libs.compose.runtime)
             implementation(libs.compose.material3)
             implementation(libs.navigation.compose)

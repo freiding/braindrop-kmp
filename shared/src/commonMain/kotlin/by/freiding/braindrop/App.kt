@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import by.freiding.braindrop.core.analytics.AnalyticsTracker
 import by.freiding.braindrop.core.navigation.Routes
+import androidx.compose.foundation.layout.WindowInsets
 import by.freiding.braindrop.core.ui.BrainDropTheme
 import by.freiding.braindrop.core.ui.component.BrainDropNavTab
 import by.freiding.braindrop.core.ui.component.BrainDropNavigationBar
@@ -26,6 +27,9 @@ import by.freiding.braindrop.feature.irregularverbs.presentation.list.VerbListSc
 import by.freiding.braindrop.feature.irregularverbs.presentation.quiz.QuizScreen
 import by.freiding.braindrop.feature.profile.presentation.screen.ProfileScreen
 import by.freiding.braindrop.feature.profile.presentation.screen.ProgressScreen
+import by.freiding.braindrop.feature.phrasalverbs.presentation.detail.PhrasalVerbDetailScreen
+import by.freiding.braindrop.feature.phrasalverbs.presentation.list.PhrasalVerbsListScreen
+import by.freiding.braindrop.feature.phrasalverbs.presentation.quiz.PhrasalVerbsQuizScreen
 import by.freiding.braindrop.feature.tenses.presentation.cheatsheet.TenseCheatSheetScreen
 import by.freiding.braindrop.feature.tenses.presentation.comparison.TenseComparisonsScreen
 import by.freiding.braindrop.feature.tenses.presentation.detail.TenseDetailScreen
@@ -57,6 +61,7 @@ fun App() {
         }
 
         Scaffold(
+            contentWindowInsets = WindowInsets(0, 0, 0, 0),
             bottomBar = {
                 if (currentTab != null) {
                     BrainDropNavigationBar(
@@ -105,6 +110,17 @@ fun App() {
                     composable<Routes.TensesQuiz> { backStackEntry ->
                         val route = backStackEntry.toRoute<Routes.TensesQuiz>()
                         TensesQuizScreen(mode = route.mode, navController = navController)
+                    }
+                    composable<Routes.PhrasalVerbsList> {
+                        PhrasalVerbsListScreen(navController)
+                    }
+                    composable<Routes.PhrasalVerbDetail> { backStackEntry ->
+                        val route = backStackEntry.toRoute<Routes.PhrasalVerbDetail>()
+                        PhrasalVerbDetailScreen(verbId = route.verbId, navController = navController)
+                    }
+                    composable<Routes.PhrasalVerbsQuiz> { backStackEntry ->
+                        val route = backStackEntry.toRoute<Routes.PhrasalVerbsQuiz>()
+                        PhrasalVerbsQuizScreen(mode = route.mode, navController = navController)
                     }
                 }
             }

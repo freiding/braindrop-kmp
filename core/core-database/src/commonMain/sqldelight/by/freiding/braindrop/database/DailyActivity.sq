@@ -17,3 +17,6 @@ INSERT OR IGNORE INTO DailyActivity(date, learned_count) VALUES (?, 0);
 
 incrementToday:
 UPDATE DailyActivity SET learned_count = learned_count + 1 WHERE date = ?;
+
+getRecentActivity:
+SELECT date, learned_count FROM DailyActivity WHERE date >= ? ORDER BY date ASC;

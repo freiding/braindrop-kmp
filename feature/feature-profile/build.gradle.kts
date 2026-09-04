@@ -18,6 +18,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.core.coreCommon)
+            implementation(libs.kotlinx.datetime)
             implementation(projects.core.coreUi)
             implementation(projects.core.coreNavigation)
             implementation(projects.core.coreDatabase)

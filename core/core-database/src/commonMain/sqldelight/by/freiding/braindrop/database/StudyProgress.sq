@@ -28,3 +28,9 @@ SELECT COUNT(*) FROM StudyProgress WHERE category = ? AND is_learned = 1;
 upsertProgress:
 INSERT OR REPLACE INTO StudyProgress(category, item_id, is_learned, times_correct, times_incorrect, last_studied_at)
 VALUES (?, ?, ?, ?, ?, ?);
+
+sumCorrectByCategory:
+SELECT COALESCE(SUM(times_correct), 0) FROM StudyProgress WHERE category = ?;
+
+sumIncorrectByCategory:
+SELECT COALESCE(SUM(times_incorrect), 0) FROM StudyProgress WHERE category = ?;
