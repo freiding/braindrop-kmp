@@ -1,0 +1,38 @@
+-- Migrates the AppDatabase schema from v1 to v2.
+--
+-- v1 was shipped without ever advancing the SQLDelight schema version, so two different
+-- on-disk shapes are both stamped `user_version = 1`:
+--   A) early installs — StudyProgress has no `is_learned` column and DailyActivity is absent;
+--   B) later installs — Schema.create() already built the current schema (is_learned present,
+--      DailyActivity present) but the version was never bumped, so no migration was recorded.
+-- This migration must land both shapes on the v2 schema. StudyProgress is therefore rebuilt
+-- unconditionally with a literal 0 for is_learned, and DailyActivity is created only if it is
+-- missing. Shape B loses any existing `is_learned` flags; the app re-derives them as the user
+-- studies and that cohort only covers pre-release builds.
+
+DROP INDEX IF EXISTS studyprogress_category_item;
+
+ALTER TABLE StudyProgress RENAME TO StudyProgress_v1;
+
+CREATE TABLE StudyProgress (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    category TEXT NOT NULL,
+    item_id TEXT NOT NULL,
+    is_learned INTEGER NOT NULL DEFAULT 0,
+    times_correct INTEGER NOT NULL DEFAULT 0,
+    times_incorrect INTEGER NOT NULL DEFAULT 0,
+    last_studied_at INTEGER NOT NULL
+);
+
+INSERT INTO StudyProgress(id, category, item_id, is_learned, times_correct, times_incorrect, last_studied_at)
+SELECT id, category, item_id, 0, times_correct, times_incorrect, last_studied_at
+FROM StudyProgress_v1;
+
+DROP TABLE StudyProgress_v1;
+
+CREATE UNIQUE INDEX studyprogress_category_item ON StudyProgress(category, item_id);
+
+CREATE TABLE IF NOT EXISTS DailyActivity (
+    date TEXT NOT NULL PRIMARY KEY,  -- ISO-8601 local date, e.g. "2026-08-06"
+    learned_count INTEGER NOT NULL DEFAULT 0
+);
