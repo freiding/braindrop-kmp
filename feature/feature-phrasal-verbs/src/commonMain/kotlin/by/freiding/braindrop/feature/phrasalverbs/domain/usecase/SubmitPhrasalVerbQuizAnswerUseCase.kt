@@ -6,6 +6,8 @@ import by.freiding.braindrop.feature.phrasalverbs.domain.repository.PhrasalVerbR
 class SubmitPhrasalVerbQuizAnswerUseCase(
     private val repository: PhrasalVerbRepository,
 ) {
-    suspend operator fun invoke(verbId: String, isCorrect: Boolean): Result<Unit> =
-        repository.recordAnswer(verbId, isCorrect)
+    suspend operator fun invoke(
+        verbId: String,
+        isCorrect: Boolean,
+    ): Result<Unit> = repository.recordAnswer(verbId, isCorrect)
 }

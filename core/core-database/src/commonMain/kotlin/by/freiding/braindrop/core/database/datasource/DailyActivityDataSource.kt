@@ -35,7 +35,9 @@ class DailyActivityDataSource(
     fun getLastNDaysActivity(n: Int): Map<String, Int> {
         val today = LocalDate.parse(AppClock.todayIso())
         val startDate = today.minus(n - 1, DateTimeUnit.DAY).toString()
-        return queries.getRecentActivity(startDate).executeAsList()
+        return queries
+            .getRecentActivity(startDate)
+            .executeAsList()
             .associate { row -> row.date to row.learned_count.toInt() }
     }
 

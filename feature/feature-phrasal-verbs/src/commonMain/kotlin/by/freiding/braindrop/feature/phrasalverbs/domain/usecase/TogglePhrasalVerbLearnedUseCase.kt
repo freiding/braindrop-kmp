@@ -6,6 +6,5 @@ import by.freiding.braindrop.feature.phrasalverbs.domain.repository.PhrasalVerbR
 class TogglePhrasalVerbLearnedUseCase(
     private val repository: PhrasalVerbRepository,
 ) {
-    suspend operator fun invoke(verbId: String): Result<Unit> =
-        repository.toggleLearned(verbId)
+    suspend operator fun invoke(verbId: String): Result<Unit> = repository.toggleLearned(verbId)
 }

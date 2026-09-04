@@ -7,6 +7,5 @@ import by.freiding.braindrop.feature.phrasalverbs.domain.repository.PhrasalVerbR
 class GetPhrasalVerbsUseCase(
     private val repository: PhrasalVerbRepository,
 ) {
-    suspend operator fun invoke(): Result<List<PhrasalVerbWithProgress>> =
-        repository.getVerbsWithProgress()
+    suspend operator fun invoke(): Result<List<PhrasalVerbWithProgress>> = repository.getVerbsWithProgress()
 }

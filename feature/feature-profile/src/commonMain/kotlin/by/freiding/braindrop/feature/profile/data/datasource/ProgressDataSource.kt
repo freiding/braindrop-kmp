@@ -15,7 +15,10 @@ class ProgressDataSource(
     private val irregularVerbProgressQueries: IrregularVerbProgressQueries,
     private val dailyActivityDataSource: DailyActivityDataSource,
 ) {
-    fun getCategoryProgress(categoryId: String, totalCount: Int): CategoryProgressData =
+    fun getCategoryProgress(
+        categoryId: String,
+        totalCount: Int,
+    ): CategoryProgressData =
         if (categoryId == IRREGULAR_VERBS_ID) {
             CategoryProgressData(
                 id = categoryId,

@@ -18,14 +18,13 @@ class PhrasalVerbRepositoryImpl(
     private val dailyActivityDataSource: DailyActivityDataSource,
     private val dispatchers: AppDispatchers,
 ) : PhrasalVerbRepository {
-
     override suspend fun getVerbsWithProgress(): Result<List<PhrasalVerbWithProgress>> =
         withContext(dispatchers.io) {
             runCatching {
                 val allProgress = progressDataSource.getAll().associateBy { it.item_id }
                 verbDataSource.getVerbs().map { verb ->
                     val row = allProgress[verb.id]
-                    VerbWithProgress(verb, row)
+                    verbWithProgress(verb, row)
                 }
             }.toResult()
         }
@@ -36,7 +35,7 @@ class PhrasalVerbRepositoryImpl(
                 val verb = verbDataSource.getById(verbId)
                     ?: throw NoSuchElementException("Phrasal verb not found: $verbId")
                 val row = progressDataSource.getByVerbId(verbId)
-                VerbWithProgress(verb, row)
+                verbWithProgress(verb, row)
             }.toResult()
         }
 
@@ -67,7 +66,10 @@ class PhrasalVerbRepositoryImpl(
             }.toResult()
         }
 
-    override suspend fun recordAnswer(verbId: String, isCorrect: Boolean): Result<Unit> =
+    override suspend fun recordAnswer(
+        verbId: String,
+        isCorrect: Boolean,
+    ): Result<Unit> =
         withContext(dispatchers.io) {
             runCatching {
                 val row = progressDataSource.getByVerbId(verbId)
@@ -85,7 +87,10 @@ class PhrasalVerbRepositoryImpl(
             runCatching { dailyActivityDataSource.getStreakDays() }.toResult()
         }
 
-    private fun VerbWithProgress(verb: PhrasalVerb, row: by.freiding.braindrop.database.StudyProgress?): PhrasalVerbWithProgress =
+    private fun verbWithProgress(
+        verb: PhrasalVerb,
+        row: by.freiding.braindrop.database.StudyProgress?,
+    ): PhrasalVerbWithProgress =
         PhrasalVerbWithProgress(
             verb = verb,
             progress = PhrasalVerbProgress(

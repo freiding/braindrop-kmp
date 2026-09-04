@@ -29,14 +29,26 @@ data class PhrasalVerbsQuizUiState(
 
 sealed class PhrasalVerbsQuizUiEffect {
     data object NavigateBack : PhrasalVerbsQuizUiEffect()
-    data class NavigateToDetail(val verbId: String) : PhrasalVerbsQuizUiEffect()
+
+    data class NavigateToDetail(
+        val verbId: String,
+    ) : PhrasalVerbsQuizUiEffect()
 }
 
 sealed class PhrasalVerbsQuizUiEvent {
-    data class AnswerSelected(val answer: String) : PhrasalVerbsQuizUiEvent()
+    data class AnswerSelected(
+        val answer: String,
+    ) : PhrasalVerbsQuizUiEvent()
+
     data object NextQuestion : PhrasalVerbsQuizUiEvent()
+
     data object RestartQuiz : PhrasalVerbsQuizUiEvent()
+
     data object RetryMistakes : PhrasalVerbsQuizUiEvent()
+
     data object NavigateBack : PhrasalVerbsQuizUiEvent()
-    data class MistakeClicked(val verbId: String) : PhrasalVerbsQuizUiEvent()
+
+    data class MistakeClicked(
+        val verbId: String,
+    ) : PhrasalVerbsQuizUiEvent()
 }

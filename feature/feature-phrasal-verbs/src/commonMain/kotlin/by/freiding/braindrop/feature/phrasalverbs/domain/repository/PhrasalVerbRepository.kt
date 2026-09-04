@@ -10,9 +10,17 @@ import by.freiding.braindrop.feature.phrasalverbs.domain.model.PhrasalVerbWithPr
  */
 interface PhrasalVerbRepository {
     suspend fun getVerbsWithProgress(): Result<List<PhrasalVerbWithProgress>>
+
     suspend fun getVerbDetail(verbId: String): Result<PhrasalVerbWithProgress>
+
     suspend fun getUnlearnedVerbs(): Result<List<PhrasalVerb>>
+
     suspend fun toggleLearned(verbId: String): Result<Unit>
-    suspend fun recordAnswer(verbId: String, isCorrect: Boolean): Result<Unit>
+
+    suspend fun recordAnswer(
+        verbId: String,
+        isCorrect: Boolean,
+    ): Result<Unit>
+
     suspend fun getStreakDays(): Result<Int>
 }

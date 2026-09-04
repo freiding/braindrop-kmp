@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ComplexCondition:PhrasalVerbsListScreen.kt$(delta &gt; 0 &amp;&amp; !isLearnedState.value) || (delta &lt; 0 &amp;&amp; isLearnedState.value)</ID>
+    <ID>CyclomaticComplexMethod:PhrasalVerbsListScreen.kt$@Composable private fun SwipeablePhrasalVerbRow( item: PhrasalVerbWithProgress, onClick: () -&gt; Unit, onToggleLearned: () -&gt; Unit, )</ID>
+    <ID>CyclomaticComplexMethod:PhrasalVerbsQuizScreen.kt$@Composable private fun QuizQuestion( state: PhrasalVerbsQuizUiState, onAnswerSelected: (String) -&gt; Unit, onNext: () -&gt; Unit, )</ID>
+    <ID>LargeClass:LocalPhrasalVerbDataSource.kt$LocalPhrasalVerbDataSource$Companion</ID>
+    <ID>ReturnCount:GeneratePhrasalVerbQuizUseCase.kt$GeneratePhrasalVerbQuizUseCase$suspend operator fun invoke( type: PhrasalVerbQuizType, sessionSize: Int = 10, restrictToVerbIds: List&lt;String&gt;? = null, ): Result&lt;List&lt;PhrasalVerbQuizQuestion&gt;&gt;</ID>
+  </CurrentIssues>
+</SmellBaseline>

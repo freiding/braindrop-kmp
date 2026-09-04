@@ -11,8 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -72,10 +72,15 @@ fun TenseCheatSheetScreen(
 
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         Row(
-            modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface).statusBarsPadding().padding(
-                horizontal = BrainDropTheme.spacing.xs,
-                vertical = BrainDropTheme.spacing.xxs,
-            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    MaterialTheme.colorScheme.surface,
+                ).statusBarsPadding()
+                .padding(
+                    horizontal = BrainDropTheme.spacing.xs,
+                    vertical = BrainDropTheme.spacing.xxs,
+                ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             BrainDropIconButton(

@@ -14,9 +14,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,8 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import by.freiding.braindrop.core.ui.BrainDropTheme
-import by.freiding.braindrop.core.ui.component.BrainDropButton
-import by.freiding.braindrop.core.ui.component.BrainDropButtonStyle
 import by.freiding.braindrop.core.ui.component.BrainDropIconButton
 import by.freiding.braindrop.core.ui.component.ErrorStatusCard
 import by.freiding.braindrop.core.ui.icon.BrainDropIcons
@@ -141,7 +138,11 @@ private fun DetailHeader(
                         modifier = Modifier.size(28.dp).background(semantics.correct, BrainDropTheme.shapes.chip),
                         contentAlignment = Alignment.Center,
                     ) {
-                        BrainDropIcons.Check(iconSize = 15.dp, tint = androidx.compose.ui.graphics.Color.White, strokeWidth = 2.4.dp)
+                        BrainDropIcons.Check(
+                            iconSize = 15.dp,
+                            tint = androidx.compose.ui.graphics.Color.White,
+                            strokeWidth = 2.4.dp,
+                        )
                     }
                 } else {
                     Box(
@@ -202,7 +203,10 @@ private fun DetailContent(item: PhrasalVerbWithProgress) {
 }
 
 @Composable
-private fun MeaningCard(index: Int, meaning: PhrasalVerbMeaning) {
+private fun MeaningCard(
+    index: Int,
+    meaning: PhrasalVerbMeaning,
+) {
     val semantics = BrainDropTheme.semantics
 
     Column(
@@ -263,7 +267,10 @@ private fun MeaningCard(index: Int, meaning: PhrasalVerbMeaning) {
 }
 
 @Composable
-private fun ExampleRow(english: String, russian: String) {
+private fun ExampleRow(
+    english: String,
+    russian: String,
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -283,7 +290,11 @@ private fun ExampleRow(english: String, russian: String) {
 }
 
 @Composable
-private fun BadgeChip(text: String, containerColor: androidx.compose.ui.graphics.Color, contentColor: androidx.compose.ui.graphics.Color) {
+private fun BadgeChip(
+    text: String,
+    containerColor: androidx.compose.ui.graphics.Color,
+    contentColor: androidx.compose.ui.graphics.Color,
+) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(6.dp))

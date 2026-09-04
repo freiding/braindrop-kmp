@@ -469,7 +469,12 @@ private fun QuizFooter(
     onNext: () -> Unit,
 ) {
     Box(
-        modifier = Modifier.fillMaxWidth().navigationBarsPadding().height(BrainDropTheme.spacing.quizFooterHeight).padding(horizontal = 20.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .navigationBarsPadding()
+            .height(
+                BrainDropTheme.spacing.quizFooterHeight,
+            ).padding(horizontal = 20.dp),
         contentAlignment = Alignment.Center,
     ) {
         AnimatedContent(
@@ -525,7 +530,13 @@ private fun QuizResultContent(
         pluralStringResource(Res.plurals.quiz_result_subtitle_mistakes, state.mistakes.size, state.mistakes.size)
     }
 
-    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).navigationBarsPadding().padding(20.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .navigationBarsPadding()
+            .padding(20.dp),
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

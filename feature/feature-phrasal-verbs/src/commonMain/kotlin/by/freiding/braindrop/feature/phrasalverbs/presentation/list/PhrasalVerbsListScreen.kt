@@ -20,8 +20,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -130,7 +130,11 @@ fun PhrasalVerbsListScreen(
                     .background(MaterialTheme.colorScheme.errorContainer)
                     .padding(horizontal = BrainDropTheme.spacing.md, vertical = BrainDropTheme.spacing.xs),
             ) {
-                Text(text = msg, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onErrorContainer)
+                Text(
+                    text = msg,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onErrorContainer,
+                )
             }
         }
 
@@ -324,7 +328,8 @@ private fun SearchField(
                 onValueChange = onValueChange,
                 singleLine = true,
                 textStyle = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
-                cursorBrush = androidx.compose.ui.graphics.SolidColor(MaterialTheme.colorScheme.primary),
+                cursorBrush = androidx.compose.ui.graphics
+                    .SolidColor(MaterialTheme.colorScheme.primary),
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -419,7 +424,11 @@ private fun SwipeablePhrasalVerbRow(
                         onHorizontalDrag = { change, delta ->
                             val allowedDelta = if ((delta > 0 && !isLearnedState.value) ||
                                 (delta < 0 && isLearnedState.value)
-                            ) delta else 0f
+                            ) {
+                                delta
+                            } else {
+                                0f
+                            }
                             dragOffsetPx = (dragOffsetPx + allowedDelta).coerceIn(-400f, 400f)
                             val exceeded = abs(dragOffsetPx) > thresholdPx
                             if (exceeded && !didExceedThreshold) {
@@ -459,9 +468,19 @@ private fun SwipeablePhrasalVerbRow(
                 ) {
                     if (animatedOffset > 0f) {
                         icon()
-                        Text(text = label, color = Color.White, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.bodyMedium)
+                        Text(
+                            text = label,
+                            color = Color.White,
+                            fontWeight = FontWeight.ExtraBold,
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
                     } else {
-                        Text(text = label, color = Color.White, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.bodyMedium)
+                        Text(
+                            text = label,
+                            color = Color.White,
+                            fontWeight = FontWeight.ExtraBold,
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
                         Spacer(Modifier.width(BrainDropTheme.spacing.xs))
                         icon()
                     }
@@ -470,7 +489,20 @@ private fun SwipeablePhrasalVerbRow(
             Box(
                 modifier = Modifier
                     .offset { IntOffset(animatedOffset.roundToInt(), 0) }
-                    .let { if (abs(animatedOffset) > 1f) it.shadow(6.dp, RectangleShape, ambientColor = Color.Black.copy(alpha = 0.1f), spotColor = Color.Black.copy(alpha = 0.1f)) else it },
+                    .let {
+                        if (abs(animatedOffset) >
+                            1f
+                        ) {
+                            it.shadow(
+                                6.dp,
+                                RectangleShape,
+                                ambientColor = Color.Black.copy(alpha = 0.1f),
+                                spotColor = Color.Black.copy(alpha = 0.1f),
+                            )
+                        } else {
+                            it
+                        }
+                    },
             ) {
                 PhrasalVerbRow(item = item, onClick = onClick, onToggleLearned = onToggleLearned)
             }
@@ -526,9 +558,17 @@ private fun PhrasalVerbRow(
                 }
             }
             Row(modifier = Modifier.padding(top = 3.dp)) {
-                Box(modifier = Modifier.width(2.dp).height(16.dp).background(MaterialTheme.colorScheme.primaryContainer))
+                Box(
+                    modifier = Modifier
+                        .width(
+                            2.dp,
+                        ).height(16.dp)
+                        .background(MaterialTheme.colorScheme.primaryContainer),
+                )
                 Text(
-                    text = item.verb.meanings.first().translation,
+                    text = item.verb.meanings
+                        .first()
+                        .translation,
                     style = BrainDropTheme.type.translation,
                     color = semantics.ink500,
                     modifier = Modifier.padding(start = 8.dp),
@@ -588,7 +628,10 @@ private fun PhrasalVerbsListSkeleton() {
     }
 }
 
-private fun categoryColor(category: PhrasalVerbCategory, semantics: by.freiding.braindrop.core.ui.BrainDropSemantics): Color =
+private fun categoryColor(
+    category: PhrasalVerbCategory,
+    semantics: by.freiding.braindrop.core.ui.BrainDropSemantics,
+): Color =
     when (category) {
         PhrasalVerbCategory.WORK -> semantics.tenseTimeColor("PRESENT")
         PhrasalVerbCategory.RELATIONSHIPS -> semantics.tenseTimeColor("PAST")

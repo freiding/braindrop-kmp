@@ -22,8 +22,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -356,7 +356,12 @@ private fun QuizFooter(
     onNext: () -> Unit,
 ) {
     Box(
-        modifier = Modifier.fillMaxWidth().navigationBarsPadding().height(BrainDropTheme.spacing.quizFooterHeight).padding(horizontal = 20.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .navigationBarsPadding()
+            .height(
+                BrainDropTheme.spacing.quizFooterHeight,
+            ).padding(horizontal = 20.dp),
         contentAlignment = Alignment.Center,
     ) {
         AnimatedContent(
@@ -410,7 +415,13 @@ private fun QuizResultContent(
         pluralStringResource(Res.plurals.tenses_quiz_result_subtitle_mistakes, state.mistakes.size, state.mistakes.size)
     }
 
-    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).navigationBarsPadding().padding(20.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .navigationBarsPadding()
+            .padding(20.dp),
+    ) {
         ScoreSummaryCard(
             state = state,
             total = total,

@@ -14,5 +14,6 @@ sealed class PhrasalVerbDetailUiEffect {
 
 sealed class PhrasalVerbDetailUiEvent {
     data object ToggleLearned : PhrasalVerbDetailUiEvent()
+
     data object NavigateBack : PhrasalVerbDetailUiEvent()
 }

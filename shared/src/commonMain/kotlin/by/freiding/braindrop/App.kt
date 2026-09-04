@@ -1,6 +1,7 @@
 package by.freiding.braindrop
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -17,7 +18,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import by.freiding.braindrop.core.analytics.AnalyticsTracker
 import by.freiding.braindrop.core.navigation.Routes
-import androidx.compose.foundation.layout.WindowInsets
 import by.freiding.braindrop.core.ui.BrainDropTheme
 import by.freiding.braindrop.core.ui.component.BrainDropNavTab
 import by.freiding.braindrop.core.ui.component.BrainDropNavigationBar
@@ -25,11 +25,11 @@ import by.freiding.braindrop.feature.home.presentation.screen.HomeScreen
 import by.freiding.braindrop.feature.irregularverbs.presentation.detail.VerbDetailScreen
 import by.freiding.braindrop.feature.irregularverbs.presentation.list.VerbListScreen
 import by.freiding.braindrop.feature.irregularverbs.presentation.quiz.QuizScreen
-import by.freiding.braindrop.feature.profile.presentation.screen.ProfileScreen
-import by.freiding.braindrop.feature.profile.presentation.screen.ProgressScreen
 import by.freiding.braindrop.feature.phrasalverbs.presentation.detail.PhrasalVerbDetailScreen
 import by.freiding.braindrop.feature.phrasalverbs.presentation.list.PhrasalVerbsListScreen
 import by.freiding.braindrop.feature.phrasalverbs.presentation.quiz.PhrasalVerbsQuizScreen
+import by.freiding.braindrop.feature.profile.presentation.screen.ProfileScreen
+import by.freiding.braindrop.feature.profile.presentation.screen.ProgressScreen
 import by.freiding.braindrop.feature.tenses.presentation.cheatsheet.TenseCheatSheetScreen
 import by.freiding.braindrop.feature.tenses.presentation.comparison.TenseComparisonsScreen
 import by.freiding.braindrop.feature.tenses.presentation.detail.TenseDetailScreen

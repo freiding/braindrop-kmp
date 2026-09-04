@@ -6,6 +6,5 @@ import by.freiding.braindrop.feature.phrasalverbs.domain.repository.PhrasalVerbR
 class GetPhrasalVerbStreakDaysUseCase(
     private val repository: PhrasalVerbRepository,
 ) {
-    suspend operator fun invoke(): Result<Int> =
-        repository.getStreakDays()
+    suspend operator fun invoke(): Result<Int> = repository.getStreakDays()
 }

@@ -12,7 +12,11 @@ class LocalPhrasalVerbDataSource {
     fun getById(id: String): PhrasalVerb? = VERBS.firstOrNull { it.id == id }
 
     private companion object {
-        private fun ex(en: String, ru: String) = PhrasalVerbExample(en, ru)
+        private fun ex(
+            en: String,
+            ru: String,
+        ) = PhrasalVerbExample(en, ru)
+
         private fun meaning(
             definition: String,
             translation: String,
@@ -77,7 +81,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to arrange or prepare equipment for use",
                         "настроить, подготовить",
-                        ex("Can you set up the projector for the meeting?", "Ты можешь настроить проектор для встречи?"),
+                        ex(
+                            "Can you set up the projector for the meeting?",
+                            "Ты можешь настроить проектор для встречи?",
+                        ),
                     ),
                 ),
             ),
@@ -106,13 +113,22 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to accept responsibility or a task",
                         "взять на себя, принять",
-                        ex("She took on too much work this month.", "В этом месяце она взяла на себя слишком много работы."),
-                        ex("The company took on five new employees.", "Компания взяла на работу пятерых новых сотрудников."),
+                        ex(
+                            "She took on too much work this month.",
+                            "В этом месяце она взяла на себя слишком много работы.",
+                        ),
+                        ex(
+                            "The company took on five new employees.",
+                            "Компания взяла на работу пятерых новых сотрудников.",
+                        ),
                     ),
                     meaning(
                         "to compete against someone",
                         "сразиться, выступить против",
-                        ex("Our team took on the reigning champions.", "Наша команда сразилась с действующими чемпионами."),
+                        ex(
+                            "Our team took on the reigning champions.",
+                            "Наша команда сразилась с действующими чемпионами.",
+                        ),
                     ),
                 ),
             ),
@@ -127,7 +143,10 @@ class LocalPhrasalVerbDataSource {
                         "to reject or refuse an offer or request",
                         "отклонить, отказать",
                         ex("He turned down the job offer.", "Он отклонил предложение о работе."),
-                        ex("She turned down the invitation to the party.", "Она отказалась от приглашения на вечеринку."),
+                        ex(
+                            "She turned down the invitation to the party.",
+                            "Она отказалась от приглашения на вечеринку.",
+                        ),
                     ),
                     meaning(
                         "to reduce the volume, heat, or level of something",
@@ -152,7 +171,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to cause someone to lose interest or enthusiasm",
                         "отпугнуть, отбить интерес",
-                        ex("The high prices put her off buying a new phone.", "Высокие цены отбили у неё желание покупать новый телефон."),
+                        ex(
+                            "The high prices put her off buying a new phone.",
+                            "Высокие цены отбили у неё желание покупать новый телефон.",
+                        ),
                     ),
                 ),
             ),
@@ -217,7 +239,10 @@ class LocalPhrasalVerbDataSource {
                         "to have a quarrel or argument and stop being friends",
                         "поссориться, рассориться",
                         ex("They fell out over a misunderstanding.", "Они поссорились из-за недоразумения."),
-                        ex("She fell out with her best friend last year.", "В прошлом году она поссорилась с лучшей подругой."),
+                        ex(
+                            "She fell out with her best friend last year.",
+                            "В прошлом году она поссорилась с лучшей подругой.",
+                        ),
                     ),
                 ),
             ),
@@ -251,7 +276,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to introduce a topic into a conversation",
                         "поднять тему, упомянуть",
-                        ex("She brought up the salary issue at the meeting.", "Она подняла вопрос о зарплате на встрече."),
+                        ex(
+                            "She brought up the salary issue at the meeting.",
+                            "Она подняла вопрос о зарплате на встрече.",
+                        ),
                         ex("He didn't want to bring up the argument again.", "Он не хотел снова поднимать этот спор."),
                     ),
                     meaning(
@@ -277,7 +305,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to become more mature and responsible",
                         "повзрослеть, стать серьёзнее",
-                        ex("It's time to grow up and take responsibility.", "Пора повзрослеть и взять на себя ответственность."),
+                        ex(
+                            "It's time to grow up and take responsibility.",
+                            "Пора повзрослеть и взять на себя ответственность.",
+                        ),
                     ),
                 ),
             ),
@@ -357,7 +388,10 @@ class LocalPhrasalVerbDataSource {
                         "to draw attention to a fact or mistake",
                         "указать, обратить внимание",
                         ex("She pointed out an error in the report.", "Она указала на ошибку в отчёте."),
-                        ex("He kindly pointed out that I had food on my shirt.", "Он любезно указал, что у меня еда на рубашке."),
+                        ex(
+                            "He kindly pointed out that I had food on my shirt.",
+                            "Он любезно указал, что у меня еда на рубашке.",
+                        ),
                     ),
                 ),
             ),
@@ -372,7 +406,10 @@ class LocalPhrasalVerbDataSource {
                         "to end a romantic relationship",
                         "расстаться, разойтись",
                         ex("They broke up after three years together.", "Они расстались после трёх лет вместе."),
-                        ex("She was heartbroken when he broke up with her.", "Она была убита горем, когда он с ней расстался."),
+                        ex(
+                            "She was heartbroken when he broke up with her.",
+                            "Она была убита горем, когда он с ней расстался.",
+                        ),
                     ),
                     meaning(
                         "to separate or disperse a group",
@@ -391,7 +428,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to take care of someone or something",
                         "заботиться, присматривать",
-                        ex("Can you look after my dog this weekend?", "Ты можешь присмотреть за моей собакой на выходных?"),
+                        ex(
+                            "Can you look after my dog this weekend?",
+                            "Ты можешь присмотреть за моей собакой на выходных?",
+                        ),
                         ex("She looks after her elderly parents.", "Она ухаживает за пожилыми родителями."),
                     ),
                 ),
@@ -421,7 +461,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to move or progress at the same rate as someone or something",
                         "идти в ногу, не отставать",
-                        ex("It's hard to keep up with all the new technology.", "Трудно идти в ногу с новыми технологиями."),
+                        ex(
+                            "It's hard to keep up with all the new technology.",
+                            "Трудно идти в ногу с новыми технологиями.",
+                        ),
                         ex("She struggled to keep up with the class.", "Ей было трудно успевать за классом."),
                     ),
                 ),
@@ -466,8 +509,14 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to gain control of a company or take responsibility from someone",
                         "захватить, взять под контроль",
-                        ex("The company was taken over by a larger rival.", "Компанию поглотил более крупный конкурент."),
-                        ex("She took over as manager when he left.", "Она взяла на себя роль менеджера, когда он ушёл."),
+                        ex(
+                            "The company was taken over by a larger rival.",
+                            "Компанию поглотил более крупный конкурент.",
+                        ),
+                        ex(
+                            "She took over as manager when he left.",
+                            "Она взяла на себя роль менеджера, когда он ушёл.",
+                        ),
                     ),
                 ),
             ),
@@ -501,7 +550,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to cancel a planned event or activity",
                         "отменить",
-                        ex("They called off the meeting at the last minute.", "Они отменили встречу в последнюю минуту."),
+                        ex(
+                            "They called off the meeting at the last minute.",
+                            "Они отменили встречу в последнюю минуту.",
+                        ),
                         ex("The match was called off due to bad weather.", "Матч отменили из-за плохой погоды."),
                     ),
                 ),
@@ -531,7 +583,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to start living a stable, conventional life in one place",
                         "остепениться, осесть",
-                        ex("He settled down after years of travelling.", "После многих лет путешествий он остепенился."),
+                        ex(
+                            "He settled down after years of travelling.",
+                            "После многих лет путешествий он остепенился.",
+                        ),
                         ex("She wants to settle down and start a family.", "Она хочет остепениться и создать семью."),
                     ),
                     meaning(
@@ -551,8 +606,14 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to admire and respect someone",
                         "восхищаться, уважать",
-                        ex("She has always looked up to her older sister.", "Она всегда восхищалась своей старшей сестрой."),
-                        ex("Kids look up to sports stars as role models.", "Дети видят в звёздах спорта образец для подражания."),
+                        ex(
+                            "She has always looked up to her older sister.",
+                            "Она всегда восхищалась своей старшей сестрой.",
+                        ),
+                        ex(
+                            "Kids look up to sports stars as role models.",
+                            "Дети видят в звёздах спорта образец для подражания.",
+                        ),
                     ),
                 ),
             ),
@@ -592,7 +653,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to learn something quickly and informally",
                         "подхватить, усвоить",
-                        ex("She picked up Spanish in just a few months.", "Она освоила испанский всего за несколько месяцев."),
+                        ex(
+                            "She picked up Spanish in just a few months.",
+                            "Она освоила испанский всего за несколько месяцев.",
+                        ),
                     ),
                 ),
             ),
@@ -627,7 +691,10 @@ class LocalPhrasalVerbDataSource {
                         "to persuade someone to do something",
                         "убедить, уговорить",
                         ex("She talked him into going to the gym.", "Она уговорила его пойти в спортзал."),
-                        ex("Don't let them talk you into something you don't want.", "Не позволяй им уговорить тебя на то, чего ты не хочешь."),
+                        ex(
+                            "Don't let them talk you into something you don't want.",
+                            "Не позволяй им уговорить тебя на то, чего ты не хочешь.",
+                        ),
                     ),
                 ),
             ),
@@ -641,7 +708,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to suggest an idea, plan, or candidate",
                         "предложить, выдвинуть",
-                        ex("She put forward a new strategy at the meeting.", "Она предложила новую стратегию на встрече."),
+                        ex(
+                            "She put forward a new strategy at the meeting.",
+                            "Она предложила новую стратегию на встрече.",
+                        ),
                         ex("His name was put forward for the promotion.", "Его имя выдвинули на повышение."),
                     ),
                 ),
@@ -657,7 +727,10 @@ class LocalPhrasalVerbDataSource {
                         "to distribute something to a group of people",
                         "раздать, раздавать",
                         ex("The teacher handed out worksheets to the class.", "Учитель раздал рабочие листы классу."),
-                        ex("Volunteers were handing out leaflets in the street.", "Волонтёры раздавали листовки на улице."),
+                        ex(
+                            "Volunteers were handing out leaflets in the street.",
+                            "Волонтёры раздавали листовки на улице.",
+                        ),
                     ),
                 ),
             ),
@@ -671,7 +744,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to become extinct or gradually disappear",
                         "вымирать, исчезать",
-                        ex("Many species are dying out due to habitat loss.", "Многие виды вымирают из-за уничтожения среды обитания."),
+                        ex(
+                            "Many species are dying out due to habitat loss.",
+                            "Многие виды вымирают из-за уничтожения среды обитания.",
+                        ),
                         ex("This old tradition is slowly dying out.", "Эта старая традиция медленно исчезает."),
                     ),
                 ),
@@ -687,7 +763,10 @@ class LocalPhrasalVerbDataSource {
                         "to gradually disappear or lose effect",
                         "проходить, улетучиваться",
                         ex("The effect of the painkiller is wearing off.", "Действие обезболивающего проходит."),
-                        ex("The excitement of the new job wore off quickly.", "Воодушевление от новой работы быстро прошло."),
+                        ex(
+                            "The excitement of the new job wore off quickly.",
+                            "Воодушевление от новой работы быстро прошло.",
+                        ),
                     ),
                 ),
             ),
@@ -716,7 +795,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to find the solution to something or understand something",
                         "разобраться, понять",
-                        ex("I can't figure out how to use this app.", "Я не могу разобраться, как пользоваться этим приложением."),
+                        ex(
+                            "I can't figure out how to use this app.",
+                            "Я не могу разобраться, как пользоваться этим приложением.",
+                        ),
                         ex("She figured out the answer to the problem.", "Она нашла ответ на задачу."),
                     ),
                 ),
@@ -747,12 +829,18 @@ class LocalPhrasalVerbDataSource {
                         "to find or meet something or someone by chance",
                         "наткнуться, случайно встретить",
                         ex("I came across an old photo in the attic.", "Я наткнулся на старую фотографию на чердаке."),
-                        ex("She came across her school friend in a coffee shop.", "Она случайно встретила школьную подругу в кофейне."),
+                        ex(
+                            "She came across her school friend in a coffee shop.",
+                            "Она случайно встретила школьную подругу в кофейне.",
+                        ),
                     ),
                     meaning(
                         "to give a particular impression to others",
                         "производить впечатление",
-                        ex("She comes across as very confident.", "Она производит впечатление очень уверенного человека."),
+                        ex(
+                            "She comes across as very confident.",
+                            "Она производит впечатление очень уверенного человека.",
+                        ),
                     ),
                 ),
             ),
@@ -787,7 +875,10 @@ class LocalPhrasalVerbDataSource {
                         "to take action in order to handle a problem or situation",
                         "справляться, разбираться",
                         ex("Can you deal with this complaint?", "Ты можешь разобраться с этой жалобой?"),
-                        ex("He deals with difficult customers every day.", "Он каждый день имеет дело со сложными клиентами."),
+                        ex(
+                            "He deals with difficult customers every day.",
+                            "Он каждый день имеет дело со сложными клиентами.",
+                        ),
                     ),
                 ),
             ),
@@ -821,7 +912,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to arrive or appear, often unexpectedly",
                         "появиться, объявиться",
-                        ex("He turned up at the party without an invitation.", "Он появился на вечеринке без приглашения."),
+                        ex(
+                            "He turned up at the party without an invitation.",
+                            "Он появился на вечеринке без приглашения.",
+                        ),
                         ex("The missing keys turned up under the sofa.", "Пропавшие ключи нашлись под диваном."),
                     ),
                     meaning(
@@ -861,7 +955,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to prepare a formal document, plan, or list",
                         "составить, разработать",
-                        ex("The lawyer drew up a contract for both parties.", "Адвокат составил договор для обеих сторон."),
+                        ex(
+                            "The lawyer drew up a contract for both parties.",
+                            "Адвокат составил договор для обеих сторон.",
+                        ),
                         ex("We need to draw up a project timeline.", "Нам нужно составить график проекта."),
                     ),
                 ),
@@ -877,7 +974,10 @@ class LocalPhrasalVerbDataSource {
                         "to dismiss employees because of lack of work or funding",
                         "сократить, уволить",
                         ex("The factory laid off two hundred workers.", "Завод сократил двести рабочих."),
-                        ex("She was laid off during the company restructuring.", "Её уволили в ходе реструктуризации компании."),
+                        ex(
+                            "She was laid off during the company restructuring.",
+                            "Её уволили в ходе реструктуризации компании.",
+                        ),
                     ),
                 ),
             ),
@@ -892,7 +992,10 @@ class LocalPhrasalVerbDataSource {
                         "to register or enrol for something",
                         "записаться, зарегистрироваться",
                         ex("She signed up for an online course.", "Она записалась на онлайн-курс."),
-                        ex("You can sign up for the newsletter on the website.", "Вы можете подписаться на рассылку на сайте."),
+                        ex(
+                            "You can sign up for the newsletter on the website.",
+                            "Вы можете подписаться на рассылку на сайте.",
+                        ),
                     ),
                 ),
             ),
@@ -906,8 +1009,14 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to resign from an important position",
                         "уйти в отставку, покинуть пост",
-                        ex("The CEO stepped down after the scandal.", "Генеральный директор ушёл в отставку после скандала."),
-                        ex("She stepped down as chairwoman last month.", "В прошлом месяце она покинула пост председателя."),
+                        ex(
+                            "The CEO stepped down after the scandal.",
+                            "Генеральный директор ушёл в отставку после скандала.",
+                        ),
+                        ex(
+                            "She stepped down as chairwoman last month.",
+                            "В прошлом месяце она покинула пост председателя.",
+                        ),
                     ),
                 ),
             ),
@@ -921,7 +1030,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to share feelings or thoughts honestly with someone",
                         "открыться, раскрыться",
-                        ex("It took him a long time to open up about his fears.", "Ему потребовалось много времени, чтобы открыться о своих страхах."),
+                        ex(
+                            "It took him a long time to open up about his fears.",
+                            "Ему потребовалось много времени, чтобы открыться о своих страхах.",
+                        ),
                         ex("She finds it hard to open up to new people.", "Ей трудно открываться перед новыми людьми."),
                     ),
                     meaning(
@@ -941,7 +1053,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to repair or resolve a quarrel or damaged relationship",
                         "помириться, уладить",
-                        ex("They patched up their differences and became friends again.", "Они уладили разногласия и снова стали друзьями."),
+                        ex(
+                            "They patched up their differences and became friends again.",
+                            "Они уладили разногласия и снова стали друзьями.",
+                        ),
                         ex("Can we patch things up?", "Можем ли мы помириться?"),
                     ),
                     meaning(
@@ -961,7 +1076,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to begin living in a new home",
                         "въехать, переехать",
-                        ex("They moved in to their new flat last weekend.", "На прошлых выходных они въехали в новую квартиру."),
+                        ex(
+                            "They moved in to their new flat last weekend.",
+                            "На прошлых выходных они въехали в новую квартиру.",
+                        ),
                         ex("When are you moving in?", "Когда ты переезжаешь?"),
                     ),
                 ),
@@ -1007,7 +1125,10 @@ class LocalPhrasalVerbDataSource {
                         "to explain something very clearly and in detail",
                         "разъяснить, растолковать",
                         ex("Do I have to spell it out for you?", "Мне нужно разжевать тебе это?"),
-                        ex("The instructions don't spell out what to do next.", "В инструкции не объясняется, что делать дальше."),
+                        ex(
+                            "The instructions don't spell out what to do next.",
+                            "В инструкции не объясняется, что делать дальше.",
+                        ),
                     ),
                 ),
             ),
@@ -1021,8 +1142,14 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to briefly state the main points of something",
                         "подытожить, резюмировать",
-                        ex("Could you sum up the main points of the report?", "Не могли бы вы подытожить основные моменты отчёта?"),
-                        ex("To sum up, we need more time and resources.", "Подводя итог, нам нужно больше времени и ресурсов."),
+                        ex(
+                            "Could you sum up the main points of the report?",
+                            "Не могли бы вы подытожить основные моменты отчёта?",
+                        ),
+                        ex(
+                            "To sum up, we need more time and resources.",
+                            "Подводя итог, нам нужно больше времени и ресурсов.",
+                        ),
                     ),
                 ),
             ),
@@ -1036,7 +1163,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to communicate an idea or message successfully",
                         "донести мысль, объяснить",
-                        ex("It's hard to get this concept across to beginners.", "Трудно донести эту концепцию до начинающих."),
+                        ex(
+                            "It's hard to get this concept across to beginners.",
+                            "Трудно донести эту концепцию до начинающих.",
+                        ),
                         ex("Did the speaker get her point across?", "Удалось ли оратору донести свою мысль?"),
                     ),
                 ),
@@ -1052,7 +1182,10 @@ class LocalPhrasalVerbDataSource {
                         "to give or transmit information, a message, or an item to someone else",
                         "передать, сообщить",
                         ex("Could you pass on the message to her?", "Не могли бы вы передать ей сообщение?"),
-                        ex("He passed on the good news to the rest of the team.", "Он передал хорошие новости остальным членам команды."),
+                        ex(
+                            "He passed on the good news to the rest of the team.",
+                            "Он передал хорошие новости остальным членам команды.",
+                        ),
                     ),
                 ),
             ),
@@ -1066,7 +1199,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to suddenly become successful or start to increase rapidly",
                         "взлететь, стремительно расти",
-                        ex("Her career really took off after that film.", "Её карьера действительно пошла в гору после того фильма."),
+                        ex(
+                            "Her career really took off after that film.",
+                            "Её карьера действительно пошла в гору после того фильма.",
+                        ),
                         ex("Sales took off in the second quarter.", "Продажи резко возросли во втором квартале."),
                     ),
                     meaning(
@@ -1108,12 +1244,18 @@ class LocalPhrasalVerbDataSource {
                         "to increase or accumulate gradually over time",
                         "нарастать, накапливаться",
                         ex("Tension built up throughout the day.", "Напряжение нарастало в течение дня."),
-                        ex("He has built up a lot of experience over the years.", "За эти годы он накопил большой опыт."),
+                        ex(
+                            "He has built up a lot of experience over the years.",
+                            "За эти годы он накопил большой опыт.",
+                        ),
                     ),
                     meaning(
                         "to strengthen or develop something",
                         "развивать, укреплять",
-                        ex("She built up her confidence through public speaking.", "Она укрепила уверенность в себе через публичные выступления."),
+                        ex(
+                            "She built up her confidence through public speaking.",
+                            "Она укрепила уверенность в себе через публичные выступления.",
+                        ),
                     ),
                 ),
             ),
@@ -1157,7 +1299,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to cause something to happen",
                         "вызвать, привести к",
-                        ex("The new law brought about significant changes.", "Новый закон привёл к значительным изменениям."),
+                        ex(
+                            "The new law brought about significant changes.",
+                            "Новый закон привёл к значительным изменениям.",
+                        ),
                         ex("What brought about this sudden decision?", "Что привело к этому внезапному решению?"),
                     ),
                 ),
@@ -1187,7 +1332,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to finally be in a situation or place, often unexpectedly",
                         "оказаться, в итоге стать",
-                        ex("We got lost and ended up in the wrong city.", "Мы заблудились и в итоге оказались не в том городе."),
+                        ex(
+                            "We got lost and ended up in the wrong city.",
+                            "Мы заблудились и в итоге оказались не в том городе.",
+                        ),
                         ex("He ended up becoming a doctor after all.", "В итоге он всё-таки стал врачом."),
                     ),
                 ),
@@ -1208,7 +1356,10 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to occupy time, space, or resources",
                         "занимать, отнимать",
-                        ex("This project takes up most of my time.", "Этот проект занимает большую часть моего времени."),
+                        ex(
+                            "This project takes up most of my time.",
+                            "Этот проект занимает большую часть моего времени.",
+                        ),
                     ),
                 ),
             ),
@@ -1222,8 +1373,14 @@ class LocalPhrasalVerbDataSource {
                     meaning(
                         "to be very noticeable or clearly better than others",
                         "выделяться, бросаться в глаза",
-                        ex("Her bright red coat made her stand out in the crowd.", "Её ярко-красное пальто заставляло её выделяться в толпе."),
-                        ex("This candidate really stands out from the others.", "Этот кандидат действительно выделяется на фоне остальных."),
+                        ex(
+                            "Her bright red coat made her stand out in the crowd.",
+                            "Её ярко-красное пальто заставляло её выделяться в толпе.",
+                        ),
+                        ex(
+                            "This candidate really stands out from the others.",
+                            "Этот кандидат действительно выделяется на фоне остальных.",
+                        ),
                     ),
                 ),
             ),
@@ -1258,7 +1415,10 @@ class LocalPhrasalVerbDataSource {
                         "to remove, dispose of, or free yourself from something unwanted",
                         "избавиться от",
                         ex("She got rid of all the old furniture.", "Она избавилась от всей старой мебели."),
-                        ex("How do I get rid of this error message?", "Как мне избавиться от этого сообщения об ошибке?"),
+                        ex(
+                            "How do I get rid of this error message?",
+                            "Как мне избавиться от этого сообщения об ошибке?",
+                        ),
                     ),
                 ),
             ),
