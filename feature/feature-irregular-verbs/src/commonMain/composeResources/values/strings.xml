@@ -50,7 +50,7 @@
     <string name="quiz_result_title_great">Отличная сессия!</string>
     <string name="quiz_result_title_good">Хорошая сессия!</string>
     <string name="quiz_result_title_meh">Есть над чем поработать</string>
-    <string name="quiz_result_percent_correct">%1$d%% ВЕРНО</string>
+    <string name="quiz_result_percent_correct">%1$d% ВЕРНО</string>
     <string name="quiz_result_subtitle_perfect">Ни одной ошибки — сессия пройдена идеально!</string>
     <string name="quiz_tile_time_label">время</string>
     <string name="quiz_tile_progress_label">к прогрессу</string>

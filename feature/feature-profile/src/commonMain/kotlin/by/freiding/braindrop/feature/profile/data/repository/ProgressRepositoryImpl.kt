@@ -33,7 +33,7 @@ class ProgressRepositoryImpl(
         val CATEGORIES = listOf(
             "irregular_verbs" to 179,
             "tenses" to 12,
-            "phrasal_verbs" to 72,
+            "phrasal_verbs" to 73,
         )
     }
 }
