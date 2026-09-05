@@ -63,6 +63,8 @@ pipeline {
                 // this is a separate --no-daemon invocation from the 'Release Bundle' stage —
                 // without the keystore creds here too, Gradle sees the signing config vanish,
                 // re-runs bundleRelease unsigned, and Play rejects the upload.
+                // The R8 deobfuscation mapping is embedded in the .aab by AGP, so it is
+                // uploaded to Play Console as part of this bundle — no extra task needed.
                 withCredentials([
                     file(credentialsId: 'android-release-keystore', variable: 'KEYSTORE_PATH'),
                     string(credentialsId: 'android-keystore-password', variable: 'KEYSTORE_PASSWORD'),
