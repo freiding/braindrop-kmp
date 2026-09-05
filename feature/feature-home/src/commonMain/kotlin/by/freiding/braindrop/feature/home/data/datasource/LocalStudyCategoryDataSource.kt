@@ -36,7 +36,7 @@ class LocalStudyCategoryDataSource {
     private companion object {
         // Mirrors the feature-vocabulary seed set; kept as constants because feature modules
         // must not depend on one another.
-        const val VOCABULARY_CHUNK_COUNT = 78
-        const val VOCABULARY_THEME_COUNT = 6
+        const val VOCABULARY_CHUNK_COUNT = 114
+        const val VOCABULARY_THEME_COUNT = 8
     }
 }

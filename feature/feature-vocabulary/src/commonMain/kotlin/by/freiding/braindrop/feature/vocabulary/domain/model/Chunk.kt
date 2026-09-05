@@ -82,6 +82,8 @@ enum class ChunkTheme {
     FEELINGS,
     DAILY_LIFE,
     HEALTH,
+    EDUCATION,
+    SOCIAL,
 }
 
 /** CEFR level of the chunk. */

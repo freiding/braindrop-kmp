@@ -17,6 +17,8 @@ internal fun ChunkTheme.displayName(): String =
         ChunkTheme.FEELINGS -> "Feelings"
         ChunkTheme.DAILY_LIFE -> "Daily life"
         ChunkTheme.HEALTH -> "Health"
+        ChunkTheme.EDUCATION -> "Education"
+        ChunkTheme.SOCIAL -> "Social life"
     }
 
 internal fun ChunkLevel.displayName(): String = name
@@ -59,4 +61,6 @@ internal fun ChunkTheme.stripColor(semantics: BrainDropSemantics): Color =
         ChunkTheme.FEELINGS -> semantics.aspectColor("PERFECT_CONTINUOUS")
         ChunkTheme.DAILY_LIFE -> semantics.tenseTimeColor("PAST")
         ChunkTheme.HEALTH -> semantics.aspectColor("CONTINUOUS")
+        ChunkTheme.EDUCATION -> semantics.aspectColor("SIMPLE")
+        ChunkTheme.SOCIAL -> semantics.tenseTimeColor("PRESENT")
     }
