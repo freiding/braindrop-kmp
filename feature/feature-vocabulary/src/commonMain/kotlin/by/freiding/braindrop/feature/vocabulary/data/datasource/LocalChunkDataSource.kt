@@ -1,13 +1,21 @@
 package by.freiding.braindrop.feature.vocabulary.data.datasource
 
 import by.freiding.braindrop.feature.vocabulary.data.datasource.seed.DAILY_LIFE_CHUNKS
+import by.freiding.braindrop.feature.vocabulary.data.datasource.seed.DAILY_LIFE_CHUNKS_EXTRA
 import by.freiding.braindrop.feature.vocabulary.data.datasource.seed.EDUCATION_CHUNKS
+import by.freiding.braindrop.feature.vocabulary.data.datasource.seed.EDUCATION_CHUNKS_EXTRA
 import by.freiding.braindrop.feature.vocabulary.data.datasource.seed.FEELINGS_CHUNKS
+import by.freiding.braindrop.feature.vocabulary.data.datasource.seed.FEELINGS_CHUNKS_EXTRA
 import by.freiding.braindrop.feature.vocabulary.data.datasource.seed.HEALTH_CHUNKS
+import by.freiding.braindrop.feature.vocabulary.data.datasource.seed.HEALTH_CHUNKS_EXTRA
 import by.freiding.braindrop.feature.vocabulary.data.datasource.seed.MONEY_CHUNKS
+import by.freiding.braindrop.feature.vocabulary.data.datasource.seed.MONEY_CHUNKS_EXTRA
 import by.freiding.braindrop.feature.vocabulary.data.datasource.seed.SOCIAL_CHUNKS
+import by.freiding.braindrop.feature.vocabulary.data.datasource.seed.SOCIAL_CHUNKS_EXTRA
 import by.freiding.braindrop.feature.vocabulary.data.datasource.seed.TRAVEL_CHUNKS
+import by.freiding.braindrop.feature.vocabulary.data.datasource.seed.TRAVEL_CHUNKS_EXTRA
 import by.freiding.braindrop.feature.vocabulary.data.datasource.seed.WORK_CHUNKS
+import by.freiding.braindrop.feature.vocabulary.data.datasource.seed.WORK_CHUNKS_EXTRA
 import by.freiding.braindrop.feature.vocabulary.domain.model.Chunk
 import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkTheme
 
@@ -23,8 +31,14 @@ class LocalChunkDataSource {
 
     private companion object {
         val CHUNKS: List<Chunk> = (
-            WORK_CHUNKS + TRAVEL_CHUNKS + MONEY_CHUNKS + FEELINGS_CHUNKS + DAILY_LIFE_CHUNKS +
-                HEALTH_CHUNKS + EDUCATION_CHUNKS + SOCIAL_CHUNKS
+            WORK_CHUNKS + WORK_CHUNKS_EXTRA +
+                TRAVEL_CHUNKS + TRAVEL_CHUNKS_EXTRA +
+                MONEY_CHUNKS + MONEY_CHUNKS_EXTRA +
+                FEELINGS_CHUNKS + FEELINGS_CHUNKS_EXTRA +
+                DAILY_LIFE_CHUNKS + DAILY_LIFE_CHUNKS_EXTRA +
+                HEALTH_CHUNKS + HEALTH_CHUNKS_EXTRA +
+                EDUCATION_CHUNKS + EDUCATION_CHUNKS_EXTRA +
+                SOCIAL_CHUNKS + SOCIAL_CHUNKS_EXTRA
         )
 
         val CHUNKS_BY_ID: Map<String, Chunk> = CHUNKS.associateBy { it.id }
