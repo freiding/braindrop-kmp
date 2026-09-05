@@ -35,6 +35,10 @@ import by.freiding.braindrop.feature.tenses.presentation.comparison.TenseCompari
 import by.freiding.braindrop.feature.tenses.presentation.detail.TenseDetailScreen
 import by.freiding.braindrop.feature.tenses.presentation.list.TensesListScreen
 import by.freiding.braindrop.feature.tenses.presentation.quiz.TensesQuizScreen
+import by.freiding.braindrop.feature.vocabulary.presentation.detail.VocabularyChunkDetailScreen
+import by.freiding.braindrop.feature.vocabulary.presentation.list.VocabularyListScreen
+import by.freiding.braindrop.feature.vocabulary.presentation.quiz.VocabularyQuizScreen
+import by.freiding.braindrop.feature.vocabulary.presentation.session.VocabularyCardSessionScreen
 import org.koin.compose.koinInject
 
 @Composable
@@ -121,6 +125,20 @@ fun App() {
                     composable<Routes.PhrasalVerbsQuiz> { backStackEntry ->
                         val route = backStackEntry.toRoute<Routes.PhrasalVerbsQuiz>()
                         PhrasalVerbsQuizScreen(mode = route.mode, navController = navController)
+                    }
+                    composable<Routes.VocabularyList> {
+                        VocabularyListScreen(navController)
+                    }
+                    composable<Routes.VocabularyChunkDetail> { backStackEntry ->
+                        val route = backStackEntry.toRoute<Routes.VocabularyChunkDetail>()
+                        VocabularyChunkDetailScreen(chunkId = route.chunkId, navController = navController)
+                    }
+                    composable<Routes.VocabularyCardSession> {
+                        VocabularyCardSessionScreen(navController)
+                    }
+                    composable<Routes.VocabularyQuiz> { backStackEntry ->
+                        val route = backStackEntry.toRoute<Routes.VocabularyQuiz>()
+                        VocabularyQuizScreen(mode = route.mode, navController = navController)
                     }
                 }
             }

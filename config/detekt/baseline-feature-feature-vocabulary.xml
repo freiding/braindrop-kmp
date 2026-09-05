@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:VocabularyQuizScreen.kt$@Composable private fun ClozeOption( option: String, checked: Boolean, isCorrect: Boolean, isPicked: Boolean, onSelect: () -&gt; Unit, )</ID>
+    <ID>ReturnCount:GenerateVocabularyQuizUseCase.kt$GenerateVocabularyQuizUseCase$suspend operator fun invoke( mode: VocabularyQuizMode, sessionSize: Int = DEFAULT_SESSION_SIZE, restrictToChunkIds: List&lt;String&gt;? = null, ): Result&lt;List&lt;VocabularyQuizQuestion&gt;&gt;</ID>
+  </CurrentIssues>
+</SmellBaseline>

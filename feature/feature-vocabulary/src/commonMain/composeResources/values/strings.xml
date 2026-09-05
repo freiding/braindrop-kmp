@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Vocabulary screen copy is currently inline in the composables; this file reserves the
+         resource package so the module matches the other feature modules. -->
+    <string name="vocabulary_section_title">Vocabulary</string>
+</resources>

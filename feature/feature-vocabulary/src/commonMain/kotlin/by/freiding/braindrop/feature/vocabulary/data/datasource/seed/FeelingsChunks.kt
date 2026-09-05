@@ -1,0 +1,291 @@
+package by.freiding.braindrop.feature.vocabulary.data.datasource.seed
+
+import by.freiding.braindrop.feature.vocabulary.domain.model.Chunk
+import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkLevel.A2
+import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkLevel.B1
+import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkLevel.B2
+import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkRegister.INFORMAL
+import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkTheme.FEELINGS
+import by.freiding.braindrop.feature.vocabulary.domain.model.FrequencyBand.TOP_1000
+import by.freiding.braindrop.feature.vocabulary.domain.model.FrequencyBand.TOP_2000
+import by.freiding.braindrop.feature.vocabulary.domain.model.FrequencyBand.TOP_5000
+
+internal val FEELINGS_CHUNKS: List<Chunk> = listOf(
+    chunk(
+        id = "be_over_the_moon",
+        text = "be over the moon",
+        translation = "быть на седьмом небе",
+        headword = "moon",
+        theme = FEELINGS,
+        level = B2,
+        frequencyBand = TOP_5000,
+        register = INFORMAL,
+        pattern = "be + idiom",
+        example = ex("She was over the moon about the new job.", "Она была на седьмом небе от новой работы."),
+        more = listOf(
+            ex("We were over the moon when we heard the news.", "Мы были в полном восторге, когда услышали новость."),
+            ex("He'll be over the moon if you come.", "Он будет безумно рад, если ты придёшь."),
+        ),
+        collocations = listOf(
+            col("be thrilled", "быть в восторге"),
+            col("be on cloud nine", "витать в облаках от счастья"),
+        ),
+        nearby = listOf("be over the moon", "jump for joy"),
+    ),
+    chunk(
+        id = "lose_your_temper",
+        text = "lose your temper",
+        translation = "выйти из себя",
+        headword = "temper",
+        theme = FEELINGS,
+        level = B1,
+        frequencyBand = TOP_2000,
+        pattern = "V + poss + N",
+        example = ex("He lost his temper and shouted at everyone.", "Он вышел из себя и накричал на всех."),
+        more = listOf(
+            ex("Try not to lose your temper with the kids.", "Постарайся не срываться на детях."),
+            ex("She rarely loses her temper.", "Она редко выходит из себя."),
+        ),
+        error = err("lose your nerves", "«Выйти из себя» — lose your temper; «lose your nerve» значит «струсить»."),
+        collocations = listOf(
+            col("keep your temper", "сдержаться"),
+            col("have a short temper", "быть вспыльчивым"),
+            col("a bad temper", "скверный характер"),
+        ),
+    ),
+    chunk(
+        id = "feel_down",
+        text = "feel down",
+        translation = "быть в подавленном настроении",
+        headword = "down",
+        theme = FEELINGS,
+        level = A2,
+        frequencyBand = TOP_1000,
+        register = INFORMAL,
+        pattern = "V + adv",
+        example = ex("I've been feeling a bit down lately.", "В последнее время мне немного грустно."),
+        more = listOf(
+            ex("She felt down after the trip ended.", "После окончания поездки ей было тоскливо."),
+            ex("When you feel down, go for a walk.", "Когда грустно, сходи прогуляйся."),
+        ),
+        collocations = listOf(
+            col("feel low", "быть не в духе"),
+            col("cheer someone up", "подбодрить кого-то"),
+            col("be in a bad mood", "быть в плохом настроении"),
+        ),
+    ),
+    chunk(
+        id = "get_on_someones_nerves",
+        text = "get on someone's nerves",
+        translation = "действовать кому-то на нервы",
+        headword = "nerves",
+        theme = FEELINGS,
+        level = B1,
+        frequencyBand = TOP_2000,
+        register = INFORMAL,
+        pattern = "V + prep + N",
+        example = ex("That noise is really getting on my nerves.", "Этот шум реально действует мне на нервы."),
+        more = listOf(
+            ex(
+                "After a week together, they got on each other's nerves.",
+                "После недели вместе они стали раздражать друг друга.",
+            ),
+            ex("Stop tapping — it's getting on my nerves.", "Хватит стучать — это меня бесит."),
+        ),
+        collocations = listOf(
+            col("drive someone crazy", "сводить с ума"),
+            col("wind someone up", "выводить из себя"),
+        ),
+    ),
+    chunk(
+        id = "be_scared_stiff",
+        text = "be scared stiff",
+        translation = "быть до смерти напуганным",
+        headword = "scared",
+        theme = FEELINGS,
+        level = B2,
+        frequencyBand = TOP_5000,
+        register = INFORMAL,
+        pattern = "be + adj + adj",
+        example = ex("I was scared stiff during the landing.", "Во время посадки я был до смерти напуган."),
+        more = listOf(
+            ex("She's scared stiff of spiders.", "Она панически боится пауков."),
+            ex("The kids were scared stiff by the storm.", "Дети были в ужасе от грозы."),
+        ),
+        collocations = listOf(
+            col("be terrified of", "смертельно бояться"),
+            col("frightened to death", "напуган до смерти"),
+        ),
+    ),
+    chunk(
+        id = "calm_down",
+        text = "calm down",
+        translation = "успокоиться",
+        headword = "calm",
+        theme = FEELINGS,
+        level = A2,
+        frequencyBand = TOP_1000,
+        pattern = "V + adv",
+        example = ex("Take a deep breath and calm down.", "Сделай глубокий вдох и успокойся."),
+        more = listOf(
+            ex(
+                "It took her a while to calm down after the call.",
+                "После звонка ей понадобилось время, чтобы успокоиться.",
+            ),
+            ex("Calm down — there's no need to shout.", "Успокойся, кричать не нужно."),
+        ),
+        collocations = listOf(
+            col("cool off", "остыть"),
+            col("pull yourself together", "взять себя в руки"),
+        ),
+        forms = listOf(verb("calm"), adj("calm")),
+    ),
+    chunk(
+        id = "be_fed_up_with",
+        text = "be fed up with",
+        translation = "быть сытым по горло чем-то",
+        headword = "fed up",
+        theme = FEELINGS,
+        level = B1,
+        frequencyBand = TOP_2000,
+        register = INFORMAL,
+        pattern = "be + adj + prep",
+        example = ex("I'm fed up with the constant delays.", "Мне надоели постоянные задержки."),
+        more = listOf(
+            ex("She's fed up with waiting for an answer.", "Ей надоело ждать ответа."),
+            ex("They got fed up with the noise and moved.", "Им надоел шум, и они переехали."),
+        ),
+        error = err("be fed up of", "После fed up идёт with: be fed up with something."),
+        collocations = listOf(
+            col("be sick of", "быть по горло сытым"),
+            col("have had enough", "с меня хватит"),
+        ),
+    ),
+    chunk(
+        id = "burst_into_tears",
+        text = "burst into tears",
+        translation = "расплакаться",
+        headword = "tears",
+        theme = FEELINGS,
+        level = B1,
+        frequencyBand = TOP_2000,
+        pattern = "V + prep + N",
+        example = ex("She burst into tears when she read the letter.", "Прочитав письмо, она расплакалась."),
+        more = listOf(
+            ex("He nearly burst into tears on stage.", "На сцене он едва не расплакался."),
+            ex("The child burst into tears at the doctor's.", "У врача ребёнок разрыдался."),
+        ),
+        error = err("break into tears", "Устойчиво: burst into tears (или break down in tears)."),
+        collocations = listOf(
+            col("burst out laughing", "расхохотаться"),
+            col("be in tears", "быть в слезах"),
+            col("hold back tears", "сдерживать слёзы"),
+        ),
+    ),
+    chunk(
+        id = "take_it_personally",
+        text = "take it personally",
+        translation = "принимать на свой счёт",
+        headword = "personally",
+        theme = FEELINGS,
+        level = B1,
+        frequencyBand = TOP_2000,
+        pattern = "V + pron + adv",
+        example = ex(
+            "Don't take it personally — she's like that with everyone.",
+            "Не принимай на свой счёт — она со всеми такая.",
+        ),
+        more = listOf(
+            ex("He took the criticism personally.", "Он принял критику близко к сердцу."),
+            ex("It's just business; don't take it personally.", "Это просто бизнес, не воспринимай это лично."),
+        ),
+        collocations = listOf(
+            col("take offence", "обидеться"),
+            col("take something to heart", "принимать близко к сердцу"),
+        ),
+    ),
+    chunk(
+        id = "be_in_a_good_mood",
+        text = "be in a good mood",
+        translation = "быть в хорошем настроении",
+        headword = "mood",
+        theme = FEELINGS,
+        level = A2,
+        frequencyBand = TOP_1000,
+        pattern = "be + prep + adj + N",
+        example = ex("The boss is in a good mood today.", "Начальник сегодня в хорошем настроении."),
+        more = listOf(
+            ex("She's not in the mood for jokes.", "Ей сейчас не до шуток."),
+            ex("Music always puts me in a good mood.", "Музыка всегда поднимает мне настроение."),
+        ),
+        error = err("have a good mood", "«В хорошем настроении» — be in a good mood, не «have»."),
+        collocations = listOf(
+            col("be in a bad mood", "быть в плохом настроении"),
+            col("a mood swing", "перепад настроения"),
+            col("lighten the mood", "разрядить обстановку"),
+        ),
+    ),
+    chunk(
+        id = "get_your_hopes_up",
+        text = "get your hopes up",
+        translation = "сильно надеяться",
+        headword = "hopes",
+        theme = FEELINGS,
+        level = B2,
+        frequencyBand = TOP_2000,
+        register = INFORMAL,
+        pattern = "V + poss + N + adv",
+        example = ex(
+            "Don't get your hopes up — the answer is usually no.",
+            "Не надейся слишком сильно — обычно отвечают отказом.",
+        ),
+        more = listOf(
+            ex("I don't want to get my hopes up too early.", "Не хочу раньше времени обнадёживаться."),
+            ex("She got her hopes up and was disappointed.", "Она сильно понадеялась и была разочарована."),
+        ),
+        collocations = listOf(
+            col("pin your hopes on", "возлагать надежды на"),
+            col("hold out hope", "сохранять надежду"),
+        ),
+    ),
+    chunk(
+        id = "feel_at_ease",
+        text = "feel at ease",
+        translation = "чувствовать себя непринуждённо",
+        headword = "ease",
+        theme = FEELINGS,
+        level = B2,
+        frequencyBand = TOP_2000,
+        pattern = "V + prep + N",
+        example = ex("She has a way of making people feel at ease.", "У неё есть дар помогать людям расслабиться."),
+        more = listOf(
+            ex("I never feel at ease at big parties.", "На больших вечеринках мне всегда не по себе."),
+            ex("He felt at ease as soon as she smiled.", "Как только она улыбнулась, он расслабился."),
+        ),
+        collocations = listOf(
+            col("put someone at ease", "успокоить кого-то"),
+            col("feel uneasy", "чувствовать себя неловко"),
+        ),
+    ),
+    chunk(
+        id = "be_worried_sick",
+        text = "be worried sick",
+        translation = "изводиться от беспокойства",
+        headword = "worried",
+        theme = FEELINGS,
+        level = B1,
+        frequencyBand = TOP_2000,
+        register = INFORMAL,
+        pattern = "be + adj + adv",
+        example = ex("Call your mother — she's worried sick.", "Позвони маме — она вся извелась."),
+        more = listOf(
+            ex("We were worried sick when you didn't answer.", "Мы страшно переживали, когда ты не отвечал."),
+            ex("He's worried sick about the results.", "Он ужасно переживает из-за результатов."),
+        ),
+        collocations = listOf(
+            col("worry about", "беспокоиться о"),
+            col("be anxious about", "тревожиться из-за"),
+        ),
+        forms = listOf(verb("worry"), adj("worried"), noun("worry")),
+    ),
+)

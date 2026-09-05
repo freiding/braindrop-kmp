@@ -77,9 +77,10 @@ fun HomeScreen(
                     "irregular_verbs" -> navController.navigate(Routes.IrregularVerbsList)
                     "tenses" -> navController.navigate(Routes.TensesList)
                     "phrasal_verbs" -> navController.navigate(Routes.PhrasalVerbsList)
+                    "vocabulary" -> navController.navigate(Routes.VocabularyList)
                     else -> Unit
                 }
-                is HomeUiEffect.ContinueQuiz -> navController.navigate(Routes.IrregularVerbsQuiz())
+                is HomeUiEffect.ContinueQuiz -> navController.navigate(Routes.VocabularyCardSession)
             }
         }
     }

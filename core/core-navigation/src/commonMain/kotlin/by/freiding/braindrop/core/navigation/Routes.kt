@@ -58,4 +58,20 @@ sealed interface Routes {
     data class PhrasalVerbsQuiz(
         val mode: String = "DEFINITION_TO_VERB",
     ) : Routes
+
+    @Serializable
+    data object VocabularyList : Routes
+
+    @Serializable
+    data class VocabularyChunkDetail(
+        val chunkId: String,
+    ) : Routes
+
+    @Serializable
+    data object VocabularyCardSession : Routes
+
+    @Serializable
+    data class VocabularyQuiz(
+        val mode: String = "MIXED",
+    ) : Routes
 }

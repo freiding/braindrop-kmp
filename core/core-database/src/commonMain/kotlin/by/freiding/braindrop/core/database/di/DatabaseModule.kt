@@ -10,5 +10,6 @@ val databaseModule = module {
     single { get<AppDatabase>().studyProgressQueries }
     single { get<AppDatabase>().irregularVerbProgressQueries }
     single { get<AppDatabase>().dailyActivityQueries }
+    single { get<AppDatabase>().chunkProgressQueries }
     single { DailyActivityDataSource(get()) }
 }

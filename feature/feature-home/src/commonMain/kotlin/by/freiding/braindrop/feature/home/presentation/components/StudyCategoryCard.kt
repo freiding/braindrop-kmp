@@ -44,10 +44,13 @@ import by.freiding.braindrop.feature.home.category_groups_count
 import by.freiding.braindrop.feature.home.category_irregular_verbs_title
 import by.freiding.braindrop.feature.home.category_phrasal_verbs_description
 import by.freiding.braindrop.feature.home.category_phrasal_verbs_title
+import by.freiding.braindrop.feature.home.category_review_badge
 import by.freiding.braindrop.feature.home.category_soon_badge
 import by.freiding.braindrop.feature.home.category_tenses_description
 import by.freiding.braindrop.feature.home.category_tenses_title
 import by.freiding.braindrop.feature.home.category_verbs_count
+import by.freiding.braindrop.feature.home.category_vocabulary_description
+import by.freiding.braindrop.feature.home.category_vocabulary_title
 import by.freiding.braindrop.feature.home.domain.model.StudyCategory
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
@@ -93,11 +96,30 @@ private fun ActiveCategoryCard(
                 Text(text = category.icon, fontSize = 22.sp)
             }
             Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                    val due = category.dueCount
+                    if (due != null && due > 0) {
+                        Box(
+                            modifier = Modifier
+                                .background(BrainDropTheme.semantics.streakTint, RoundedCornerShape(6.dp))
+                                .padding(horizontal = 6.dp, vertical = 4.dp),
+                        ) {
+                            Text(
+                                text = stringResource(Res.string.category_review_badge, due),
+                                style = BrainDropTheme.type.label,
+                                color = BrainDropTheme.semantics.streakInk,
+                            )
+                        }
+                    }
+                }
                 Text(
                     text = description,
                     style = MaterialTheme.typography.bodySmall,
@@ -187,6 +209,7 @@ private fun categoryTitle(id: String): String =
         "irregular_verbs" -> stringResource(Res.string.category_irregular_verbs_title)
         "tenses" -> stringResource(Res.string.category_tenses_title)
         "phrasal_verbs" -> stringResource(Res.string.category_phrasal_verbs_title)
+        "vocabulary" -> stringResource(Res.string.category_vocabulary_title)
         else -> id
     }
 
@@ -206,6 +229,11 @@ private fun categoryDescription(category: StudyCategory): String =
         }
         "tenses" -> stringResource(Res.string.category_tenses_description)
         "phrasal_verbs" -> stringResource(Res.string.category_phrasal_verbs_description)
+        "vocabulary" -> stringResource(
+            Res.string.category_vocabulary_description,
+            category.totalItems,
+            category.secondaryCount ?: 0,
+        )
         else -> ""
     }
 

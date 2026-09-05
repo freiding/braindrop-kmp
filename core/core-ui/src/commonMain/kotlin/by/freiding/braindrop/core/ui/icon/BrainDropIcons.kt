@@ -322,6 +322,38 @@ object BrainDropIcons {
         drawPath(tray, tint, style = Stroke(width = stroke, cap = StrokeCap.Round, join = StrokeJoin.Round))
     }
 
+    /** Speaker with sound waves: the text-to-speech "play" button on the Vocabulary screens. */
+    @Composable
+    fun Speaker(
+        modifier: Modifier = Modifier,
+        tint: Color = LocalContentColor.current,
+        iconSize: Dp = 24.dp,
+        strokeWidth: Dp = 2.2.dp,
+    ) = Canvas(modifier = modifier.size(iconSize)) {
+        val scale = size.width / 24f
+        val stroke = Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
+        val cone = Path().apply {
+            moveTo(4f * scale, 9.5f * scale)
+            lineTo(7.5f * scale, 9.5f * scale)
+            lineTo(12.5f * scale, 5.5f * scale)
+            lineTo(12.5f * scale, 18.5f * scale)
+            lineTo(7.5f * scale, 14.5f * scale)
+            lineTo(4f * scale, 14.5f * scale)
+            close()
+        }
+        drawPath(cone, tint, style = stroke)
+        val innerWave = Path().apply {
+            moveTo(16f * scale, 9f * scale)
+            cubicTo(17.6f * scale, 10.4f * scale, 17.6f * scale, 13.6f * scale, 16f * scale, 15f * scale)
+        }
+        drawPath(innerWave, tint, style = stroke)
+        val outerWave = Path().apply {
+            moveTo(18.8f * scale, 6.5f * scale)
+            cubicTo(21.6f * scale, 9f * scale, 21.6f * scale, 15f * scale, 18.8f * scale, 17.5f * scale)
+        }
+        drawPath(outerWave, tint, style = stroke)
+    }
+
     /** Two dots on vertical lines: the "confused with" / comparisons row icon. */
     @Composable
     fun Compare(
