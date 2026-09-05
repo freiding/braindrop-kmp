@@ -5,6 +5,10 @@ import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkProgress
 import by.freiding.braindrop.feature.vocabulary.domain.repository.ChunkRepository
 import by.freiding.braindrop.feature.vocabulary.domain.srs.RecallGrade
 
+/**
+ * Applies a recall [RecallGrade] to a chunk (card session and detail "Как хорошо помнишь?"),
+ * advancing its spaced-repetition schedule and returning the new [ChunkProgress].
+ */
 class GradeChunkUseCase(
     private val repository: ChunkRepository,
 ) {

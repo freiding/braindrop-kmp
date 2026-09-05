@@ -41,6 +41,7 @@ import by.freiding.braindrop.core.ui.component.BrainDropIconButton
 import by.freiding.braindrop.core.ui.component.ErrorStatusCard
 import by.freiding.braindrop.core.ui.icon.BrainDropIcons
 import by.freiding.braindrop.core.ui.tts.TextToSpeechPlayer
+import by.freiding.braindrop.feature.vocabulary.Res
 import by.freiding.braindrop.feature.vocabulary.domain.model.Chunk
 import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkWithProgress
 import by.freiding.braindrop.feature.vocabulary.domain.model.ReviewStatus
@@ -52,7 +53,22 @@ import by.freiding.braindrop.feature.vocabulary.presentation.common.GradeButtonR
 import by.freiding.braindrop.feature.vocabulary.presentation.common.displayName
 import by.freiding.braindrop.feature.vocabulary.presentation.common.highlightChunk
 import by.freiding.braindrop.feature.vocabulary.presentation.common.metaLine
+import by.freiding.braindrop.feature.vocabulary.vocab_cd_back
+import by.freiding.braindrop.feature.vocabulary.vocab_detail_error_title
+import by.freiding.braindrop.feature.vocabulary.vocab_detail_section_collocations
+import by.freiding.braindrop.feature.vocabulary.vocab_detail_section_context
+import by.freiding.braindrop.feature.vocabulary.vocab_detail_section_forms
+import by.freiding.braindrop.feature.vocabulary.vocab_detail_section_nearby
+import by.freiding.braindrop.feature.vocabulary.vocab_detail_srs_due_in_days
+import by.freiding.braindrop.feature.vocabulary.vocab_detail_srs_due_today
+import by.freiding.braindrop.feature.vocabulary.vocab_detail_srs_learned
+import by.freiding.braindrop.feature.vocabulary.vocab_detail_srs_new
+import by.freiding.braindrop.feature.vocabulary.vocab_detail_toggle_learn
+import by.freiding.braindrop.feature.vocabulary.vocab_detail_toggle_unlearn
+import by.freiding.braindrop.feature.vocabulary.vocab_error_retry
+import by.freiding.braindrop.feature.vocabulary.vocab_recall_prompt
 import kotlinx.datetime.LocalDate
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -83,11 +99,11 @@ fun VocabularyChunkDetailScreen(
 
         when {
             state.error != null -> ErrorStatusCard(
-                title = "Не удалось загрузить чанк",
+                title = stringResource(Res.string.vocab_detail_error_title),
                 body = state.error.orEmpty(),
-                retryText = "Повторить",
+                retryText = stringResource(Res.string.vocab_error_retry),
                 onRetry = { viewModel.reload() },
-                secondaryText = "Назад",
+                secondaryText = stringResource(Res.string.vocab_cd_back),
                 onSecondary = { viewModel.onEvent(VocabularyChunkDetailUiEvent.NavigateBack) },
             )
             state.isLoading -> Box(Modifier.fillMaxSize())
@@ -122,7 +138,7 @@ private fun DetailHeader(
                 .padding(horizontal = BrainDropTheme.spacing.xs, vertical = BrainDropTheme.spacing.xxs),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            BrainDropIconButton(onClick = onBack, contentDescription = "Назад") {
+            BrainDropIconButton(onClick = onBack, contentDescription = stringResource(Res.string.vocab_cd_back)) {
                 BrainDropIcons.ChevronLeft(iconSize = 22.dp, tint = MaterialTheme.colorScheme.onSurface)
             }
             Column(modifier = Modifier.weight(1f).padding(start = BrainDropTheme.spacing.xxs)) {
@@ -146,7 +162,9 @@ private fun DetailHeader(
             }
             BrainDropIconButton(
                 onClick = onToggleLearned,
-                contentDescription = if (learned) "Снять отметку" else "Отметить изученным",
+                contentDescription = stringResource(
+                    if (learned) Res.string.vocab_detail_toggle_unlearn else Res.string.vocab_detail_toggle_learn,
+                ),
             ) {
                 if (learned) {
                     Box(
@@ -180,7 +198,7 @@ private fun DetailBody(
         ) {
             item { HeroCard(chunk = chunk, onSpeak = onSpeak) }
             item { SrsStrip(item = item, today = today) }
-            item { SectionLabel("ЧАНК В КОНТЕКСТЕ") }
+            item { SectionLabel(stringResource(Res.string.vocab_detail_section_context)) }
             item {
                 ChunkExampleCard(
                     example = chunk.primaryExample,
@@ -205,15 +223,15 @@ private fun DetailBody(
             }
 
             if (chunk.relatedCollocations.isNotEmpty()) {
-                item { SectionLabel("ДРУГИЕ КОЛЛОКАЦИИ") }
+                item { SectionLabel(stringResource(Res.string.vocab_detail_section_collocations)) }
                 item { CollocationsCard(chunk) }
             }
             if (chunk.wordForms.isNotEmpty()) {
-                item { SectionLabel("ФОРМЫ СЛОВА") }
+                item { SectionLabel(stringResource(Res.string.vocab_detail_section_forms)) }
                 item { WordFormsCard(chunk) }
             }
             if (chunk.nearbyChunks.isNotEmpty()) {
-                item { SectionLabel("БЛИЗКИЕ ЧАНКИ") }
+                item { SectionLabel(stringResource(Res.string.vocab_detail_section_nearby)) }
                 item { NearbyChunksRow(chunk) }
             }
             item { Spacer(Modifier.height(BrainDropTheme.spacing.xl)) }
@@ -290,13 +308,13 @@ private fun SrsStrip(
     today: LocalDate,
 ) {
     val semantics = BrainDropTheme.semantics
+    val interval = ChunkSrs.currentIntervalDays(item.progress)
+    val streak = item.progress.streak
     val text = when (val status = item.status(today)) {
-        ReviewStatus.New -> "Новый чанк — ещё не в расписании"
-        ReviewStatus.DueToday ->
-            "Повтор сегодня · интервал ${ChunkSrs.currentIntervalDays(item.progress)} дн. · " +
-                "${item.progress.streak} успешных подряд"
-        is ReviewStatus.DueInDays -> "Повтор через ${status.days} дн. · ${item.progress.streak} успешных подряд"
-        ReviewStatus.Learned -> "Изучен · интервал ${ChunkSrs.currentIntervalDays(item.progress)} дн."
+        ReviewStatus.New -> stringResource(Res.string.vocab_detail_srs_new)
+        ReviewStatus.DueToday -> stringResource(Res.string.vocab_detail_srs_due_today, interval, streak)
+        is ReviewStatus.DueInDays -> stringResource(Res.string.vocab_detail_srs_due_in_days, status.days, streak)
+        ReviewStatus.Learned -> stringResource(Res.string.vocab_detail_srs_learned, interval)
     }
     Row(
         modifier = Modifier
@@ -430,7 +448,7 @@ private fun DetailFooter(onGrade: (RecallGrade) -> Unit) {
             .padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 16.dp),
     ) {
         Text(
-            text = "КАК ХОРОШО ПОМНИШЬ?",
+            text = stringResource(Res.string.vocab_recall_prompt),
             style = BrainDropTheme.type.label,
             color = BrainDropTheme.semantics.ink400,
             modifier = Modifier.padding(bottom = 10.dp),

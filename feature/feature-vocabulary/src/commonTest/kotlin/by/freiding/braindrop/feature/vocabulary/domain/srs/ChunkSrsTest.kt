@@ -37,7 +37,7 @@ class ChunkSrsTest {
     }
 
     @Test
-    fun `ALMOST on a brand-new chunk still leaves the session (min one day)`() {
+    fun `ALMOST on a brand-new chunk still leaves the session with a minimum one-day interval`() {
         val result = ChunkSrs.schedule(progress(box = 0), RecallGrade.ALMOST, today, nowMillis = 0L)
 
         assertEquals(0, result.box)

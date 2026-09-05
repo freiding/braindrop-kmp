@@ -21,7 +21,6 @@ data class VocabularyQuizUiState(
     val checked: Boolean = false,
     val lastAnswerCorrect: Boolean = false,
     val score: Int = 0,
-    val answerHistory: List<Boolean?> = emptyList(),
     val mistakes: List<VocabularyQuizMistake> = emptyList(),
     val scheduled: List<ChunkProgress> = emptyList(),
     val elapsedSeconds: Int = 0,

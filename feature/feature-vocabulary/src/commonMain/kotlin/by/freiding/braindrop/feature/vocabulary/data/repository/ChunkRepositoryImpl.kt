@@ -58,14 +58,6 @@ class ChunkRepositoryImpl(
             }.toResult()
         }
 
-    override suspend fun getChunksByIds(chunkIds: List<String>): Result<List<ChunkWithProgress>> =
-        withContext(dispatchers.io) {
-            runCatching {
-                val byId = progressDataSource.getAll().associateBy { it.chunkId }
-                chunkIds.mapNotNull { id -> chunkDataSource.getById(id)?.withProgress(byId[id]) }
-            }.toResult()
-        }
-
     override suspend fun gradeChunk(
         chunkId: String,
         grade: RecallGrade,
@@ -109,11 +101,6 @@ class ChunkRepositoryImpl(
     override suspend fun getStreakDays(): Result<Int> =
         withContext(dispatchers.io) {
             runCatching { dailyActivityDataSource.getStreakDays() }.toResult()
-        }
-
-    override suspend fun getDueCount(): Result<Int> =
-        withContext(dispatchers.io) {
-            runCatching { progressDataSource.countDue(AppClock.todayIso()) }.toResult()
         }
 
     private fun Chunk.withProgress(progress: ChunkProgress?): ChunkWithProgress =

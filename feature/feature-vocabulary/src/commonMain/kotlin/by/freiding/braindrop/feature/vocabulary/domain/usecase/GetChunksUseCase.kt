@@ -4,6 +4,7 @@ import by.freiding.braindrop.core.common.Result
 import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkWithProgress
 import by.freiding.braindrop.feature.vocabulary.domain.repository.ChunkRepository
 
+/** Loads every chunk with its spaced-repetition progress — backs the Vocabulary list screen. */
 class GetChunksUseCase(
     private val repository: ChunkRepository,
 ) {

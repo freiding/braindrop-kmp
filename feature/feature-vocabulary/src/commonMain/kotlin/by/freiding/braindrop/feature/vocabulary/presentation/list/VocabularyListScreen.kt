@@ -51,6 +51,7 @@ import by.freiding.braindrop.core.ui.BrainDropTheme
 import by.freiding.braindrop.core.ui.component.ErrorStatusCard
 import by.freiding.braindrop.core.ui.component.SegmentedProgressBar
 import by.freiding.braindrop.core.ui.icon.BrainDropIcons
+import by.freiding.braindrop.feature.vocabulary.Res
 import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkLevel
 import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkTheme
 import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkWithProgress
@@ -61,8 +62,28 @@ import by.freiding.braindrop.feature.vocabulary.presentation.common.displayName
 import by.freiding.braindrop.feature.vocabulary.presentation.common.highlightChunk
 import by.freiding.braindrop.feature.vocabulary.presentation.common.metaLine
 import by.freiding.braindrop.feature.vocabulary.presentation.common.stripColor
+import by.freiding.braindrop.feature.vocabulary.vocab_cd_back
+import by.freiding.braindrop.feature.vocabulary.vocab_error_retry
+import by.freiding.braindrop.feature.vocabulary.vocab_list_empty
+import by.freiding.braindrop.feature.vocabulary.vocab_list_error_body
+import by.freiding.braindrop.feature.vocabulary.vocab_list_error_title
+import by.freiding.braindrop.feature.vocabulary.vocab_list_filter_due
+import by.freiding.braindrop.feature.vocabulary.vocab_list_filter_unlearned
+import by.freiding.braindrop.feature.vocabulary.vocab_list_progress
+import by.freiding.braindrop.feature.vocabulary.vocab_list_quiz_button
+import by.freiding.braindrop.feature.vocabulary.vocab_list_search_hint
+import by.freiding.braindrop.feature.vocabulary.vocab_list_session_bar
+import by.freiding.braindrop.feature.vocabulary.vocab_list_session_bar_empty
+import by.freiding.braindrop.feature.vocabulary.vocab_list_title
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_mode_cloze
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_mode_mixed
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_mode_typing
+import by.freiding.braindrop.feature.vocabulary.vocab_status_due_in_days
+import by.freiding.braindrop.feature.vocabulary.vocab_status_due_today
+import by.freiding.braindrop.feature.vocabulary.vocab_status_new
 import kotlinx.coroutines.delay
 import kotlinx.datetime.LocalDate
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.milliseconds
@@ -108,11 +129,11 @@ fun VocabularyListScreen(
         Box(modifier = Modifier.weight(1f)) {
             when {
                 state.error != null -> ErrorStatusCard(
-                    title = "Не удалось загрузить чанки",
-                    body = "Данные хранятся на устройстве — попробуйте ещё раз.",
-                    retryText = "Повторить",
+                    title = stringResource(Res.string.vocab_list_error_title),
+                    body = stringResource(Res.string.vocab_list_error_body),
+                    retryText = stringResource(Res.string.vocab_error_retry),
                     onRetry = { viewModel.reload() },
-                    secondaryText = "Назад",
+                    secondaryText = stringResource(Res.string.vocab_cd_back),
                     onSecondary = { viewModel.onEvent(VocabularyListUiEvent.NavigateBack) },
                 )
                 state.isLoading -> ListSkeleton()
@@ -147,7 +168,7 @@ private fun ListHeader(
 
     Column(modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface)) {
         VocabularyHeader(
-            title = "Vocabulary",
+            title = stringResource(Res.string.vocab_list_title),
             onBack = onBack,
             divider = false,
             trailing = {
@@ -162,7 +183,11 @@ private fun ListHeader(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
                     ) {
-                        Text("Квиз", style = MaterialTheme.typography.labelLarge, color = Color.White)
+                        Text(
+                            text = stringResource(Res.string.vocab_list_quiz_button),
+                            style = MaterialTheme.typography.labelLarge,
+                            color = Color.White,
+                        )
                         BrainDropIcons.ChevronRight(iconSize = 13.dp, tint = Color.White, strokeWidth = 2.2.dp)
                     }
                     DropdownMenu(
@@ -188,7 +213,7 @@ private fun ListHeader(
         Column(modifier = Modifier.padding(horizontal = BrainDropTheme.spacing.sm)) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
-                    text = "${state.learnedCount} из $total изучено",
+                    text = stringResource(Res.string.vocab_list_progress, state.learnedCount, total),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -224,7 +249,7 @@ private fun ListHeader(
         ) {
             item {
                 FilterChip(
-                    label = "На повторение · ${state.dueCount}",
+                    label = stringResource(Res.string.vocab_list_filter_due, state.dueCount),
                     selected = state.dueOnly,
                     accent = true,
                     onClick = { onEvent(VocabularyListUiEvent.ToggleDueOnly) },
@@ -232,7 +257,7 @@ private fun ListHeader(
             }
             item {
                 FilterChip(
-                    label = "Неизученные",
+                    label = stringResource(Res.string.vocab_list_filter_unlearned),
                     selected = state.unlearnedOnly,
                     onClick = { onEvent(VocabularyListUiEvent.ToggleUnlearnedOnly) },
                 )
@@ -281,7 +306,7 @@ private fun SearchField(
         Box(modifier = Modifier.weight(1f)) {
             if (value.isEmpty()) {
                 Text(
-                    text = "Чанк, слово или перевод",
+                    text = stringResource(Res.string.vocab_list_search_hint),
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.5.sp),
                     color = BrainDropTheme.semantics.ink400,
                 )
@@ -428,11 +453,21 @@ private fun ReviewStatusBadge(status: ReviewStatus) {
         ) {
             BrainDropIcons.Check(iconSize = 14.dp, tint = Color.White, strokeWidth = 2.4.dp)
         }
-        ReviewStatus.DueToday -> StatusChip("СЕГОДНЯ", semantics.streakTint, semantics.streakInk)
-        is ReviewStatus.DueInDays ->
-            StatusChip("ЧЕРЕЗ ${status.days} Д", MaterialTheme.colorScheme.surfaceVariant, semantics.ink500)
-        ReviewStatus.New ->
-            StatusChip("НОВЫЙ", MaterialTheme.colorScheme.surfaceVariant, semantics.ink500)
+        ReviewStatus.DueToday -> StatusChip(
+            stringResource(Res.string.vocab_status_due_today),
+            semantics.streakTint,
+            semantics.streakInk,
+        )
+        is ReviewStatus.DueInDays -> StatusChip(
+            stringResource(Res.string.vocab_status_due_in_days, status.days),
+            MaterialTheme.colorScheme.surfaceVariant,
+            semantics.ink500,
+        )
+        ReviewStatus.New -> StatusChip(
+            stringResource(Res.string.vocab_status_new),
+            MaterialTheme.colorScheme.surfaceVariant,
+            semantics.ink500,
+        )
     }
 }
 
@@ -479,7 +514,11 @@ private fun BottomSessionBar(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = if (dueCount > 0) "Карточная сессия · $dueCount" else "Карточная сессия",
+                text = if (dueCount > 0) {
+                    stringResource(Res.string.vocab_list_session_bar, dueCount)
+                } else {
+                    stringResource(Res.string.vocab_list_session_bar_empty)
+                },
                 style = BrainDropTheme.type.button,
                 color = Color.White,
             )
@@ -493,7 +532,7 @@ private fun EmptyResult() {
         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(32.dp)) {
             BrainDropIcons.Search(iconSize = 32.dp, tint = BrainDropTheme.semantics.ink400)
             Spacer(Modifier.height(12.dp))
-            Text(text = "Ничего не найдено", style = MaterialTheme.typography.titleMedium)
+            Text(text = stringResource(Res.string.vocab_list_empty), style = MaterialTheme.typography.titleMedium)
         }
     }
 }
@@ -531,9 +570,12 @@ private fun ListSkeleton() {
     }
 }
 
+@Composable
 private fun VocabularyQuizMode.label(): String =
-    when (this) {
-        VocabularyQuizMode.CLOZE -> "Пропуск в предложении"
-        VocabularyQuizMode.TYPING -> "Ввод с клавиатуры"
-        VocabularyQuizMode.MIXED -> "Смешанный"
-    }
+    stringResource(
+        when (this) {
+            VocabularyQuizMode.CLOZE -> Res.string.vocab_quiz_mode_cloze
+            VocabularyQuizMode.TYPING -> Res.string.vocab_quiz_mode_typing
+            VocabularyQuizMode.MIXED -> Res.string.vocab_quiz_mode_mixed
+        },
+    )

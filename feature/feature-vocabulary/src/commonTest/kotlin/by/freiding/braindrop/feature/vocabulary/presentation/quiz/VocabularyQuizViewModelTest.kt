@@ -75,7 +75,6 @@ class VocabularyQuizViewModelTest {
                     vm.state.value.mistakes
                         .isEmpty(),
                 )
-                assertEquals(true, vm.state.value.answerHistory[0])
             } finally {
                 finish(vm)
             }

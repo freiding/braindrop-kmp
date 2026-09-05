@@ -19,9 +19,6 @@ class LocalChunkDataSource {
 
     fun getById(id: String): Chunk? = CHUNKS_BY_ID[id]
 
-    /** Number of distinct themes with at least one chunk — shown on the Home category card. */
-    fun themeCount(): Int = CHUNKS.mapTo(mutableSetOf(), Chunk::theme).size
-
     private companion object {
         val CHUNKS: List<Chunk> =
             (WORK_CHUNKS + TRAVEL_CHUNKS + MONEY_CHUNKS + FEELINGS_CHUNKS + DAILY_LIFE_CHUNKS + HEALTH_CHUNKS)

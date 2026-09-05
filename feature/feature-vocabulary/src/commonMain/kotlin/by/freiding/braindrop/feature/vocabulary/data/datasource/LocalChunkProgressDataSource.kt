@@ -6,8 +6,10 @@ import kotlinx.datetime.LocalDate
 
 /**
  * Thin SQLDelight wrapper for the `ChunkProgress` table. Maps rows to the domain [ChunkProgress]
- * via typed mapper lambdas so nothing above the data layer sees the generated row types (the
- * `getDue` query even generates its own result class because of the `due_date` nullability change).
+ * via a typed mapper lambda so nothing above the data layer sees the generated row type.
+ *
+ * The table's other queries (`getDue`, `countDue`, `countLearned`) are consumed directly by
+ * feature-home, not through this wrapper.
  */
 class LocalChunkProgressDataSource(
     private val queries: ChunkProgressQueries,
@@ -15,12 +17,6 @@ class LocalChunkProgressDataSource(
     fun getAll(): List<ChunkProgress> = queries.getAll(::mapRow).executeAsList()
 
     fun getById(chunkId: String): ChunkProgress? = queries.getById(chunkId, ::mapRow).executeAsOneOrNull()
-
-    fun getDue(todayIso: String): List<ChunkProgress> = queries.getDue(todayIso, ::mapDueRow).executeAsList()
-
-    fun countLearned(): Int = queries.countLearned().executeAsOne().toInt()
-
-    fun countDue(todayIso: String): Int = queries.countDue(todayIso).executeAsOne().toInt()
 
     fun upsert(progress: ChunkProgress) {
         queries.upsertProgress(
@@ -56,16 +52,4 @@ class LocalChunkProgressDataSource(
             lastReviewedAt = lastReviewedAt,
             isLearned = isLearned == 1L,
         )
-
-    @Suppress("LongParameterList")
-    private fun mapDueRow(
-        chunkId: String,
-        box: Long,
-        dueDate: String,
-        streak: Long,
-        timesSeen: Long,
-        timesCorrect: Long,
-        lastReviewedAt: Long?,
-        isLearned: Long,
-    ): ChunkProgress = mapRow(chunkId, box, dueDate, streak, timesSeen, timesCorrect, lastReviewedAt, isLearned)
 }

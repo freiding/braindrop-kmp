@@ -17,6 +17,9 @@ import androidx.compose.ui.unit.dp
 import by.freiding.braindrop.core.ui.BrainDropTheme
 import by.freiding.braindrop.core.ui.component.BrainDropIconButton
 import by.freiding.braindrop.core.ui.icon.BrainDropIcons
+import by.freiding.braindrop.feature.vocabulary.Res
+import by.freiding.braindrop.feature.vocabulary.vocab_cd_back
+import org.jetbrains.compose.resources.stringResource
 
 /** Standard screen header for the Vocabulary section: back button, title, optional trailing slot. */
 @Composable
@@ -34,7 +37,7 @@ internal fun VocabularyHeader(
                 .padding(horizontal = BrainDropTheme.spacing.xs, vertical = BrainDropTheme.spacing.xxs),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            BrainDropIconButton(onClick = onBack, contentDescription = "Назад") {
+            BrainDropIconButton(onClick = onBack, contentDescription = stringResource(Res.string.vocab_cd_back)) {
                 BrainDropIcons.ChevronLeft(iconSize = 22.dp, tint = MaterialTheme.colorScheme.onSurface)
             }
             Text(

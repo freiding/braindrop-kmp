@@ -20,8 +20,6 @@ interface ChunkRepository {
     /** Quiz pool: due chunks first, then new, then the rest, shuffled within each tier, capped at [limit]. */
     suspend fun getSessionChunks(limit: Int): Result<List<ChunkWithProgress>>
 
-    suspend fun getChunksByIds(chunkIds: List<String>): Result<List<ChunkWithProgress>>
-
     /** Applies an SRS [grade], persists the new schedule, and returns it. */
     suspend fun gradeChunk(
         chunkId: String,
@@ -35,6 +33,4 @@ interface ChunkRepository {
     ): Result<Unit>
 
     suspend fun getStreakDays(): Result<Int>
-
-    suspend fun getDueCount(): Result<Int>
 }

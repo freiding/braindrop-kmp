@@ -105,15 +105,6 @@ class VocabularyQuizViewModel(
                 lastAnswerCorrect = isCorrect,
                 selectedOption = userAnswer.takeIf { state.isCloze },
                 score = if (isCorrect) state.score + 1 else state.score,
-                answerHistory = state.answerHistory.mapIndexed { i, v ->
-                    if (i ==
-                        state.currentIndex
-                    ) {
-                        isCorrect
-                    } else {
-                        v
-                    }
-                },
                 mistakes = if (isCorrect) {
                     state.mistakes
                 } else {
@@ -156,13 +147,7 @@ class VocabularyQuizViewModel(
             _state.update { VocabularyQuizUiState(isLoading = true) }
             when (val result = generateQuiz(mode, restrictToChunkIds = restrictToChunkIds)) {
                 is Result.Success -> {
-                    _state.update {
-                        it.copy(
-                            isLoading = false,
-                            questions = result.data,
-                            answerHistory = List(result.data.size) { null },
-                        )
-                    }
+                    _state.update { it.copy(isLoading = false, questions = result.data) }
                     if (result.data.isNotEmpty()) startTicker()
                 }
                 is Result.Error -> _state.update { it.copy(isLoading = false, error = result.exception.message) }

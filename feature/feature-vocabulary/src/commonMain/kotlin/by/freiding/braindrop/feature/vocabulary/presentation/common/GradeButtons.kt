@@ -19,7 +19,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import by.freiding.braindrop.core.ui.BrainDropTheme
+import by.freiding.braindrop.feature.vocabulary.Res
 import by.freiding.braindrop.feature.vocabulary.domain.srs.RecallGrade
+import by.freiding.braindrop.feature.vocabulary.vocab_grade_almost
+import by.freiding.braindrop.feature.vocabulary.vocab_grade_dont_know
+import by.freiding.braindrop.feature.vocabulary.vocab_grade_know
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * The "КАК ХОРОШО ПОМНИШЬ?" row — three graded buttons (Не знаю / Почти / Знаю). When
@@ -38,7 +43,7 @@ internal fun GradeButtonRow(
         horizontalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.xs),
     ) {
         GradeButton(
-            title = "Не знаю",
+            title = stringResource(Res.string.vocab_grade_dont_know),
             hint = intervalLabels?.get(RecallGrade.DONT_KNOW),
             container = semantics.incorrectTint,
             border = semantics.incorrect,
@@ -46,7 +51,7 @@ internal fun GradeButtonRow(
             onClick = { onGrade(RecallGrade.DONT_KNOW) },
         )
         GradeButton(
-            title = "Почти",
+            title = stringResource(Res.string.vocab_grade_almost),
             hint = intervalLabels?.get(RecallGrade.ALMOST),
             container = semantics.streakTint,
             border = semantics.streak,
@@ -54,7 +59,7 @@ internal fun GradeButtonRow(
             onClick = { onGrade(RecallGrade.ALMOST) },
         )
         GradeButton(
-            title = "Знаю",
+            title = stringResource(Res.string.vocab_grade_know),
             hint = intervalLabels?.get(RecallGrade.KNOW),
             container = semantics.correct,
             border = semantics.correct,

@@ -3,6 +3,7 @@ package by.freiding.braindrop.feature.vocabulary.domain.usecase
 import by.freiding.braindrop.core.common.Result
 import by.freiding.braindrop.feature.vocabulary.domain.repository.ChunkRepository
 
+/** Current consecutive-day study streak, shown on the quiz result screen. */
 class GetVocabularyStreakDaysUseCase(
     private val repository: ChunkRepository,
 ) {

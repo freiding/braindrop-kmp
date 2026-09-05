@@ -26,7 +26,6 @@ class FakeChunkRepository(
     var sessionChunks: Result<List<ChunkWithProgress>> = Result.Success(chunks)
     var dueChunks: Result<List<ChunkWithProgress>> = Result.Success(chunks)
     var streakDays: Result<Int> = Result.Success(0)
-    var dueCount: Result<Int> = Result.Success(chunks.size)
 
     val gradedCalls = mutableListOf<Pair<String, RecallGrade>>()
     val setLearnedCalls = mutableListOf<Pair<String, Boolean>>()
@@ -43,9 +42,6 @@ class FakeChunkRepository(
 
     override suspend fun getSessionChunks(limit: Int): Result<List<ChunkWithProgress>> =
         sessionChunks.map { it.take(limit) }
-
-    override suspend fun getChunksByIds(chunkIds: List<String>): Result<List<ChunkWithProgress>> =
-        Result.Success(chunkIds.mapNotNull { store[it] })
 
     override suspend fun gradeChunk(
         chunkId: String,
@@ -67,8 +63,6 @@ class FakeChunkRepository(
     }
 
     override suspend fun getStreakDays(): Result<Int> = streakDays
-
-    override suspend fun getDueCount(): Result<Int> = dueCount
 
     private fun <T, R> Result<T>.map(transform: (T) -> R): Result<R> =
         when (this) {

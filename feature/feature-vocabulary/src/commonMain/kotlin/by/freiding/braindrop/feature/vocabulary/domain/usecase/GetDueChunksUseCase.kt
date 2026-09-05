@@ -4,6 +4,10 @@ import by.freiding.braindrop.core.common.Result
 import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkWithProgress
 import by.freiding.braindrop.feature.vocabulary.domain.repository.ChunkRepository
 
+/**
+ * Builds the card-session queue: chunks due today (or overdue) first, then never-seen chunks,
+ * capped at [DEFAULT_SESSION_SIZE].
+ */
 class GetDueChunksUseCase(
     private val repository: ChunkRepository,
 ) {

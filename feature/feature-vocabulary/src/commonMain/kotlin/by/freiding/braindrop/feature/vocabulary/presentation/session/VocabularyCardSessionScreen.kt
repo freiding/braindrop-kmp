@@ -36,6 +36,7 @@ import by.freiding.braindrop.core.ui.component.SegmentedBar
 import by.freiding.braindrop.core.ui.component.brainDropCard
 import by.freiding.braindrop.core.ui.icon.BrainDropIcons
 import by.freiding.braindrop.core.ui.tts.TextToSpeechPlayer
+import by.freiding.braindrop.feature.vocabulary.Res
 import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkWithProgress
 import by.freiding.braindrop.feature.vocabulary.domain.srs.RecallGrade
 import by.freiding.braindrop.feature.vocabulary.presentation.common.ChunkExampleCard
@@ -43,6 +44,21 @@ import by.freiding.braindrop.feature.vocabulary.presentation.common.GradeButtonR
 import by.freiding.braindrop.feature.vocabulary.presentation.common.VocabularyHeader
 import by.freiding.braindrop.feature.vocabulary.presentation.common.highlightChunk
 import by.freiding.braindrop.feature.vocabulary.presentation.common.metaLine
+import by.freiding.braindrop.feature.vocabulary.vocab_cd_back
+import by.freiding.braindrop.feature.vocabulary.vocab_loading
+import by.freiding.braindrop.feature.vocabulary.vocab_retry_again
+import by.freiding.braindrop.feature.vocabulary.vocab_session_empty_body
+import by.freiding.braindrop.feature.vocabulary.vocab_session_empty_title
+import by.freiding.braindrop.feature.vocabulary.vocab_session_finished_count
+import by.freiding.braindrop.feature.vocabulary.vocab_session_finished_title
+import by.freiding.braindrop.feature.vocabulary.vocab_session_front_hint
+import by.freiding.braindrop.feature.vocabulary.vocab_session_front_label
+import by.freiding.braindrop.feature.vocabulary.vocab_session_meta_seen
+import by.freiding.braindrop.feature.vocabulary.vocab_session_more_examples
+import by.freiding.braindrop.feature.vocabulary.vocab_session_reveal
+import by.freiding.braindrop.feature.vocabulary.vocab_session_title
+import by.freiding.braindrop.feature.vocabulary.vocab_to_list
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -73,13 +89,15 @@ fun VocabularyCardSessionScreen(
                 Text(state.error.orEmpty(), style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
                 Spacer(Modifier.height(BrainDropTheme.spacing.lg))
                 BrainDropButton(
-                    text = "Назад",
+                    text = stringResource(Res.string.vocab_cd_back),
                     onClick = { viewModel.onEvent(VocabularyCardSessionUiEvent.NavigateBack) },
                     style = BrainDropButtonStyle.OUTLINED,
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
-            state.isLoading -> Centered { Text("Загрузка…", style = MaterialTheme.typography.bodyLarge) }
+            state.isLoading -> Centered {
+                Text(stringResource(Res.string.vocab_loading), style = MaterialTheme.typography.bodyLarge)
+            }
             state.isEmpty -> SessionEmpty(onBack = { viewModel.onEvent(VocabularyCardSessionUiEvent.NavigateBack) })
             state.isFinished -> SessionFinished(
                 reviewed = state.reviewedCount,
@@ -106,7 +124,7 @@ private fun SessionHeader(
     val semantics = BrainDropTheme.semantics
     Column(modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface)) {
         VocabularyHeader(
-            title = "Карточная сессия",
+            title = stringResource(Res.string.vocab_session_title),
             onBack = onBack,
             divider = false,
             trailing = {
@@ -174,7 +192,7 @@ private fun SessionCard(
                 .padding(BrainDropTheme.spacing.lg)
                 .verticalScroll(rememberScrollState()),
         ) {
-            CardLabel("ЧАНК В ПРЕДЛОЖЕНИИ")
+            CardLabel(stringResource(Res.string.vocab_session_front_label))
             Spacer(Modifier.height(14.dp))
             Text(
                 text = highlightChunk(
@@ -192,7 +210,7 @@ private fun SessionCard(
             if (!revealed) {
                 Spacer(Modifier.height(BrainDropTheme.spacing.lg))
                 BrainDropButton(
-                    text = "Показать ответ",
+                    text = stringResource(Res.string.vocab_session_reveal),
                     onClick = onReveal,
                     style = BrainDropButtonStyle.OUTLINED,
                     modifier = Modifier.fillMaxWidth(),
@@ -228,7 +246,7 @@ private fun SessionCard(
                 }
                 if (chunk.moreExamples.isNotEmpty()) {
                     Spacer(Modifier.height(BrainDropTheme.spacing.md))
-                    CardLabel("ЕЩЁ ПРИМЕРЫ")
+                    CardLabel(stringResource(Res.string.vocab_session_more_examples))
                     Spacer(Modifier.height(10.dp))
                     chunk.moreExamples.take(2).forEach { example ->
                         ChunkExampleCard(example = example, chunk = chunk, modifier = Modifier.padding(bottom = 8.dp))
@@ -236,7 +254,11 @@ private fun SessionCard(
                 }
                 Spacer(Modifier.height(BrainDropTheme.spacing.sm))
                 Text(
-                    text = "${chunk.metaLine()} · ВСТРЕЧАЛСЯ ${item.progress.timesSeen} РАЗ",
+                    text = stringResource(
+                        Res.string.vocab_session_meta_seen,
+                        chunk.metaLine(),
+                        item.progress.timesSeen,
+                    ),
                     style = BrainDropTheme.type.label,
                     color = BrainDropTheme.semantics.ink400,
                 )
@@ -262,7 +284,7 @@ private fun SessionCard(
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
-                        text = "Вспомни чанк и открой ответ",
+                        text = stringResource(Res.string.vocab_session_front_hint),
                         style = MaterialTheme.typography.bodyMedium,
                         color = BrainDropTheme.semantics.ink400,
                     )
@@ -286,18 +308,25 @@ private fun SessionFinished(
     Centered {
         BrainDropIcons.Check(iconSize = 40.dp, tint = BrainDropTheme.semantics.correct)
         Spacer(Modifier.height(BrainDropTheme.spacing.md))
-        Text(text = "Сессия завершена", style = MaterialTheme.typography.titleLarge)
+        Text(
+            text = stringResource(Res.string.vocab_session_finished_title),
+            style = MaterialTheme.typography.titleLarge,
+        )
         Spacer(Modifier.height(BrainDropTheme.spacing.xs))
         Text(
-            text = "Повторено карточек: $reviewed",
+            text = stringResource(Res.string.vocab_session_finished_count, reviewed),
             style = MaterialTheme.typography.bodyMedium,
             color = BrainDropTheme.semantics.ink500,
         )
         Spacer(Modifier.height(BrainDropTheme.spacing.lg))
-        BrainDropButton(text = "Ещё раз", onClick = onRestart, modifier = Modifier.fillMaxWidth())
+        BrainDropButton(
+            text = stringResource(Res.string.vocab_retry_again),
+            onClick = onRestart,
+            modifier = Modifier.fillMaxWidth(),
+        )
         Spacer(Modifier.height(BrainDropTheme.spacing.xs))
         BrainDropButton(
-            text = "К списку",
+            text = stringResource(Res.string.vocab_to_list),
             onClick = onBack,
             style = BrainDropButtonStyle.OUTLINED,
             modifier = Modifier.fillMaxWidth(),
@@ -311,20 +340,20 @@ private fun SessionEmpty(onBack: () -> Unit) {
         BrainDropIcons.Check(iconSize = 40.dp, tint = BrainDropTheme.semantics.correct)
         Spacer(Modifier.height(BrainDropTheme.spacing.md))
         Text(
-            text = "Нет карточек на повторение",
+            text = stringResource(Res.string.vocab_session_empty_title),
             style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Center,
         )
         Spacer(Modifier.height(BrainDropTheme.spacing.xs))
         Text(
-            text = "Возвращайтесь позже — расписание подскажет, когда повторить.",
+            text = stringResource(Res.string.vocab_session_empty_body),
             style = MaterialTheme.typography.bodyMedium,
             color = BrainDropTheme.semantics.ink500,
             textAlign = TextAlign.Center,
         )
         Spacer(Modifier.height(BrainDropTheme.spacing.lg))
         BrainDropButton(
-            text = "К списку",
+            text = stringResource(Res.string.vocab_to_list),
             onClick = onBack,
             style = BrainDropButtonStyle.OUTLINED,
             modifier = Modifier.fillMaxWidth(),

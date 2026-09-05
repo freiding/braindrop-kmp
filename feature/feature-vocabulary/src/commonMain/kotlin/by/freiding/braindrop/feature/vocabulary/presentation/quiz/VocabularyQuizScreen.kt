@@ -46,12 +46,47 @@ import by.freiding.braindrop.core.ui.component.BrainDropButton
 import by.freiding.braindrop.core.ui.component.BrainDropButtonStyle
 import by.freiding.braindrop.core.ui.component.BrainDropIconButton
 import by.freiding.braindrop.core.ui.icon.BrainDropIcons
+import by.freiding.braindrop.feature.vocabulary.Res
 import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkProgress
 import by.freiding.braindrop.feature.vocabulary.domain.model.VocabularyQuizMode
 import by.freiding.braindrop.feature.vocabulary.domain.model.VocabularyQuizQuestion
 import by.freiding.braindrop.feature.vocabulary.presentation.common.highlightGap
+import by.freiding.braindrop.feature.vocabulary.vocab_cd_back
+import by.freiding.braindrop.feature.vocabulary.vocab_loading
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_check
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_cloze_label
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_context_label
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_empty_body
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_empty_title
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_error_title
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_explanation_label
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_finish
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_hint_first_letter
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_hint_give_up
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_mistake_correct
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_mistakes_section
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_next
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_percent_correct
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_pick_hint
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_result_title_good
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_result_title_great
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_result_title_meh
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_retry_mistakes
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_schedule_label
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_schedule_later
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_schedule_today
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_schedule_tomorrow
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_streak_days
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_title
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_typing_label
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_typing_pattern
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_verdict_answer
+import by.freiding.braindrop.feature.vocabulary.vocab_quiz_verdict_correct
+import by.freiding.braindrop.feature.vocabulary.vocab_retry_again
+import by.freiding.braindrop.feature.vocabulary.vocab_to_list
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.daysUntil
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -86,16 +121,16 @@ fun VocabularyQuizScreen(
 
         when {
             state.error != null -> QuizMessage(
-                title = "Не удалось загрузить квиз",
+                title = stringResource(Res.string.vocab_quiz_error_title),
                 body = state.error.orEmpty(),
                 onBack = { viewModel.onEvent(VocabularyQuizUiEvent.NavigateBack) },
             )
             state.isLoading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("Загрузка…", style = MaterialTheme.typography.bodyLarge)
+                Text(stringResource(Res.string.vocab_loading), style = MaterialTheme.typography.bodyLarge)
             }
             state.isEmpty -> QuizMessage(
-                title = "Нечего спрашивать",
-                body = "Добавьте чанки в изучение и возвращайтесь.",
+                title = stringResource(Res.string.vocab_quiz_empty_title),
+                body = stringResource(Res.string.vocab_quiz_empty_body),
                 onBack = { viewModel.onEvent(VocabularyQuizUiEvent.NavigateBack) },
             )
             state.isFinished -> QuizResult(
@@ -126,11 +161,11 @@ private fun QuizHeader(
             .padding(horizontal = BrainDropTheme.spacing.xs, vertical = BrainDropTheme.spacing.xxs),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        BrainDropIconButton(onClick = onBack, contentDescription = "Назад") {
+        BrainDropIconButton(onClick = onBack, contentDescription = stringResource(Res.string.vocab_cd_back)) {
             BrainDropIcons.ChevronLeft(iconSize = 22.dp, tint = MaterialTheme.colorScheme.onSurface)
         }
         Text(
-            text = "Vocabulary Quiz",
+            text = stringResource(Res.string.vocab_quiz_title),
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.weight(1f).padding(start = BrainDropTheme.spacing.xxs),
         )
@@ -191,7 +226,11 @@ private fun ClozeBody(
     onSelect: (String) -> Unit,
 ) {
     val semantics = BrainDropTheme.semantics
-    Text(text = "ЗАПОЛНИ ПРОПУСК", style = BrainDropTheme.type.label, color = semantics.ink400)
+    Text(
+        text = stringResource(Res.string.vocab_quiz_cloze_label),
+        style = BrainDropTheme.type.label,
+        color = semantics.ink400,
+    )
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -291,7 +330,11 @@ private fun TypingBody(
     onEvent: (VocabularyQuizUiEvent) -> Unit,
 ) {
     val semantics = BrainDropTheme.semantics
-    Text(text = "НАПИШИ ЧАНК ПО-АНГЛИЙСКИ", style = BrainDropTheme.type.label, color = semantics.ink400)
+    Text(
+        text = stringResource(Res.string.vocab_quiz_typing_label),
+        style = BrainDropTheme.type.label,
+        color = semantics.ink400,
+    )
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -308,7 +351,11 @@ private fun TypingBody(
             )
             Spacer(Modifier.height(10.dp))
             Text(
-                text = "${question.maskedPattern.orEmpty()} · ${question.chunk.wordCount} слова",
+                text = stringResource(
+                    Res.string.vocab_quiz_typing_pattern,
+                    question.maskedPattern.orEmpty(),
+                    question.chunk.wordCount,
+                ),
                 style = BrainDropTheme.type.counter,
                 color = semantics.ink500,
             )
@@ -356,8 +403,10 @@ private fun TypingBody(
 
     if (!state.checked) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            HintChip("Показать первую букву") { onEvent(VocabularyQuizUiEvent.RevealHint) }
-            HintChip("Не помню") { onEvent(VocabularyQuizUiEvent.GiveUp) }
+            HintChip(stringResource(Res.string.vocab_quiz_hint_first_letter)) {
+                onEvent(VocabularyQuizUiEvent.RevealHint)
+            }
+            HintChip(stringResource(Res.string.vocab_quiz_hint_give_up)) { onEvent(VocabularyQuizUiEvent.GiveUp) }
         }
         Column(
             modifier = Modifier
@@ -366,7 +415,11 @@ private fun TypingBody(
                 .background(MaterialTheme.colorScheme.surface)
                 .padding(horizontal = 14.dp, vertical = 12.dp),
         ) {
-            Text(text = "КОНТЕКСТ, ЕСЛИ ЗАСТРЯЛ", style = BrainDropTheme.type.label, color = semantics.ink400)
+            Text(
+                text = stringResource(Res.string.vocab_quiz_context_label),
+                style = BrainDropTheme.type.label,
+                color = semantics.ink400,
+            )
             Spacer(Modifier.height(8.dp))
             Text(
                 text = question.sentence,
@@ -383,7 +436,13 @@ private fun TypingBody(
                 .padding(horizontal = 14.dp, vertical = 12.dp),
         ) {
             Text(
-                text = if (state.lastAnswerCorrect) "Верно" else "Правильный ответ",
+                text = stringResource(
+                    if (state.lastAnswerCorrect) {
+                        Res.string.vocab_quiz_verdict_correct
+                    } else {
+                        Res.string.vocab_quiz_verdict_answer
+                    },
+                ),
                 style = BrainDropTheme.type.label,
                 color = if (state.lastAnswerCorrect) semantics.correctInk else semantics.incorrectInk,
             )
@@ -414,7 +473,11 @@ private fun ExplanationCard(text: String) {
                 .background(MaterialTheme.colorScheme.primaryContainer),
         )
         Column {
-            Text(text = "ПОЧЕМУ ТАК", style = BrainDropTheme.type.label, color = BrainDropTheme.semantics.ink400)
+            Text(
+                text = stringResource(Res.string.vocab_quiz_explanation_label),
+                style = BrainDropTheme.type.label,
+                color = BrainDropTheme.semantics.ink400,
+            )
             Spacer(Modifier.height(6.dp))
             Text(
                 text = text,
@@ -454,12 +517,14 @@ private fun QuizFooter(
     Spacer(Modifier.height(BrainDropTheme.spacing.sm))
     when {
         state.checked -> BrainDropButton(
-            text = if (state.position < state.total) "Дальше" else "Завершить",
+            text = stringResource(
+                if (state.position < state.total) Res.string.vocab_quiz_next else Res.string.vocab_quiz_finish,
+            ),
             onClick = { onEvent(VocabularyQuizUiEvent.Next) },
             modifier = Modifier.fillMaxWidth(),
         )
         !state.isCloze -> BrainDropButton(
-            text = "Проверить",
+            text = stringResource(Res.string.vocab_quiz_check),
             onClick = { onEvent(VocabularyQuizUiEvent.CheckTyping) },
             modifier = Modifier.fillMaxWidth(),
         )
@@ -472,7 +537,7 @@ private fun QuizFooter(
             contentAlignment = Alignment.Center,
         ) {
             Text(
-                text = "Выберите вариант",
+                text = stringResource(Res.string.vocab_quiz_pick_hint),
                 style = MaterialTheme.typography.bodyMedium,
                 color = BrainDropTheme.semantics.ink400,
             )
@@ -491,11 +556,13 @@ private fun QuizResult(
     val semantics = BrainDropTheme.semantics
     val ratio = if (state.total > 0) state.score.toFloat() / state.total else 0f
     val percent = (ratio * 100).toInt()
-    val title = when {
-        percent == 100 -> "Отличная сессия!"
-        percent >= 70 -> "Хорошая сессия!"
-        else -> "Есть над чем поработать"
-    }
+    val title = stringResource(
+        when {
+            percent == 100 -> Res.string.vocab_quiz_result_title_great
+            percent >= 70 -> Res.string.vocab_quiz_result_title_good
+            else -> Res.string.vocab_quiz_result_title_meh
+        },
+    )
     val today = LocalDate.parse(AppClock.todayIso())
     val buckets = reviewBuckets(state.scheduled, today)
 
@@ -509,7 +576,7 @@ private fun QuizResult(
         if (state.mistakes.isNotEmpty()) {
             item {
                 Text(
-                    text = "ОШИБКИ · ${state.mistakes.size}",
+                    text = stringResource(Res.string.vocab_quiz_mistakes_section, state.mistakes.size),
                     style = BrainDropTheme.type.label,
                     color = semantics.ink400,
                 )
@@ -533,7 +600,7 @@ private fun QuizResult(
                             fontWeight = FontWeight.Bold,
                         )
                         Text(
-                            text = "верно: ${mistake.correctAnswer}",
+                            text = stringResource(Res.string.vocab_quiz_mistake_correct, mistake.correctAnswer),
                             style = MaterialTheme.typography.bodySmall,
                             color = semantics.ink500,
                         )
@@ -547,19 +614,19 @@ private fun QuizResult(
             Column(verticalArrangement = Arrangement.spacedBy(BrainDropTheme.spacing.xs)) {
                 if (state.mistakes.isNotEmpty()) {
                     BrainDropButton(
-                        text = "Пройти ошибки ещё раз",
+                        text = stringResource(Res.string.vocab_quiz_retry_mistakes),
                         onClick = onRetryMistakes,
                         modifier = Modifier.fillMaxWidth(),
                     )
                 }
                 BrainDropButton(
-                    text = "Ещё раз",
+                    text = stringResource(Res.string.vocab_retry_again),
                     onClick = onRestart,
                     style = BrainDropButtonStyle.OUTLINED,
                     modifier = Modifier.fillMaxWidth(),
                 )
                 BrainDropButton(
-                    text = "К списку",
+                    text = stringResource(Res.string.vocab_to_list),
                     onClick = onBack,
                     style = BrainDropButtonStyle.OUTLINED,
                     modifier = Modifier.fillMaxWidth(),
@@ -588,7 +655,11 @@ private fun ResultSummary(
             color = semantics.scoreRing(ratio),
         )
         Text(text = title, style = MaterialTheme.typography.titleLarge)
-        Text(text = "$percent% ВЕРНО", style = BrainDropTheme.type.label, color = semantics.ink400)
+        Text(
+            text = stringResource(Res.string.vocab_quiz_percent_correct, "$percent%"),
+            style = BrainDropTheme.type.label,
+            color = semantics.ink400,
+        )
         if (state.streakDays > 0) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -596,7 +667,7 @@ private fun ResultSummary(
             ) {
                 BrainDropIcons.Flame(iconSize = 18.dp, tint = semantics.streak)
                 Text(
-                    text = "${state.streakDays} дн. подряд",
+                    text = stringResource(Res.string.vocab_quiz_streak_days, state.streakDays),
                     style = MaterialTheme.typography.bodyMedium,
                     color = semantics.streak,
                     fontWeight = FontWeight.SemiBold,
@@ -617,15 +688,30 @@ private fun ScheduleCard(buckets: ReviewBuckets) {
             .padding(BrainDropTheme.spacing.md),
     ) {
         Text(
-            text = "РАСПИСАНИЕ ПОВТОРЕНИЙ",
+            text = stringResource(Res.string.vocab_quiz_schedule_label),
             style = BrainDropTheme.type.label,
             color = semantics.mistakeCardHint,
         )
         Spacer(Modifier.height(12.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            ScheduleTile("сегодня", buckets.today, Color.White, Modifier.weight(1f))
-            ScheduleTile("завтра", buckets.tomorrow, semantics.mistakeCardAccent, Modifier.weight(1f))
-            ScheduleTile("позже", buckets.later, semantics.mistakeCardAccent, Modifier.weight(1f))
+            ScheduleTile(
+                stringResource(Res.string.vocab_quiz_schedule_today),
+                buckets.today,
+                Color.White,
+                Modifier.weight(1f),
+            )
+            ScheduleTile(
+                stringResource(Res.string.vocab_quiz_schedule_tomorrow),
+                buckets.tomorrow,
+                semantics.mistakeCardAccent,
+                Modifier.weight(1f),
+            )
+            ScheduleTile(
+                stringResource(Res.string.vocab_quiz_schedule_later),
+                buckets.later,
+                semantics.mistakeCardAccent,
+                Modifier.weight(1f),
+            )
         }
     }
 }
@@ -672,7 +758,7 @@ private fun QuizMessage(
         )
         Spacer(Modifier.height(BrainDropTheme.spacing.lg))
         BrainDropButton(
-            text = "Назад",
+            text = stringResource(Res.string.vocab_cd_back),
             onClick = onBack,
             style = BrainDropButtonStyle.OUTLINED,
             modifier = Modifier.fillMaxWidth(),
