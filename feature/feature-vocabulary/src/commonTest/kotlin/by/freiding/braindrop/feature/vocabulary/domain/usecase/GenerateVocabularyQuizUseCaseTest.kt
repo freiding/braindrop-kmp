@@ -32,6 +32,23 @@ class GenerateVocabularyQuizUseCaseTest {
         }
 
     @Test
+    fun `cloze never offers the function word not as a distractor`() =
+        runTest {
+            val content = listOf("alpha", "bravo", "charlie", "delta")
+                .map { chunkWithProgressFixture(chunkFixture(it, text = "$it a thing")) }
+            val functionWordChunk =
+                chunkWithProgressFixture(chunkFixture("mood", text = "not be in the mood"))
+            val repo = FakeChunkRepository(content + functionWordChunk)
+
+            val result = GenerateVocabularyQuizUseCase(repo)(VocabularyQuizMode.CLOZE)
+
+            (result as Result.Success)
+                .data
+                .filter { it.correctAnswer != "not" }
+                .forEach { q -> assertTrue("not" !in q.options) }
+        }
+
+    @Test
     fun `typing asks for the whole chunk and carries a masked pattern`() =
         runTest {
             val repo = repositoryWith("alpha", "bravo")

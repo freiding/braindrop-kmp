@@ -72,6 +72,7 @@ class GenerateVocabularyQuizUseCase(
             .filter { it.id != chunk.id }
             .map { it.firstWord }
             .filter { it.isNotBlank() && !it.equals(gap, ignoreCase = true) }
+            .filter { it.lowercase() !in CLOZE_DISTRACTOR_STOP_WORDS }
             .distinct()
             .shuffled()
             .take(DISTRACTOR_COUNT)
@@ -152,5 +153,12 @@ class GenerateVocabularyQuizUseCase(
         const val DISTRACTOR_COUNT = 3
         const val GAP = "____"
         val WHITESPACE = Regex("\\s+")
+
+        /**
+         * Function words that read as noise in a CLOZE option list (the gap normally sits on a
+         * content verb or noun). A chunk like "not be in the mood for something" would otherwise
+         * contribute "not" as a distractor.
+         */
+        val CLOZE_DISTRACTOR_STOP_WORDS = setOf("not")
     }
 }
