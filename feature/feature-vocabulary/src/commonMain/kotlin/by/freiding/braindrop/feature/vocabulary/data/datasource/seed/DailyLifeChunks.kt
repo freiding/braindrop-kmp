@@ -1,0 +1,272 @@
+package by.freiding.braindrop.feature.vocabulary.data.datasource.seed
+
+import by.freiding.braindrop.feature.vocabulary.domain.model.Chunk
+import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkLevel.A2
+import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkLevel.B1
+import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkRegister.INFORMAL
+import by.freiding.braindrop.feature.vocabulary.domain.model.ChunkTheme.DAILY_LIFE
+import by.freiding.braindrop.feature.vocabulary.domain.model.FrequencyBand.TOP_1000
+import by.freiding.braindrop.feature.vocabulary.domain.model.FrequencyBand.TOP_2000
+import by.freiding.braindrop.feature.vocabulary.domain.model.FrequencyBand.TOP_5000
+
+internal val DAILY_LIFE_CHUNKS: List<Chunk> = listOf(
+    chunk(
+        id = "do_the_washing_up",
+        text = "do the washing-up",
+        translation = "мыть посуду",
+        headword = "washing-up",
+        theme = DAILY_LIFE,
+        level = A2,
+        frequencyBand = TOP_2000,
+        pattern = "V + N",
+        example = ex("I'll cook if you do the washing-up.", "Я приготовлю, если ты помоешь посуду."),
+        more = listOf(
+            ex("He never does the washing-up.", "Он никогда не моет посуду."),
+            ex("Let's do the washing-up before the guests arrive.", "Давай помоем посуду до прихода гостей."),
+        ),
+        error = err("wash the dishes up", "Устойчиво: do the washing-up (BrE) или do the dishes (AmE)."),
+        collocations = listOf(
+            col("do the laundry", "стирать бельё"),
+            col("do the housework", "заниматься уборкой"),
+        ),
+    ),
+    chunk(
+        id = "run_an_errand",
+        text = "run an errand",
+        translation = "выполнять поручение",
+        headword = "errand",
+        theme = DAILY_LIFE,
+        level = B1,
+        frequencyBand = TOP_5000,
+        pattern = "V + N",
+        example = ex("I have a few errands to run this morning.", "Утром мне нужно сделать несколько дел."),
+        more = listOf(
+            ex("She's out running errands.", "Она вышла по делам."),
+            ex("Could you run an errand for me?", "Можешь выполнить для меня одно поручение?"),
+        ),
+        collocations = listOf(
+            col("get things done", "переделать дела"),
+            col("a to-do list", "список дел"),
+        ),
+    ),
+    chunk(
+        id = "set_an_alarm",
+        text = "set an alarm",
+        translation = "поставить будильник",
+        headword = "alarm",
+        theme = DAILY_LIFE,
+        level = A2,
+        frequencyBand = TOP_2000,
+        pattern = "V + N",
+        example = ex("I set an alarm for six every morning.", "Каждое утро я ставлю будильник на шесть."),
+        more = listOf(
+            ex("Did you set an alarm for the flight?", "Ты поставил будильник, чтобы не проспать рейс?"),
+            ex("She forgot to set an alarm and overslept.", "Она забыла поставить будильник и проспала."),
+        ),
+        error = err("put an alarm", "«Поставить будильник» — set an alarm, не «put»."),
+        collocations = listOf(
+            col("the alarm goes off", "будильник срабатывает"),
+            col("hit the snooze button", "нажать «отложить»"),
+        ),
+    ),
+    chunk(
+        id = "get_a_haircut",
+        text = "get a haircut",
+        translation = "подстричься",
+        headword = "haircut",
+        theme = DAILY_LIFE,
+        level = A2,
+        frequencyBand = TOP_5000,
+        pattern = "V + N",
+        example = ex("You should get a haircut before the interview.", "Тебе стоит подстричься перед собеседованием."),
+        more = listOf(
+            ex("He got a haircut and looked completely different.", "Он подстригся и стал совсем другим."),
+            ex("I need to get a haircut this weekend.", "Мне нужно подстричься на этих выходных."),
+        ),
+        collocations = listOf(
+            col("have your hair cut", "постричься"),
+            col("book an appointment", "записаться на приём"),
+        ),
+    ),
+    chunk(
+        id = "grab_a_bite_to_eat",
+        text = "grab a bite to eat",
+        translation = "перекусить",
+        headword = "bite",
+        theme = DAILY_LIFE,
+        level = B1,
+        frequencyBand = TOP_2000,
+        register = INFORMAL,
+        pattern = "V + N + to + V",
+        example = ex("Let's grab a bite to eat before the film.", "Давай перекусим перед фильмом."),
+        more = listOf(
+            ex("We grabbed a quick bite at the station.", "Мы быстро перекусили на вокзале."),
+            ex("There's no time to grab a bite.", "Нет времени даже перекусить."),
+        ),
+        collocations = listOf(
+            col("have a snack", "перекусить"),
+            col("eat on the go", "есть на ходу"),
+        ),
+    ),
+    chunk(
+        id = "do_the_shopping",
+        text = "do the shopping",
+        translation = "делать покупки",
+        headword = "shopping",
+        theme = DAILY_LIFE,
+        level = A2,
+        frequencyBand = TOP_1000,
+        pattern = "V + N",
+        example = ex("I do the shopping on Saturday mornings.", "Я делаю покупки в субботу утром."),
+        more = listOf(
+            ex("Can you do the shopping on your way home?", "Можешь заехать за продуктами по дороге домой?"),
+            ex("We did the weekly shopping online.", "Мы заказали продукты на неделю онлайн."),
+        ),
+        error = err("make the shopping", "«Делать покупки» — do the shopping, не «make»."),
+        collocations = listOf(
+            col("go shopping", "ходить по магазинам"),
+            col("a shopping list", "список покупок"),
+        ),
+    ),
+    chunk(
+        id = "pay_the_bills",
+        text = "pay the bills",
+        translation = "оплачивать счета",
+        headword = "bills",
+        theme = DAILY_LIFE,
+        level = A2,
+        frequencyBand = TOP_1000,
+        pattern = "V + N",
+        example = ex("I pay the bills at the start of the month.", "Я оплачиваю счета в начале месяца."),
+        more = listOf(
+            ex("It's hard to pay the bills on one salary.", "Тяжело оплачивать счета на одну зарплату."),
+            ex(
+                "Set up a direct debit to pay the bills automatically.",
+                "Настрой автоплатёж, чтобы счета оплачивались сами.",
+            ),
+        ),
+        collocations = listOf(
+            col("a gas bill", "счёт за газ"),
+            col("bills are due", "подошёл срок оплаты счетов"),
+        ),
+    ),
+    chunk(
+        id = "make_the_bed",
+        text = "make the bed",
+        translation = "заправлять постель",
+        headword = "bed",
+        theme = DAILY_LIFE,
+        level = A2,
+        frequencyBand = TOP_1000,
+        pattern = "V + N",
+        example = ex("Make your bed before you leave the room.", "Заправь постель, прежде чем выйти из комнаты."),
+        more = listOf(
+            ex("She makes the bed as soon as she gets up.", "Она заправляет постель сразу, как встаёт."),
+            ex("I didn't have time to make the bed this morning.", "Утром у меня не было времени заправить постель."),
+        ),
+        error = err("do the bed", "«Заправлять постель» — make the bed, не «do»."),
+        collocations = listOf(
+            col("change the sheets", "поменять постельное бельё"),
+            col("tidy the room", "прибраться в комнате"),
+        ),
+    ),
+    chunk(
+        id = "walk_the_dog",
+        text = "walk the dog",
+        translation = "выгуливать собаку",
+        headword = "dog",
+        theme = DAILY_LIFE,
+        level = A2,
+        frequencyBand = TOP_1000,
+        pattern = "V + N",
+        example = ex("I walk the dog twice a day.", "Я выгуливаю собаку два раза в день."),
+        more = listOf(
+            ex("Could you walk the dog while I'm away?", "Можешь выгуливать собаку, пока меня нет?"),
+            ex("He walks the dog before work.", "Он выгуливает собаку перед работой."),
+        ),
+        collocations = listOf(
+            col("take the dog out", "вывести собаку"),
+            col("feed the cat", "покормить кота"),
+        ),
+    ),
+    chunk(
+        id = "have_a_lie_in",
+        text = "have a lie-in",
+        translation = "поспать подольше",
+        headword = "lie-in",
+        theme = DAILY_LIFE,
+        level = B1,
+        frequencyBand = TOP_5000,
+        register = INFORMAL,
+        pattern = "V + N",
+        example = ex("On Sundays I like to have a lie-in.", "По воскресеньям я люблю поспать подольше."),
+        more = listOf(
+            ex("We had a lie-in and missed breakfast.", "Мы заспались и пропустили завтрак."),
+            ex("No lie-in for me — the kids wake up at six.", "Мне не поспать подольше — дети встают в шесть."),
+        ),
+        collocations = listOf(
+            col("sleep in", "проспать / поспать подольше"),
+            col("get up early", "рано вставать"),
+        ),
+    ),
+    chunk(
+        id = "sort_out_a_problem",
+        text = "sort out a problem",
+        translation = "уладить проблему",
+        headword = "problem",
+        theme = DAILY_LIFE,
+        level = B1,
+        frequencyBand = TOP_1000,
+        register = INFORMAL,
+        pattern = "V + adv + N",
+        example = ex("It took a week to sort out the problem with the bank.", "Проблему с банком улаживали неделю."),
+        more = listOf(
+            ex("I'll sort it out tomorrow.", "Я разберусь с этим завтра."),
+            ex("They sorted out their differences over coffee.", "Они уладили разногласия за чашкой кофе."),
+        ),
+        collocations = listOf(
+            col("deal with a problem", "решать проблему"),
+            col("fix an issue", "устранить неполадку"),
+        ),
+    ),
+    chunk(
+        id = "drop_the_kids_off",
+        text = "drop the kids off",
+        translation = "отвозить детей",
+        headword = "kids",
+        theme = DAILY_LIFE,
+        level = B1,
+        frequencyBand = TOP_2000,
+        register = INFORMAL,
+        pattern = "V + N + adv",
+        example = ex("I drop the kids off at school on my way to work.", "Я завожу детей в школу по дороге на работу."),
+        more = listOf(
+            ex("Can you drop the kids off at football?", "Можешь отвезти детей на футбол?"),
+            ex("She dropped them off and rushed to the office.", "Она высадила их и помчалась в офис."),
+        ),
+        collocations = listOf(
+            col("pick the kids up", "забрать детей"),
+            col("the school run", "поездка в школу и обратно"),
+        ),
+    ),
+    chunk(
+        id = "put_the_kettle_on",
+        text = "put the kettle on",
+        translation = "поставить чайник",
+        headword = "kettle",
+        theme = DAILY_LIFE,
+        level = A2,
+        frequencyBand = TOP_5000,
+        register = INFORMAL,
+        pattern = "V + N + adv",
+        example = ex("Sit down — I'll put the kettle on.", "Садись, я поставлю чайник."),
+        more = listOf(
+            ex("She put the kettle on and got out two mugs.", "Она поставила чайник и достала две кружки."),
+            ex("First thing in the morning, I put the kettle on.", "Первым делом с утра я ставлю чайник."),
+        ),
+        collocations = listOf(
+            col("make a cup of tea", "заварить чашку чая"),
+            col("the kettle's boiled", "чайник вскипел"),
+        ),
+    ),
+)

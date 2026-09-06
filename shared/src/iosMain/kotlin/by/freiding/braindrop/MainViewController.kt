@@ -6,11 +6,13 @@ import by.freiding.braindrop.core.common.di.commonModule
 import by.freiding.braindrop.core.database.DatabaseDriverFactory
 import by.freiding.braindrop.core.database.IosDatabaseDriverFactory
 import by.freiding.braindrop.core.database.di.databaseModule
+import by.freiding.braindrop.core.ui.di.coreUiIosModule
 import by.freiding.braindrop.feature.home.di.homeModule
 import by.freiding.braindrop.feature.irregularverbs.di.irregularVerbsModule
 import by.freiding.braindrop.feature.phrasalverbs.di.phrasalVerbsModule
 import by.freiding.braindrop.feature.profile.di.profileModule
 import by.freiding.braindrop.feature.tenses.di.tensesModule
+import by.freiding.braindrop.feature.vocabulary.di.vocabularyModule
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
@@ -27,10 +29,12 @@ fun initKoin() {
             commonModule,
             databaseModule,
             noOpAnalyticsModule,
+            coreUiIosModule,
             homeModule,
             irregularVerbsModule,
             tensesModule,
             phrasalVerbsModule,
+            vocabularyModule,
             profileModule,
         )
     }

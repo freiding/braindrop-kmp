@@ -18,7 +18,10 @@ class StudyCategoryRepositoryImpl(
         withContext(dispatchers.io) {
             try {
                 val categories = categoryDataSource.getStaticCategories().map { category ->
-                    category.copy(studiedCount = progressDataSource.getStudiedCount(category.id))
+                    category.copy(
+                        studiedCount = progressDataSource.getStudiedCount(category.id),
+                        dueCount = progressDataSource.getDueCount(category.id),
+                    )
                 }
                 Result.Success(categories)
             } catch (e: Exception) {

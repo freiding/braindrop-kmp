@@ -1,0 +1,35 @@
+CREATE TABLE ChunkProgress (
+    chunk_id TEXT NOT NULL PRIMARY KEY,
+    box INTEGER NOT NULL DEFAULT 0,            -- Leitner box / SRS level, 0..INTERVALS.lastIndex
+    due_date TEXT,                             -- ISO-8601 local date the chunk is next due; NULL = new, never reviewed
+    streak INTEGER NOT NULL DEFAULT 0,         -- consecutive "know" grades
+    times_seen INTEGER NOT NULL DEFAULT 0,
+    times_correct INTEGER NOT NULL DEFAULT 0,
+    last_reviewed_at INTEGER,                  -- unix timestamp millis of the last grade
+    is_learned INTEGER NOT NULL DEFAULT 0      -- box >= LEARNED_BOX
+);
+
+CREATE INDEX chunkprogress_due_date ON ChunkProgress(due_date);
+
+getAll:
+SELECT * FROM ChunkProgress;
+
+getById:
+SELECT * FROM ChunkProgress WHERE chunk_id = ?;
+
+getDue:
+SELECT * FROM ChunkProgress WHERE due_date IS NOT NULL AND due_date <= ?;
+
+countLearned:
+SELECT COUNT(*) FROM ChunkProgress WHERE is_learned = 1;
+
+countDue:
+SELECT COUNT(*) FROM ChunkProgress WHERE due_date IS NOT NULL AND due_date <= ? AND is_learned = 0;
+
+-- SQLite 3.18 dialect (see DailyActivity.sq) — no upsert syntax; INSERT OR REPLACE matches
+-- StudyProgress.sq / IrregularVerbProgress.sq.
+upsertProgress:
+INSERT OR REPLACE INTO ChunkProgress(
+    chunk_id, box, due_date, streak, times_seen, times_correct, last_reviewed_at, is_learned
+)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?);

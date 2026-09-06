@@ -91,3 +91,21 @@ Test and lint results are published back to GitHub as commit status checks by
 the Multibranch Pipeline job (via the GitHub Branch Source plugin) — no extra
 Jenkinsfile config needed for that, as long as the job is the Multibranch type
 described in §1.
+
+## 7. Deobfuscation (mapping) file
+
+The `release` build type has R8 enabled (`isMinifyEnabled = true` in the
+`kmp-application` convention plugin, with `app/proguard-rules.pro`). AGP embeds
+the generated deobfuscation mapping into the `.aab` at
+`BUNDLE-METADATA/com.android.tools.build.obfuscation/proguard.map`, so
+`:app:publishReleaseBundle` uploads it to Play Console together with the bundle —
+no extra Gradle Play Publisher configuration is required for app bundles. Play
+Console then de-obfuscates crash stack traces automatically for that release.
+
+When Firebase is configured (`app/google-services.json` present), the Crashlytics
+Gradle plugin additionally uploads the same mapping to Crashlytics during
+`bundleRelease`.
+
+After changing R8 rules, run `./gradlew :app:bundleRelease` and smoke-test the
+resulting bundle before pushing to `staging`/`main` — a missing keep rule only
+surfaces at runtime in the shrunk build.

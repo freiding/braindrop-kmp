@@ -14,7 +14,7 @@ import org.koin.dsl.module
 
 val homeModule = module {
     single { LocalStudyCategoryDataSource() }
-    single { LocalStudyProgressDataSource(get(), get()) }
+    single { LocalStudyProgressDataSource(get(), get(), get()) }
     factory<StudyCategoryRepository> { StudyCategoryRepositoryImpl(get(), get(), get()) }
     factory<DailyProgressRepository> { DailyProgressRepositoryImpl(get(), get()) }
     factory { GetStudyCategoriesUseCase(get()) }
