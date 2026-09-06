@@ -12,4 +12,6 @@ data class StudyCategory(
     val isAvailable: Boolean = true,
     /** Secondary counter for the category card, e.g. the number of verb groups. */
     val secondaryCount: Int? = null,
+    /** Items due for spaced-repetition review right now; null for categories without a review schedule. */
+    val dueCount: Int? = null,
 )

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shared -->
+    <string name="vocab_cd_back">Назад</string>
+    <string name="vocab_error_retry">Повторить</string>
+    <string name="vocab_to_list">К списку</string>
+    <string name="vocab_loading">Загрузка…</string>
+    <string name="vocab_retry_again">Ещё раз</string>
+    <string name="vocab_recall_prompt">КАК ХОРОШО ПОМНИШЬ?</string>
+    <string name="vocab_grade_dont_know">Не знаю</string>
+    <string name="vocab_grade_almost">Почти</string>
+    <string name="vocab_grade_know">Знаю</string>
+
+    <!-- List -->
+    <string name="vocab_list_title">Vocabulary</string>
+    <string name="vocab_list_error_title">Не удалось загрузить чанки</string>
+    <string name="vocab_list_error_body">Данные хранятся на устройстве — попробуйте ещё раз.</string>
+    <string name="vocab_list_quiz_button">Квиз</string>
+    <string name="vocab_list_progress">%1$d из %2$d изучено</string>
+    <string name="vocab_list_filter_due">На повторение · %1$d</string>
+    <string name="vocab_list_filter_unlearned">Неизученные</string>
+    <string name="vocab_list_search_hint">Чанк, слово или перевод</string>
+    <string name="vocab_list_empty">Ничего не найдено</string>
+    <string name="vocab_list_session_bar">Карточная сессия · %1$d</string>
+    <string name="vocab_list_session_bar_empty">Карточная сессия</string>
+    <string name="vocab_status_due_today">СЕГОДНЯ</string>
+    <string name="vocab_status_due_in_days">ЧЕРЕЗ %1$d Д</string>
+    <string name="vocab_status_new">НОВЫЙ</string>
+    <string name="vocab_quiz_mode_cloze">Пропуск в предложении</string>
+    <string name="vocab_quiz_mode_typing">Ввод с клавиатуры</string>
+    <string name="vocab_quiz_mode_mixed">Смешанный</string>
+
+    <!-- Chunk detail -->
+    <string name="vocab_detail_error_title">Не удалось загрузить чанк</string>
+    <string name="vocab_detail_toggle_unlearn">Снять отметку</string>
+    <string name="vocab_detail_toggle_learn">Отметить изученным</string>
+    <string name="vocab_detail_section_context">ЧАНК В КОНТЕКСТЕ</string>
+    <string name="vocab_detail_section_collocations">ДРУГИЕ КОЛЛОКАЦИИ</string>
+    <string name="vocab_detail_section_forms">ФОРМЫ СЛОВА</string>
+    <string name="vocab_detail_section_nearby">БЛИЗКИЕ ЧАНКИ</string>
+    <string name="vocab_detail_srs_new">Новый чанк — ещё не в расписании</string>
+    <string name="vocab_detail_srs_due_today">Повтор сегодня · интервал %1$d дн. · %2$d успешных подряд</string>
+    <string name="vocab_detail_srs_due_in_days">Повтор через %1$d дн. · %2$d успешных подряд</string>
+    <string name="vocab_detail_srs_learned">Изучен · интервал %1$d дн.</string>
+
+    <!-- Card session -->
+    <string name="vocab_session_title">Карточная сессия</string>
+    <string name="vocab_session_front_label">ЧАНК В ПРЕДЛОЖЕНИИ</string>
+    <string name="vocab_session_reveal">Показать ответ</string>
+    <string name="vocab_session_more_examples">ЕЩЁ ПРИМЕРЫ</string>
+    <string name="vocab_session_meta_seen">%1$s · ВСТРЕЧАЛСЯ %2$d РАЗ</string>
+    <string name="vocab_session_front_hint">Вспомни чанк и открой ответ</string>
+    <string name="vocab_session_finished_title">Сессия завершена</string>
+    <string name="vocab_session_finished_count">Повторено карточек: %1$d</string>
+    <string name="vocab_session_empty_title">Нет карточек на повторение</string>
+    <string name="vocab_session_empty_body">Возвращайтесь позже — расписание подскажет, когда повторить.</string>
+
+    <!-- Quiz -->
+    <string name="vocab_quiz_title">Vocabulary Quiz</string>
+    <string name="vocab_quiz_error_title">Не удалось загрузить квиз</string>
+    <string name="vocab_quiz_empty_title">Нечего спрашивать</string>
+    <string name="vocab_quiz_empty_body">Добавьте чанки в изучение и возвращайтесь.</string>
+    <string name="vocab_quiz_cloze_label">ЗАПОЛНИ ПРОПУСК</string>
+    <string name="vocab_quiz_typing_label">НАПИШИ ЧАНК ПО-АНГЛИЙСКИ</string>
+    <string name="vocab_quiz_typing_pattern">%1$s · %2$d слова</string>
+    <string name="vocab_quiz_hint_first_letter">Показать первую букву</string>
+    <string name="vocab_quiz_hint_give_up">Не помню</string>
+    <string name="vocab_quiz_context_label">КОНТЕКСТ, ЕСЛИ ЗАСТРЯЛ</string>
+    <string name="vocab_quiz_verdict_correct">Верно</string>
+    <string name="vocab_quiz_verdict_answer">Правильный ответ</string>
+    <string name="vocab_quiz_explanation_label">ПОЧЕМУ ТАК</string>
+    <string name="vocab_quiz_next">Дальше</string>
+    <string name="vocab_quiz_finish">Завершить</string>
+    <string name="vocab_quiz_check">Проверить</string>
+    <string name="vocab_quiz_pick_hint">Выберите вариант</string>
+    <string name="vocab_quiz_result_title_great">Отличная сессия!</string>
+    <string name="vocab_quiz_result_title_good">Хорошая сессия!</string>
+    <string name="vocab_quiz_result_title_meh">Есть над чем поработать</string>
+    <string name="vocab_quiz_percent_correct">%1$s ВЕРНО</string>
+    <string name="vocab_quiz_streak_days">%1$d дн. подряд</string>
+    <string name="vocab_quiz_schedule_label">РАСПИСАНИЕ ПОВТОРЕНИЙ</string>
+    <string name="vocab_quiz_schedule_today">сегодня</string>
+    <string name="vocab_quiz_schedule_tomorrow">завтра</string>
+    <string name="vocab_quiz_schedule_later">позже</string>
+    <string name="vocab_quiz_mistakes_section">ОШИБКИ · %1$d</string>
+    <string name="vocab_quiz_mistake_correct">верно: %1$s</string>
+    <string name="vocab_quiz_retry_mistakes">Пройти ошибки ещё раз</string>
+</resources>

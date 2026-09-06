@@ -28,6 +28,11 @@ kotlin {
         }
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
+            implementation(libs.koin.core)
+            implementation(libs.koin.android)
+        }
+        iosMain.dependencies {
+            implementation(libs.koin.core)
         }
     }
 }
